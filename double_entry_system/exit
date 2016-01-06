@@ -1,0 +1,266 @@
+Help on class User in module django.contrib.auth.models:
+
+class UUsseerr(AbstractUser)
+ |  Users within the Django authentication system are represented by this
+ |  model.
+ |  
+ |  Username, password and email are required. Other fields are optional.
+ |  
+ |  Method resolution order:
+ |      User
+ |      AbstractUser
+ |      django.contrib.auth.base_user.AbstractBaseUser
+ |      PermissionsMixin
+ |      django.db.models.base.Model
+ |      __builtin__.object
+ |  
+ |  Methods defined here:
+ |  
+ |  ggeett__nneexxtt__bbyy__ddaattee__jjooiinneedd = _curried(*moreargs, **morekwargs)
+ |  
+ |  ggeett__pprreevviioouuss__bbyy__ddaattee__jjooiinneedd = _curried(*moreargs, **morekwargs)
+ |  
+ |  oobbjjeeccttss = <django.contrib.auth.models.UserManager object>
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  ggrroouuppss
+ |      Accessor to the related objects manager on the forward and reverse sides of
+ |      a many-to-many relation.
+ |      
+ |      In the example::
+ |      
+ |          class Pizza(Model):
+ |              toppings = ManyToManyField(Topping, related_name='pizzas')
+ |      
+ |      ``pizza.toppings`` and ``topping.pizzas`` are ``ManyToManyDescriptor``
+ |      instances.
+ |      
+ |      Most of the implementation is delegated to a dynamically defined manager
+ |      class built by ``create_forward_many_to_many_manager()`` defined below.
+ |  
+ |  llooggeennttrryy__sseett
+ |      Accessor to the related objects manager on the reverse side of a
+ |      many-to-one relation.
+ |      
+ |      In the example::
+ |      
+ |          class Child(Model):
+ |              parent = ForeignKey(Parent, related_name='children')
+ |      
+ |      ``parent.children`` is a ``ReverseManyToOneDescriptor`` instance.
+ |      
+ |      Most of the implementation is delegated to a dynamically defined manager
+ |      class built by ``create_forward_many_to_many_manager()`` defined below.
+ |  
+ |  uusseerr__ppeerrmmiissssiioonnss
+ |      Accessor to the related objects manager on the forward and reverse sides of
+ |      a many-to-many relation.
+ |      
+ |      In the example::
+ |      
+ |          class Pizza(Model):
+ |              toppings = ManyToManyField(Topping, related_name='pizzas')
+ |      
+ |      ``pizza.toppings`` and ``topping.pizzas`` are ``ManyToManyDescriptor``
+ |      instances.
+ |      
+ |      Most of the implementation is delegated to a dynamically defined manager
+ |      class built by ``create_forward_many_to_many_manager()`` defined below.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes defined here:
+ |  
+ |  DDooeessNNoottEExxiisstt = <class 'django.contrib.auth.models.DoesNotExist'>
+ |  
+ |  
+ |  MMuullttiipplleeOObbjjeeccttssRReettuurrnneedd = <class 'django.contrib.auth.models.MultipleO...
+ |  
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from AbstractUser:
+ |  
+ |  eemmaaiill__uusseerr(self, subject, message, from_email=None, **kwargs)
+ |      Sends an email to this User.
+ |  
+ |  ggeett__ffuullll__nnaammee(self)
+ |      Returns the first_name plus the last_name, with a space in between.
+ |  
+ |  ggeett__sshhoorrtt__nnaammee(self)
+ |      Returns the short name for the user.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes inherited from AbstractUser:
+ |  
+ |  MMeettaa = <class django.contrib.auth.models.Meta>
+ |  
+ |  RREEQQUUIIRREEDD__FFIIEELLDDSS = [u'email']
+ |  
+ |  UUSSEERRNNAAMMEE__FFIIEELLDD = u'username'
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from django.contrib.auth.base_user.AbstractBaseUser:
+ |  
+ |  ____iinniitt____(self, *args, **kwargs)
+ |  
+ |  ____ssttrr____ lambda self
+ |  
+ |  ____uunniiccooddee____ = __str__(self)
+ |  
+ |  cchheecckk__ppaasssswwoorrdd(self, raw_password)
+ |      Return a boolean of whether the raw_password was correct. Handles
+ |      hashing formats behind the scenes.
+ |  
+ |  ggeett__sseessssiioonn__aauutthh__hhaasshh(self)
+ |      Return an HMAC of the password field.
+ |  
+ |  ggeett__uusseerrnnaammee(self)
+ |      Return the identifying username for this User
+ |  
+ |  hhaass__uussaabbllee__ppaasssswwoorrdd(self)
+ |  
+ |  iiss__aannoonnyymmoouuss(self)
+ |      Always return False. This is a way of comparing User objects to
+ |      anonymous users.
+ |  
+ |  iiss__aauutthheennttiiccaatteedd(self)
+ |      Always return True. This is a way to tell if the user has been
+ |      authenticated in templates.
+ |  
+ |  nnaattuurraall__kkeeyy(self)
+ |  
+ |  ssaavvee(self, *args, **kwargs)
+ |  
+ |  sseett__ppaasssswwoorrdd(self, raw_password)
+ |  
+ |  sseett__uunnuussaabbllee__ppaasssswwoorrdd(self)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes inherited from django.contrib.auth.base_user.AbstractBaseUser:
+ |  
+ |  iiss__aaccttiivvee = True
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from PermissionsMixin:
+ |  
+ |  ggeett__aallll__ppeerrmmiissssiioonnss(self, obj=None)
+ |  
+ |  ggeett__ggrroouupp__ppeerrmmiissssiioonnss(self, obj=None)
+ |      Returns a list of permission strings that this user has through their
+ |      groups. This method queries all available auth backends. If an object
+ |      is passed in, only permissions matching this object are returned.
+ |  
+ |  hhaass__mmoodduullee__ppeerrmmss(self, app_label)
+ |      Returns True if the user has any permissions in the given app label.
+ |      Uses pretty much the same logic as has_perm, above.
+ |  
+ |  hhaass__ppeerrmm(self, perm, obj=None)
+ |      Returns True if the user has the specified permission. This method
+ |      queries all available auth backends, but returns immediately if any
+ |      backend returns True. Thus, a user who has permission from a single
+ |      auth backend is assumed to have permission in general. If an object is
+ |      provided, permissions for this specific object are checked.
+ |  
+ |  hhaass__ppeerrmmss(self, perm_list, obj=None)
+ |      Returns True if the user has each of the specified permissions. If
+ |      object is passed, it checks if the user has all required perms for this
+ |      object.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from django.db.models.base.Model:
+ |  
+ |  ____eeqq____(self, other)
+ |  
+ |  ____hhaasshh____(self)
+ |  
+ |  ____nnee____(self, other)
+ |  
+ |  ____rreedduuccee____(self)
+ |      Provides pickling support. Normally, this just dispatches to Python's
+ |      standard handling. However, for models with deferred field loading, we
+ |      need to do things manually, as they're dynamically created classes and
+ |      only module-level classes can be pickled by the default path.
+ |  
+ |  ____rreepprr____(self)
+ |  
+ |  ____sseettssttaattee____(self, state)
+ |  
+ |  cclleeaann(self)
+ |      Hook for doing any extra model-wide validation after clean() has been
+ |      called on every field by self.clean_fields. Any ValidationError raised
+ |      by this method will not be associated with a particular field; it will
+ |      have a special-case association with the field defined by NON_FIELD_ERRORS.
+ |  
+ |  cclleeaann__ffiieellddss(self, exclude=None)
+ |      Cleans all fields and raises a ValidationError containing a dict
+ |      of all validation errors if any occur.
+ |  
+ |  ddaattee__eerrrroorr__mmeessssaaggee(self, lookup_type, field_name, unique_for)
+ |  
+ |  ddeelleettee(self, using=None, keep_parents=False)
+ |  
+ |  ffuullll__cclleeaann(self, exclude=None, validate_unique=True)
+ |      Calls clean_fields, clean, and validate_unique, on the model,
+ |      and raises a ``ValidationError`` for any errors that occurred.
+ |  
+ |  ggeett__ddeeffeerrrreedd__ffiieellddss(self)
+ |      Returns a set containing names of deferred fields for this instance.
+ |  
+ |  pprreeppaarree__ddaattaabbaassee__ssaavvee(self, field)
+ |  
+ |  rreeffrreesshh__ffrroomm__ddbb(self, using=None, fields=None, **kwargs)
+ |      Reloads field values from the database.
+ |      
+ |      By default, the reloading happens from the database this instance was
+ |      loaded from, or by the read router if this instance wasn't loaded from
+ |      any database. The using parameter will override the default.
+ |      
+ |      Fields can be used to specify which fields to reload. The fields
+ |      should be an iterable of field attnames. If fields is None, then
+ |      all non-deferred fields are reloaded.
+ |      
+ |      When accessing deferred fields of an instance, the deferred loading
+ |      of the field will call this method.
+ |  
+ |  ssaavvee__bbaassee(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)
+ |      Handles the parts of saving which should be done only once per save,
+ |      yet need to be done in raw saves, too. This includes some sanity
+ |      checks and signal sending.
+ |      
+ |      The 'raw' argument is telling save_base not to save any parent
+ |      models and not to do any changes to the values before save. This
+ |      is used by fixture loading.
+ |  
+ |  sseerriiaalliizzaabbllee__vvaalluuee(self, field_name)
+ |      Returns the value of the field name for this instance. If the field is
+ |      a foreign key, returns the id value, instead of the object. If there's
+ |      no Field object with this name on the model, the model attribute's
+ |      value is returned directly.
+ |      
+ |      Used to serialize a field's value (in the serializer, or form output,
+ |      for example). Normally, you would just access the attribute directly
+ |      and not use this method.
+ |  
+ |  uunniiqquuee__eerrrroorr__mmeessssaaggee(self, model_class, unique_check)
+ |  
+ |  vvaalliiddaattee__uunniiqquuee(self, exclude=None)
+ |      Checks unique constraints on the model and raises ``ValidationError``
+ |      if any failed.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods inherited from django.db.models.base.Model:
+ |  
+ |  cchheecckk(cls, **kwargs) from django.db.models.base.ModelBase
+ |  
+ |  ffrroomm__ddbb(cls, db, field_names, values) from django.db.models.base.ModelBase
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from django.db.models.base.Model:
+ |  
+ |  ____ddiicctt____
+ |      dictionary for instance variables (if defined)
+ |  
+ |  ____wweeaakkrreeff____
+ |      list of weak references to the object (if defined)
+ |  
+ |  ppkk

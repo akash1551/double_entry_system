@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/static/bootstrap.min.css" rel="stylesheet">
+<title>Login Page</title>
+
+<h1><font face="Ubuntu Medium" size="20">Double Entry System</font></h1>
+
+</head>
+
+<body background="/static/accounting.jpg">
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+		
+
+			<form class="col-lg-6" role="form" action="/auth/" method="POST" style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; font-size: 2em;">
+					<h3><font face="Ubuntu Medium">Login</h3>	
+
+				<div class="form-group">
+					<label>Username</label>
+					<input type = "text" class = "form-control" name = "username" placeholder = "Enter Username">
+				 
+					<label>Password</label>
+					<input type="password" class="form-control" name="password" placeholder="Enter Password">
+				</div>
+
+					<label><input type="checkbox" style="color: #000;">Remember me</label><br>
+
+					<button type="submit" class="btn btn-success active">Log In</button>
+			</form> 
+
+
+				<form action="/show_registration_page/">
+					<div id="menu">
+						<p><br>If you dont have an account yet..then </p>
+						<button type="submit" class="btn btn-success" style="color: white; font-size: 1em;">Sign Up</button>
+					</div>
+				</form>
+		
+	</div>
+</div>
+	 
+
+</div>
+<script src="/static/jquery.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

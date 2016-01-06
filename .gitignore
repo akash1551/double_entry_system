@@ -1,0 +1,7 @@
+*.html~
+*.pyc
+Media
+*.jpg
+*.png
+*.gif
+*.js
