@@ -7,26 +7,26 @@ from time import time
 
 class Address(models.Model):
 	user = models.ForeignKey(User)
-	address = models.CharField(max_length=200,null=False)
+	address_line1 = models.CharField(max_length=200,null=False)
+	address_line2 = models.CharField(max_length=200,null=True)
+	contact_no = models.IntegerField(null=False)
 	city = models.CharField(max_length=50,null=False)
 	state = models.CharField(max_length=50,null=False)
-	pin_code = models.IntegerField(null=True)
+	country = models.CharField(max_length=100,null=False)
+	pin_code = models.IntegerField(null=False)
 
 class Account(models.Model):
-	account_name = models.CharField(max_length=100)
 	accounttype= models.ForeignKey('AccountType')
 	group = models.ForeignKey('Group')
-	contact_no = models.IntegerField(null=True)
 
 class AccountType(models.Model):
-	real_account = models.IntegerField()
-	personal_account = models.IntegerField()
-	nominal_account = models.IntegerField()
+	account_name = models.CharField(max_length=100)
 
 class AccountingYear(models.Model):
 	start_date = models.DateField()
 	end_date = models.DateField()
-	company = models.ForeignKey('Company')
+	company = models.ForeignKey('Company',null=True)
+	duration = models.IntegerField()
 
 class TransactionType(models.Model):
 	RECIEPT = 0
@@ -43,4 +43,4 @@ class Company(models.Model):
 	company_name = models.CharField(max_length=100)
 
 class Group(models.Model):
-	machine = models.CharField(max_length=100)
+	name_of_group = models.CharField(max_length=100)

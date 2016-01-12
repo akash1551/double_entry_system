@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from accounts.models import Address
+from accounts.models import Address,Group,AccountType,Account,AccountingYear
 import json
+from django import forms
 
 def login(request):
     return render_to_response('login.html')
@@ -41,33 +42,65 @@ def logout(request):
     return render_to_response('logout.html')
 
 
-def show_registration_page(request):
+def register_user(request):
     return render_to_response('register_user.html')
 
-def register_user(request):
-    print request.POST
-    """first_name = request.POST['first_name']
-    last_name = request.POST['last_name']"""
-    username = request.POST['username']
-    first_name = request.POST['first_name']
-    last_name = request.POST['last_name']
-    address = request.POST['address']
-    city = request.POST['city']
-    state = request.POST['state']
-    pin_code = request.POST['pin_code']
-    contact_no = request.POST['contact_no']
-    password = request.POST['password']
-    email = request.POST['email']
+def register_auth(request):
+    print request.body
+    json_obj=json.loads(request.body)
 
-    user_obj = User(username=username,first_name=first_name,last_name=last_name,email=email)
-    user_obj.set_password(password)
-    user_obj.save()
+    username = json_obj['username']
+    first_name = json_obj['first_name']
+    last_name = json_obj['last_name']
+    password = json_obj['password']
+    password1 = json_obj['password1']
+    email = json_obj['email']
+    address_line1 = json_obj['address_line1']
+    address_line2 = json_obj['address_line2']
+    contact_no = json_obj['contact_no']
+    city = json_obj['city']
+    state = json_obj['state']
+    country = json_obj['country']
+    pin_code = json_obj['pin_code']
 
-    address_obj = Address(user=user_obj,address=address,city=city,state=state,pin_code=pin_code,contact_no=contact_no)
-    address_obj.save()
-    
-    try:
+    if password != password1:
+       # raise forms.ValidationError("Passwords not Matched.")
+        return HttpResponse(json.dumps({"validation":"Passwords are not Matched","status":False}), content_type="application/json")
+    else:    
+        user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password,)
         user_obj.save()
-    except IntegrityError:
-        print "User Already Exist"
-    return render_to_response('login.html')
+        user_obj.set_password(password)
+
+        address_obj = Address(address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
+            state=state,country=country,pin_code=pin_code)
+        
+    if user_obj is not None:
+        return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
+
+def account_creation_page(request):
+    return render_to_response('create_account.html')
+
+def transactions(request):
+    print request.body
+    
+    user = User.objects.all()
+    user_list = []
+    for i in user:
+        user_obj = {"username":i.username,"email":i.email}
+        user_list.append(user_obj)
+
+    accounttype = AccountType.objects.all()
+    accounttype_list = []
+    for i in accounttype:
+        accounttype_obj = {"account_name":i.account_name}
+        accounttype_list.append(accounttype_obj)
+
+    accountingyear = AccountingYear.objects.all()
+    accountingyear_list = []
+    for i in accountingyear:
+        accountingyear_obj = {"start_date":i.start_date,"end_date":i.end_date,"duration":i.duration}
+        accountingyear_list.append(accountingyear_obj)
+
+    print user_list
+
+    return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")

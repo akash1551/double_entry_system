@@ -1,0 +1,61 @@
+<html>
+<head>
+	{% load static %}
+	<title>Create Account</title>
+	<link href="/static/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+		<div class="row">
+		
+			<div class="col-sm-6 col-md-6" style="background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px;">
+
+				<form role="form" action="/register_user/" method="POST" enctype="multipart/form-data">
+
+						<div align="center">
+						<label for="name">Account Creation Form</label><br>
+						</div>
+								<label for="name">Account Name</label>
+								<input type="text" class="form-control" name="first_name" placeholder="Enter First Name"><br>
+
+								<label for="name">Username</label>
+								<input type="text" class="form-control" name="username" placeholder="Enter username"><br>
+								<br>
+
+								<label for="name">Group</label>
+									<ul class="nav navbar-nav navbar-left">
+										<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Group<b class="caret">
+										</b>
+										</a>
+										<ul class="dropdown-menu">
+										<li><a href="#">Group 1</a></li>
+										<li><a href="#">Group 2</a></li>
+										<li><a href="#">Group 3</a></li>
+									</ul>
+										
+									
+										
+
+									
+								<label for="address"><br>Conatact Number</label>
+								<input type="text" class="form-control" name="address" placeholder="Enter Address"><br>
+
+								<label for="state">State</label>
+								<input type="text" class="form-control" name="state" placeholder="Enter State Name"><br>
+
+						<button type="submit" class="btn btn-success">Save Details</button>
+
+				</form>
+
+			</div>
+		
+	    </div>
+</div>
+<script src="/static/jquery.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>
+					
