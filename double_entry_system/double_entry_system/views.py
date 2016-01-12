@@ -40,6 +40,15 @@ def loggedin(request):
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 
+def registration(request):
+    return render_to_response('html_templates/user/registration.html')
+
+def accList(request):
+    return render_to_response('accList.html')
+
+def accDetail(request):
+    return render_to_response('accountDetail.html')
+
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
@@ -48,7 +57,7 @@ def logout(request):
 #def register_user(request):
  #   return render_to_response('register_user.html')
 
-def register_auth(request):
+def register_new_user(request):
     print request.body
     json_obj=json.loads(request.body)
 

@@ -1,0 +1,146 @@
+{% load staticfiles %}
+<style>
+	.error_msg{
+		color: red !important;
+	}
+
+	.msg-block {
+    margin-top:5px;
+	}
+	.msg-error {
+	    color:#F00;
+	    font-size:14px;
+	}
+
+</style>
+<div class="container user_registrationForm">
+	<div class="row">
+		<div class="col-sm-8 col-sm-offset-2 form_bg_clr">
+			<form name="userForm" ng-submit="submitForm()" novalidate>
+			<h3>Register</h3>
+			<hr>
+
+
+			<!-- userName -->
+			<div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+				<h5>User Name</h5>
+				<div class="row">
+					<div class="col-sm-12">
+					<input type="text" name= "name" class="form-control custom_input_registrationForm_user" placeholder="User Name" ng-model="ownerInfo.userName" required>
+						<p class="error_msg" ng-show="userForm.name.$invalid && !userForm.name.$pristine" >You name is required.</p>
+					</div>
+				</div>
+			</div>
+
+
+			<h5>Password</h5>
+			<div class="row ">
+				<div class="col-sm-6">
+					<input type="password" name="password1" id="password1" class="form-control custom_input_registrationForm_user" placeholder="Password" ng-model="ownerInfo.password" required>
+				</div>
+				<div class="col-sm-6">
+					<input type="password" pw-check="password1" name="password2" id="password2" class="form-control custom_input_registrationForm_user" placeholder="Confirm Password" ng-model="ownerInfo.confirmPassword" required>
+				</div>
+				<div class="msg-block col-sm-12" ng-show="userForm.$error"> 
+					<span class="msg-error" ng-show="userForm.password2.$error.pwmatch">Passwords don't match.</span>
+				</div>
+			</div>
+			
+
+
+			<div class="form-group" ng-class="{ 'has-error' : ownerInfo.firstName && !ownerInfo.firstName.$pristine && ownerInfo.lastName 
+			&& !ownerInfo.lastName.$pristine}">
+			<h5>Name</h5>
+				<div class="row">
+					<div class="col-sm-6">
+						
+						<input type="text" name="firstName" class="form-control custom_input_registrationForm_user" placeholder="Name" ng-model="ownerInfo.firstName" required=""> 
+						<p class="error_msg" ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block">
+							First Name is Required
+						</p>
+					</div>
+					<div class="col-sm-6">
+						<input type="text" name="lastName" class="form-control custom_input_registrationForm_user" 
+						placeholder="Last Name" ng-model="ownerInfo.lastName" required="">
+						<p class="error_msg" ng-show="userForm.lastName.$invalid && !userForm.lastName.$pristine" class="help-block">
+							Last Name is Required
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<h5>Address</h5>
+				<div class="form-group" ng-class=" {'has-error ' : ownerInfo.addressLine1 && !ownerInfo.addressLine1.$pristine 
+															&&  ownerInfo.city && !ownerInfo.city.$pristine 
+															&&  ownerInfo.state && !ownerInfo.state.$pristine 
+															&& ownerInfo.pincode && !ownerInfo.pincode.$pristine  
+															&& ownerInfo.country && !ownerInfo.country.$pristine  }">
+					
+					<input type="text" name="addressLine1" class="form-control custom_input_registrationForm_user " placeholder="Address line 1" ng-model="ownerInfo.addressLine1" required>
+						<p class="error_msg" ng-show="userForm.addressLine1.$invalid && !userForm.addressLine1.$pristine" class="help-block">
+							Address is Required
+						</p>
+					<input type="text" class="form-control custom_input_registrationForm_user input_margin_top" placeholder="Address line 2" ng-model="ownerInfo.addressLine2">
+					
+					<div class="row input_margin_top">
+						<div class="col-sm-6">
+							<input type="text" name="city" class="form-control custom_input_registrationForm_user " placeholder="City" ng-model="ownerInfo.city" required="">
+								<p class="error_msg" ng-show="userForm.city.$invalid && !userForm.city.$pristine" class="help-block">
+								City is Required
+								</p>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" name="state"  class="form-control custom_input_registrationForm_user " placeholder="State" ng-model="ownerInfo.state" required="">
+								<p class="error_msg" ng-show="userForm.state.$invalid && !userForm.state.$pristine" class="help-block">
+								State is Required
+								</p>
+						</div>
+					</div>
+					<div class="row input_margin_top">
+						<div class="col-sm-6">
+							<input type="text" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" ng-model="ownerInfo.pincode" required="" maxlength="6">
+								<p class="error_msg" ng-show="userForm.pincode.$invalid && !userForm.pincode.$pristine" class="help-block">
+								Pin is Required
+								</p>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" name="country" class="form-control custom_input_registrationForm_user " placeholder="Country" ng-model="ownerInfo.country" required="">
+							<p class="error_msg" ng-show="userForm.country.$invalid && !userForm.country.$pristine" class="help-block">
+								Country is Required
+								</p>
+						</div>
+					</div>
+				</div>
+
+				<h5>Mobile No</h5>
+				<div class="form-group" ng-class="{ 'has-error' : ownerInfo.mobileNo0 && !ownerInfo.mobileNo0.$pristine}">
+					<div class="row ">
+						<div class="col-sm-6">
+							<input type="text" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" ng-model="ownerInfo.mobileNo0" required="" maxlength="10">
+							<p class="error_msg" ng-show="userForm.mobileNo0.$invalid && !userForm.mobileNo0.$pristine" class="help-block" maxlength="10">
+								mobile Number is Required
+							</p>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" ng-model="ownerInfo.mobileNo1" maxlength="10">
+						</div>
+					</div>
+				</div>
+				
+				<h5>Email</h5>
+				<div class="form-group" ng-class="{ 'has-error' : ownerInfo.email.$invalid && !ownerInfo.email.$pristine }">
+					<div class="row ">
+						<div class="col-sm-12">
+							<input type="email" name="email" class="form-control custom_input_registrationForm_user " placeholder="Email" ng-model="ownerInfo.email" required="">
+							 <p class="error_msg" ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+						</div>
+					</div>
+				</div>
+			
+				<button class="btn btn-primary input_margin_top pull-right" style="margin-left: 10px;" ng-click="signUp();" ng-disabled="userForm.$invalid">Submit</button>
+				<button class="btn btn-danger input_margin_top pull-right">Cancel</button>
+
+			</form>
+		</div>
+	</div>
+</div>

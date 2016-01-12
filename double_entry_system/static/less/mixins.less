@@ -1,0 +1,51 @@
+.mixin_primary_btn{
+		background-color: @color_btn_primary;
+		border: 1px solid @color_btn_primary;
+		color: #FFF;
+			&:hover{
+			background-color: @color_btn_primary_hover;
+			border: 1px solid @color_btn_primary;
+			color: #FFF;
+
+		}
+	}
+
+.mixin_cover_img{
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+	}
+
+.mixin_input_border_color{
+		border-color: @border_color_input;
+		height: 50px;
+		box-shadow: none;
+		&:hover{
+			border-color: @color_input_hover!important;
+			box-shadow: 1px solid #FFF!important;
+			box-shadow: 0 0px 0px rgba(0, 0, 0, 0) inset, 0 0 0px rgba(225, 225, 225, 0.6)!important;
+		}
+		&:focus{
+			border-color: @color_input_hover!important;
+			box-shadow: 0 0px 0px rgba(0, 0, 0, 0) inset, 0 0 0px rgba(225, 225, 225, 0.6)!important;
+		}
+	}
+	.textarea_border_color{
+		border-color: @border_color_input;
+		box-shadow: none;
+		&:hover{
+			border-color: @color_input_hover!important;
+			box-shadow: 1px solid #FFF!important;
+			box-shadow: 0 0px 0px rgba(0, 0, 0, 0) inset, 0 0 0px rgba(225, 225, 225, 0.6)!important;
+		}
+		&:focus{
+			border-color: @color_input_hover!important;
+			box-shadow: 0 0px 0px rgba(0, 0, 0, 0) inset, 0 0 0px rgba(225, 225, 225, 0.6)!important;
+		}
+	}
+
+.mixin_pointer{
+	cursor: hand;
+	cursor: pointer;
+}
