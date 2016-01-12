@@ -1,0 +1,63 @@
+.mixin_pointer {
+  cursor: hand;
+  cursor: pointer;
+}
+.section_existing_acc .header_section {
+  background-color: #fb4349;
+  padding: 10px;
+}
+.section_existing_acc .header_section .name {
+  color: #FFF;
+}
+.section_existing_acc .section_body {
+  background-color: #f1f1f1;
+  padding: 10px;
+  height: 400px;
+  overflow-x: scroll;
+}
+.section_existing_acc .section_body .account_date {
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  text-align: center;
+  border: 1px solid #FFF;
+}
+.section_existing_acc .section_body .account_date:hover,
+.section_existing_acc .section_body .account_date:focus {
+  border: 1px solid #fb4349;
+}
+.section_existing_acc .section_body .account_date .number {
+  font-weight: bold;
+  color: #fb4349;
+}
+.section_existing_acc .section_body .account_date .units {
+  font-size: 0.8em;
+}
+.section_existing_acc .section_body .account_list {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+.section_existing_acc .section_body .account_list:hover {
+  border: 1px solid #fb4349;
+  cursor: hand;
+  cursor: pointer;
+}
+.section_existing_acc .section_body .account_list .time {
+  text-align: center;
+}
+.section_existing_acc .section_body .account_list .time .hrs {
+  margin-bottom: 0px;
+  font-weight: bold;
+  color: #000;
+}
+.section_existing_acc .section_body .account_list .time .mins {
+  font-size: 0.8em;
+  color: #bebebe;
+}
+.section_existing_acc .section_body .account_list .acc_holder_name {
+  color: #fb4349;
+  font-size: 1.2em;
+  text-transform: capitalize;
+}

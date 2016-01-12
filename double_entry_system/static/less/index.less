@@ -1,0 +1,51 @@
+.mixin_pointer{
+	cursor: hand;
+	cursor: pointer;
+}
+
+.section_existing_acc{
+	.header_section{
+		background-color: #fb4349; padding: 10px;
+		.name{
+			color: #FFF;
+		}
+	}
+	.section_body{
+		background-color: #f1f1f1; padding: 10px; height: 400px; overflow-x: scroll;
+		
+		.account_date{
+			padding: 15px; margin-bottom: 10px; background-color: #fff; text-align: center;
+			border: 1px solid #FFF;
+			&:hover, &:focus{
+				border: 1px solid #fb4349;
+			}	
+			.number{
+				font-weight: bold; color: #fb4349;
+			}
+			.units{
+				font-size: 0.8em;
+			}
+		}
+		.account_list{
+			padding: 10px; margin-bottom: 10px; background-color: #fff; border: 1px solid #fff; 
+			&:hover{
+				border: 1px solid #fb4349;
+				.mixin_pointer;
+			}
+			.time{
+				text-align: center;
+				.hrs{
+					margin-bottom: 0px; font-weight: bold; color: #000;
+				}
+				.mins{
+					font-size: 0.8em; color: #bebebe;
+				}
+			}
+			.acc_holder_name{
+				color: #fb4349;
+				font-size: 1.2em;
+				text-transform:  capitalize;
+			}
+		}
+	}
+}
