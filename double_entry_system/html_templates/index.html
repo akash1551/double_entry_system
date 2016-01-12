@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    {% load staticfiles %}
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/semantic/dist/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'static/css/expensesManager.css' %}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
+  <body ng-app="mudraApp" ng-controller="mudraAppCtrl">
+    {% verbatim %}
+
+   <div class="ui left demo vertical inverted sidebar labeled icon menu" style="background-color: #232D37;">
+    <a class="item">
+        <i class="home icon"></i>
+        Home
+    </a>
+            <!-- <a class="item">
+                <i class="block layout icon"></i>
+                Topics
+            </a> -->
+            <!-- <a class="item" ui-sref="registrationMaster.deviceRegistration">
+                <i class="smile icon"></i>
+                Registration
+            </a> -->
+        </div>
+        <div class="pusher" style="background: #232D37;">
+
+            <div class="ui inverted segment">
+                <div class="ui inverted secondary pointing menu">
+                    <!-- <div class="item" style="padding: 0px 15px;" ng-click="toggleSidebar();">
+                        <img src="/static/bower_components/semantic/logo.png">
+                        ArDroid
+                    </div> -->
+                    <a class="item">
+                        Home
+                    </a>
+                    <!-- <a class="item">
+                        Messages
+                    </a> -->
+                    <a class="item">
+                        Registration
+                    </a>
+
+                    <div class="right menu">
+                        <!-- <div class="ui simple dropdown item">
+                            Language <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a class="item">English</a>
+                                <a class="item">Russian</a>
+                                <a class="item">Spanish</a>
+                            </div>
+                        </div> -->
+                        <div class="item">
+                            <div class="ui primary button" ng-click="logOut();">Logout</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <button class="ui teal button" ng-click="toggleSidebar();">Menu</button>
+    {% verbatim %}
+            <div ui-view></div>
+
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'bower_components/semantic/dist/semantic.min.js' %}"></script>
+        <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+        <script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+        <script src="{% static 'js/user/userApp.js' %}"></script>
+        <script src="{% static 'js/user/controller/mudraAppCtrl.js' %}"></script>
+
+    </body>
+    </html>
