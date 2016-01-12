@@ -9,8 +9,11 @@ from accounts.models import Address,Group,AccountType,Account,AccountingYear
 import json
 from django import forms
 
-def login(request):
-    return render_to_response('login.html')
+#def login(request):
+ #   return render_to_response('login.html')
+
+def home(request):
+    return render_to_response('index.html')
 
 def auth_view(request):
     data_dict=json.loads(request.body)
@@ -42,8 +45,8 @@ def logout(request):
     return render_to_response('logout.html')
 
 
-def register_user(request):
-    return render_to_response('register_user.html')
+#def register_user(request):
+ #   return render_to_response('register_user.html')
 
 def register_auth(request):
     print request.body
@@ -73,8 +76,9 @@ def register_auth(request):
 
         address_obj = Address(address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
             state=state,country=country,pin_code=pin_code)
-        
+    
     if user_obj is not None:
+        user_obj.append
         return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
 def account_creation_page(request):
