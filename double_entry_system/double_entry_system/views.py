@@ -57,7 +57,7 @@ def logout(request):
 #def register_user(request):
  #   return render_to_response('register_user.html')
 
-def register_auth(request):
+def register_new_user(request):
     print request.body
     json_obj=json.loads(request.body)
 
@@ -87,7 +87,7 @@ def register_auth(request):
             state=state,country=country,pin_code=pin_code)
     
     if user_obj is not None:
-        user_obj.append
+        
         return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
 def account_creation_page(request):

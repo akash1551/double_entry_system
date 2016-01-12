@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 #    url(r'^show_registration_page/', 'double_entry_system.views.show_registration_page'),
     url(r'^register_user/', 'double_entry_system.views.register_user'),
-    url(r'^register_auth/', 'double_entry_system.views.register_auth'),
+    url(r'^register_new_user/', 'double_entry_system.views.register_new_user'),
     url(r'^login/', 'double_entry_system.views.login'),
     url(r'^auth_view/', 'double_entry_system.views.auth_view'),
     url(r'^account_creation_page/', 'double_entry_system.views.account_creation_page'),
