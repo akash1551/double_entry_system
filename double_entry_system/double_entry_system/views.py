@@ -40,6 +40,15 @@ def loggedin(request):
 def invalid_login(request):
     return render_to_response('invalid_login.html')
 
+def registration(request):
+    return render_to_response('html_templates/registration.html')
+
+def accList(request):
+    return render_to_response('accList.html')
+
+def accDetail(request):
+    return render_to_response('accountDetail.html')
+
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')

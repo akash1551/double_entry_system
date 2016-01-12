@@ -29,6 +29,12 @@ urlpatterns = [
     url(r'^account_creation_page/', 'double_entry_system.views.account_creation_page'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^transactions/', 'double_entry_system.views.transactions'),
-    url(r'^', 'double_entry_system.views.home'),
+    url(r'^$', 'double_entry_system.views.home'),
+
+    # akshay
+    url(r'^accList/$', 'double_entry_system.views.accList'),
+    url(r'^accDetail/$', 'double_entry_system.views.accDetail'),
+    url(r'^registration/$', 'double_entry_system.views.registration'),
+
 
 ]
