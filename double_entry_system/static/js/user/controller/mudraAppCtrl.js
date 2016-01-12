@@ -1,5 +1,5 @@
-angular.module('mudraApp.controllers',[])
-.controller('mudraAppCtrl', function($scope, $timeout, $http, $window){
+angular.module('mudraApp.controllers',['ui-notification'])
+.controller('mudraAppCtrl', function($scope, $timeout, $http, $window, Notification){
 	console.log("mudraAppCtrl loaded");
 
  	// register user
@@ -39,24 +39,24 @@ angular.module('mudraApp.controllers',[])
 
 
 	$scope.signUp = function(){
-		console.log($scope.ownerInfo);
-		if($scope.ownerInfo.firstName != null &&
-			$scope.ownerInfo.lastName != null &&
-			$scope.ownerInfo.userName != null &&
-			$scope.ownerInfo.password != null &&
-			$scope.ownerInfo.confirmPassword != null &&
-			$scope.ownerInfo.addressLine1 != null &&
-			$scope.ownerInfo.city != null &&
-			$scope.ownerInfo.state != null &&
-			$scope.ownerInfo.pincode != null &&
-			$scope.ownerInfo.country != null &&
-			$scope.ownerInfo.mobileNo0 != null &&
-			$scope.ownerInfo.email != null &&
-			validateNumber($scope.ownerInfo.mobileNo0) &&
-			validatePin($scope.ownerInfo.pincode) &&
-			validateEmail($scope.ownerInfo.email)){
+		console.log($scope.newUser);
+		if($scope.newUser.firstName != null &&
+			$scope.newUser.lastName != null &&
+			$scope.newUser.userName != null &&
+			$scope.newUser.password != null &&
+			$scope.newUser.confirmPassword != null &&
+			$scope.newUser.addressLine1 != null &&
+			$scope.newUser.city != null &&
+			$scope.newUser.state != null &&
+			$scope.newUser.pincode != null &&
+			$scope.newUser.country != null &&
+			$scope.newUser.mobileNo0 != null &&
+			$scope.newUser.email != null &&
+			validateNumber($scope.newUser.mobileNo0) &&
+			validatePin($scope.newUser.pincode) &&
+			validateEmail($scope.newUser.email)){
 
-			$http.post('/register_new_user/', {ownerInfo: $scope.ownerInfo}).
+			$http.post('/register_new_user/', {newUser: $scope.newUser}).
 			success(function(data, status, headers, config) {
 				console.log(data);
 				if(data.status){
@@ -81,10 +81,9 @@ angular.module('mudraApp.controllers',[])
 
 	// function to submit the form after all validation has occurred            
         $scope.submitForm = function() {
-
+        	$scope.userForm="";
             // check to make sure the form is completely valid
             if ($scope.userForm.$valid) {
-
                console.log("form validated");
             }
 
