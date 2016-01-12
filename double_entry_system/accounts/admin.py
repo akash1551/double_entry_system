@@ -1,6 +1,6 @@
 from django.contrib import admin
 admin.autodiscover()
-from accounts.models import Address,Account,AccountType,AccountingYear,TransactionType,Company
+from accounts.models import Address,Account,AccountType,AccountingYear,TransactionType,Company,Group
 # Register your models here.
 
 admin.site.register(Address)
@@ -9,3 +9,4 @@ admin.site.register(AccountType)
 admin.site.register(AccountingYear)
 admin.site.register(TransactionType)
 admin.site.register(Company)
+admin.site.register(Group)

@@ -1,7 +1,7 @@
-*.html~
 *.pyc
-Media
-*.jpg
-*.png
-*.gif
-*.js
+Media/
+*/db.sqlite3
+double_entry_system/db.sqlite3
+
+
+
