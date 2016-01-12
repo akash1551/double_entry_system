@@ -41,7 +41,7 @@ def invalid_login(request):
     return render_to_response('invalid_login.html')
 
 def registration(request):
-    return render_to_response('html_templates/registration.html')
+    return render_to_response('html_templates/user/registration.html')
 
 def accList(request):
     return render_to_response('accList.html')
