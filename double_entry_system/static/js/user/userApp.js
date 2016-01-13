@@ -20,6 +20,10 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
     .state('registration', {
       url: '/registration',
       templateUrl: '/registration'
+    })
+    .state('userLogin', {
+      url: '/userLogin',
+      templateUrl: '/userLogin'
     });
 
  });

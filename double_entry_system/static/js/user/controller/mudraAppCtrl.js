@@ -88,5 +88,28 @@ angular.module('mudraApp.controllers',['ui-notification'])
             }
 
         };
+	 
+	$scope.userName = null;
+	$scope.password = null;
+
+	$scope.login = function(userName, password){
+		$http.post('/user_login/', {username: userName, password: password}).
+		success(function(data, status, headers, config) {
+			console.log(data);
+			if(!data.status){
+				console.log('error');
+			}else{
+				$window.localStorage.setItem('token', data.token);
+				if(data.redirect_url != undefined){
+					$window.location.href = data.redirect_url;
+				}else{
+					console.log('You does not have ui register device');
+				}
+			}
+		}).error(function(data, status, headers, config) {
+			console.error(data);
+		});
+	};
+
 
 });

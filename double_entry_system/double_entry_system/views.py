@@ -51,6 +51,9 @@ def accList(request):
 def accDetail(request):
     return render_to_response('accountDetail.html')
 
+def userLogin(request):
+    return render_to_response('html_templates/user/login.html')
+
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')

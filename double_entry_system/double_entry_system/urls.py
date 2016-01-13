@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^accList/$', 'double_entry_system.views.accList'),
     url(r'^accDetail/$', 'double_entry_system.views.accDetail'),
     url(r'^registration/$', 'double_entry_system.views.registration'),
+    url(r'^userLogin/$', 'double_entry_system.views.userLogin'),
 
 
 ]
