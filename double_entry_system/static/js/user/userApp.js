@@ -16,13 +16,21 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/userLogin',
       templateUrl: '/userLogin'
     })
+    .state('menu', {
+      url: '/menu',
+      templateUrl: '/menu'
+    })
     .state('myAcc', {
       url: '/myAcc',
       templateUrl: '/myAcc'
     })
-    .state('menu', {
-      url: '/menu',
-      templateUrl: '/menu'
+    .state('myAcc.credit', {
+      url: '/credit',
+      templateUrl: '/credit'
+    })
+    .state('myAcc.debit', {
+      url: '/debit',
+      templateUrl: '/debit'
     });
 
  });

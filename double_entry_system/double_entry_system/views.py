@@ -49,10 +49,16 @@ def userLogin(request):
     return render_to_response('html_templates/user/login.html')
 
 def myAcc(request):
-    return render_to_response('html_templates/user/myAcc.html')
+    return render_to_response('html_templates/user/myAccMaster.html')
 
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
+
+def credit(request):
+    return render_to_response('html_templates/user/credit.html')
+
+def debit(request):
+    return render_to_response('html_templates/user/debit.html')
 
 def logout(request):
     auth.logout(request)

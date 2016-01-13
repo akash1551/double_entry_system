@@ -36,6 +36,8 @@ urlpatterns = [
     url(r'^userLogin/$', 'double_entry_system.views.userLogin'),
     url(r'^myAcc/$', 'double_entry_system.views.myAcc'),
     url(r'^menu/$', 'double_entry_system.views.menu'),
+    url(r'^credit/$', 'double_entry_system.views.credit'),
+    url(r'^debit/$', 'double_entry_system.views.debit'),
 
 
 ]
