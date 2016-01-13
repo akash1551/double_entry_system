@@ -12,6 +12,15 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/accList',
       templateUrl: '/accList'
       // controller: 'mudraAppCtrl'
+
+      // url: '/party/:partyID/:partyLocation',
+      //   controller: function($scope, $stateParams) {
+      //       // get the id
+      //       $scope.id = $stateParams.partyID;
+
+      //       // get the location
+      //       $scope.location = $stateParams.partyLocation;   
+      //   }
     })
     .state('accDetail', {
       url: '/accDetail',
