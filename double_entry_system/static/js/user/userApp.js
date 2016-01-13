@@ -39,6 +39,14 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
     .state('accounting', {
       url: '/accounting',
       templateUrl: '/accounting'
+    })
+    .state('accounting.accountingCredit', {
+      url: '/accountingCredit',
+      templateUrl: '/accountingCredit'
+    })
+    .state('accounting.accountingDebit', {
+      url: '/accountingDebit',
+      templateUrl: '/accountingDebit'
     });
 
  });

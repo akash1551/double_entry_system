@@ -8,10 +8,12 @@
 			 </select>
 			 <div style="max-width: 150px; margin: auto;">
 				 <div class="btn btn-group" >
-				 	<button class="btn btn-primary">Credit</button>
-				 	<button class="btn btn-primary">Debit</button>
+				 	<button class="btn btn-primary" ui-sref="accounting.accountingCredit">Credit</button>
+				 	<button class="btn btn-primary" ui-sref="accounting.accountingDebit">Debit</button>
 				 </div>
 			 </div>
+
+			 <div ui-view></div>
 		</div>
 	</div>
 </div>
