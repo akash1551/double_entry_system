@@ -51,6 +51,9 @@ def userLogin(request):
 def myAcc(request):
     return render_to_response('html_templates/user/myAcc.html')
 
+def menu(request):
+    return render_to_response('html_templates/user/menu.html')
+
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')

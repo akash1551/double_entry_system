@@ -19,6 +19,10 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
     .state('myAcc', {
       url: '/myAcc',
       templateUrl: '/myAcc'
+    })
+    .state('menu', {
+      url: '/menu',
+      templateUrl: '/menu'
     });
 
  });
