@@ -1,11 +1,27 @@
+<style>
+	.icon_acc{
+		width: 40px; height: 40px; border-radius: 30px; background-color: #bebebe; display: inline; padding: 10px; font-weight: bold; cursor: pointer; cursor: hand;
+	}
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12">
-			<div style="width: 400px; margin: auto; height: 400px; background-color: #bebebe;">
-				 <div style="background-color: #f2f2f2; padding: 10px;">
+			<div class="clearfix" style="width: 400px; margin: auto; height: 430px; background-color: #bebebe;">
+				 <div style="background-color: #f2f2f2; padding: 10px; text-align: right">
 				 	<h5>My Account</h5>
-				 	<i class="fa fa-fw fa-circle-o"></i>
+				 	<h6>Validity</h6>
+
+				 	<p class="icon_acc">Y+</p>
+				 	<p class="icon_acc">A+</p>
+				 	<p class="icon_acc">G+</p>
 				 </div>
+				 <div style="height: 300px; overflow-y: scroll; padding: 10px; position: relative; background-color: #f9f9f9">
+					 <span class="fa-stack fa-lg" style="position: absolute; bottom: 0px; right: 0px;">
+					  <i class="fa fa-circle fa-stack-2x"></i>
+					  <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+					</span>
+				 </div>
+				 <button class="btn btn-primary" style="margin-top: 10px; width: 100%; border-radius: 0px;"> Add</button>
 			</div>
 		</div>
 	</div>
