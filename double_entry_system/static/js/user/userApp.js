@@ -9,7 +9,7 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('accList', {
-      url: '/acc_list',
+      url: '/accList',
       templateUrl: '/accList'
       // controller: 'mudraAppCtrl'
     })

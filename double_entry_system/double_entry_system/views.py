@@ -44,10 +44,10 @@ def registration(request):
     return render_to_response('html_templates/user/registration.html')
 
 def accList(request):
-    return render_to_response('accList.html')
+    return render_to_response('html_templates/user/accountList.html')
 
 def accDetail(request):
-    return render_to_response('accountDetail.html')
+    return render_to_response('html_templates/user/accountDetail.html')
 
 def userLogin(request):
     return render_to_response('html_templates/user/login.html')
