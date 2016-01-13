@@ -31,6 +31,10 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
     .state('myAcc.debit', {
       url: '/debit',
       templateUrl: '/debit'
+    })
+    .state('myAcc.summary', {
+      url: '/summary',
+      templateUrl: '/summary'
     });
 
  });

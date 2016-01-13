@@ -51,6 +51,9 @@ def userLogin(request):
 def myAcc(request):
     return render_to_response('html_templates/user/myAccMaster.html')
 
+def summary(request):
+    return render_to_response('html_templates/user/myAccountSummary.html')
+
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 

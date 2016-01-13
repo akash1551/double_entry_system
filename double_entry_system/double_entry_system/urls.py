@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^menu/$', 'double_entry_system.views.menu'),
     url(r'^credit/$', 'double_entry_system.views.credit'),
     url(r'^debit/$', 'double_entry_system.views.debit'),
+    url(r'^summary/$', 'double_entry_system.views.summary'),
 
 
 ]
