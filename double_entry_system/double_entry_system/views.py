@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from accounts.models import Address,Group,AccountType,Account,AccountingYear
+from accounts.models import UserDetail,Group,AccountType,Account,AccountingYear
 import json
 from django import forms
+from django.db import IntegrityError
+
 
 #def login(request):
  #   return render_to_response('login.html')
@@ -15,7 +17,7 @@ from django import forms
 def home(request):
     return render_to_response('index.html')
 
-def auth_view(request):
+def user_login(request):
     data_dict=json.loads(request.body)
     print request.POST
     username = data_dict['username']
@@ -60,34 +62,42 @@ def logout(request):
 def register_new_user(request):
     print request.body
     json_obj=json.loads(request.body)
+    json_obj=json_obj["newUser"]
 
-    username = json_obj['username']
-    first_name = json_obj['first_name']
-    last_name = json_obj['last_name']
+    if User.objects.filter(username = json_obj['userName']).exists():
+        return HttpResponse(json.dumps({"validation":"Username is already exist.","status":False}), content_type="application/json")
+    username = json_obj['userName']
+    first_name = json_obj['firstName']
+    last_name = json_obj['lastName']
+
     password = json_obj['password']
-    password1 = json_obj['password1']
-    email = json_obj['email']
-    address_line1 = json_obj['address_line1']
-    address_line2 = json_obj['address_line2']
-    contact_no = json_obj['contact_no']
+    password1 = json_obj['confirmPassword']
+    if password != password1:
+        return HttpResponse(json.dumps({"validation":"Passwords are not Matched","status":False}), content_type="application/json")
+    else:
+        if User.objects.filter(email = json_obj['email']).exists():
+            return HttpResponse(json.dumps({"validation":"Email is already exist.Try with another Email.","status":False}), content_type="application/json")
+        email = json_obj['email']
+
+    address_line1 = json_obj['addressLine1']
+    address_line2 = json_obj['addressLine2']
+    
+    if UserDetail.objects.filter(contact_no = json_obj['mobileNo0']).exists():
+        return HttpResponse(json.dumps({"validation":"This Mobile Number is already exist.","status":False}), content_type="application/json")
+    contact_no = json_obj['mobileNo0']
+    contact_no1 = json_obj['mobileNo1']
     city = json_obj['city']
     state = json_obj['state']
     country = json_obj['country']
-    pin_code = json_obj['pin_code']
-
-    if password != password1:
-       # raise forms.ValidationError("Passwords not Matched.")
-        return HttpResponse(json.dumps({"validation":"Passwords are not Matched","status":False}), content_type="application/json")
-    else:    
-        user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password,)
-        user_obj.save()
-        user_obj.set_password(password)
-
-        address_obj = Address(address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
-            state=state,country=country,pin_code=pin_code)
+    pin_code = json_obj['pincode']
+    user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password,)
+    user_obj.save()
+    user_obj.set_password(password)
+  
+    userdetail_obj = UserDetail(address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
+        state=state,country=country,pin_code=pin_code,contact_no1=contact_no1)
     
     if user_obj is not None:
-        
         return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
 def account_creation_page(request):

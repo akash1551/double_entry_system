@@ -5,11 +5,14 @@ from time import time
 
 # Create your models here.
 
-class Address(models.Model):
+class UserDetail(models.Model):
+	bank_account = models.IntegerField(default=0)
+	cash_account = models.IntegerField(default=0)
 	user = models.ForeignKey(User)
 	address_line1 = models.CharField(max_length=200,null=False)
 	address_line2 = models.CharField(max_length=200,null=True)
 	contact_no = models.IntegerField(null=False)
+	contact_no1 = models.IntegerField(null=True)
 	city = models.CharField(max_length=50,null=False)
 	state = models.CharField(max_length=50,null=False)
 	country = models.CharField(max_length=100,null=False)
@@ -20,7 +23,9 @@ class Account(models.Model):
 	group = models.ForeignKey('Group')
 
 class AccountType(models.Model):
-	account_name = models.CharField(max_length=100)
+	real_account = models.IntegerField(default=0)
+	personal_account = models.IntegerField(default=0)
+	nominal_account = models.IntegerField(default=0)
 
 class AccountingYear(models.Model):
 	start_date = models.DateField()
