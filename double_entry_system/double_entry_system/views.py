@@ -54,6 +54,9 @@ def myAcc(request):
 def summary(request):
     return render_to_response('html_templates/user/myAccountSummary.html')
 
+def accounting(request):
+    return render_to_response('html_templates/user/accounting.html')
+
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 
