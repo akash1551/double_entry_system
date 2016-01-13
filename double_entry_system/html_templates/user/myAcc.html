@@ -2,19 +2,46 @@
 	.icon_acc{
 		width: 40px; height: 40px; border-radius: 30px; background-color: #bebebe; display: inline; padding: 10px; font-weight: bold; cursor: pointer; cursor: hand;
 	}
+	.hide_menu{
+		height: 400px; padding: 10px;
+		width: 400px; background-color: red; position: absolute; right: -400px; top: 0;
+	}
+	.show_menu{
+		padding: 5px;
+		height: 450px;
+		width: 200px;
+		background-color: #bebebe; 
+		position: 
+		absolute; right: 0px; top: 0;
+		z-index: 2000;
+		opacity: 0.9;
+	}
+
 </style>
-<div class="container">
+<div class="container" id="container_slider">
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="clearfix" style="width: 400px; margin: auto; height: 430px; background-color: #bebebe;">
-				 <div style="background-color: #f2f2f2; padding: 10px; text-align: right">
+			<div class="clearfix" style="width: 400px; margin: auto; height: 430px; background-color: #bebebe; overflow: hidden">
+				 <div style="padding: 5px 20px; position: relative">
 				 	<h5>My Account</h5>
 				 	<h6>Validity</h6>
+				 	<i class="fa fa-2x fa-ellipsis-v" style="position: absolute; top: 25px; right: 10px; z-index: 4000; cursor: pointer;" id="menu"></i>
+				 	<div id="slider" class="hide_menu">
+				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 10px;">lorem</p>
+				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Acc</p>
+				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Group</p>
+				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Year</p>
+				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Credit</p>
+				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Debit</p>
+				 		
+				 	</div>
+				 </div>
+				 <!-- <div style="background-color: #f2f2f2; padding: 10px; text-align: right">
 
 				 	<p class="icon_acc">Y+</p>
 				 	<p class="icon_acc">A+</p>
 				 	<p class="icon_acc">G+</p>
-				 </div>
+				 </div> -->
 				 <div style="height: 300px; overflow-y: scroll; padding: 10px; position: relative; background-color: #f9f9f9">
 					 <span class="fa-stack fa-lg" style="position: absolute; bottom: 0px; right: 0px;">
 					  <i class="fa fa-circle fa-stack-2x"></i>
@@ -22,8 +49,21 @@
 					</span>
 				 </div>
 				 <button class="btn btn-primary" style="margin-top: 10px; width: 100%; border-radius: 0px;"> Add</button>
-				 
+
 			</div>
 		</div>
 	</div>
 </div>	
+
+<script>
+	$('document').ready(function(){
+		$('#menu').on( "click", function() {
+			var className = $('#slider').attr('class');
+			if(className == 'hide_menu'){
+				$('#slider').removeClass('hide_menu').addClass("show_menu");
+			}else{
+				$('#slider').removeClass('show_menu').addClass("hide_menu");
+			}
+		});
+	});
+</script>
