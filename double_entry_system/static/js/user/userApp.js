@@ -8,24 +8,6 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
   // Now set up the states
   $stateProvider
 
-    .state('accList', {
-      url: '/accList',
-      templateUrl: '/accList'
-      // controller: 'mudraAppCtrl'
-
-      // url: '/party/:partyID/:partyLocation',
-      //   controller: function($scope, $stateParams) {
-      //       // get the id
-      //       $scope.id = $stateParams.partyID;
-
-      //       // get the location
-      //       $scope.location = $stateParams.partyLocation;   
-      //   }
-    })
-    .state('accDetail', {
-      url: '/accDetail',
-      templateUrl: '/accDetail'
-    })
     .state('registration', {
       url: '/registration',
       templateUrl: '/registration'
@@ -33,6 +15,10 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
     .state('userLogin', {
       url: '/userLogin',
       templateUrl: '/userLogin'
+    })
+    .state('myAcc', {
+      url: '/myAcc',
+      templateUrl: '/myAcc'
     });
 
  });

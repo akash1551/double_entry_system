@@ -9,14 +9,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}">
+    <link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
 
 </head>
 <body ng-app="mudraApp" ng-controller="mudraAppCtrl">
     {% verbatim %}
     <button class="btn btn-default" ui-sref="registration">Register</button>
     <button class="btn btn-default" ui-sref="userLogin">Login</button>
-    <button class="btn btn-default" ui-sref="accList">Acc List</button>
-    <button class="btn btn-default" ui-sref="accDetail">Acc Details</button>
+    <button class="btn btn-default" ui-sref="myAcc">MyAcc</button>
    {% endverbatim %}
     <div ui-view></div>
 
