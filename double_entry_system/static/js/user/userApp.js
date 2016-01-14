@@ -24,6 +24,10 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/myAcc',
       templateUrl: '/myAcc'
     })
+    .state('myAcc.myAccHomePage', {
+      url: '/myAccHomePage',
+      templateUrl: '/myAccHomePage'
+    })
     .state('myAcc.credit', {
       url: '/credit',
       templateUrl: '/credit'
