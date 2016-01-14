@@ -63,6 +63,9 @@ def accountingCredit(request):
 def accountingDebit(request):
     return render_to_response('html_templates/user/accountingDebit.html')
 
+def newUserAccount(request):
+    return render_to_response('html_templates/user/newUserAccount.html')
+
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 

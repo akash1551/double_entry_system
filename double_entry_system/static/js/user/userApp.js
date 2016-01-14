@@ -40,6 +40,10 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/accounting',
       templateUrl: '/accounting'
     })
+    .state('newUserAccount', {
+      url: '/newUserAccount',
+      templateUrl: '/newUserAccount'
+    })
     .state('accounting.accountingCredit', {
       url: '/accountingCredit',
       templateUrl: '/accountingCredit'

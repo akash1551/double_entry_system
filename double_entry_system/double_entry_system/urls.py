@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^accounting/$', 'double_entry_system.views.accounting'),
     url(r'^accountingCredit/$', 'double_entry_system.views.accountingCredit'),
     url(r'^accountingDebit/$', 'double_entry_system.views.accountingDebit'),
+    url(r'^newUserAccount/$', 'double_entry_system.views.newUserAccount'),
 
 
 ]
