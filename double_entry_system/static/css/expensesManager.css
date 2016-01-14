@@ -153,9 +153,13 @@
   padding: 10px;
 }
 .menu_section .menu_section_holder .menu_wrapper {
+  border: 1px solid #FFF;
   padding: 20px;
   margin-bottom: 10px;
   background-color: #fff;
+}
+.menu_section .menu_section_holder .menu_wrapper:hover {
+  border: 1px solid #404952;
 }
 .menu_section .menu_section_holder .menu_wrapper .menu_name {
   text-align: center;
