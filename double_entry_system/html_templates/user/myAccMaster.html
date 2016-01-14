@@ -15,6 +15,8 @@
 		absolute; right: 0px; top: 0;
 		z-index: 2000;
 		opacity: 0.9;
+		border: 2px solid #888;
+		box-shadow: 2px 2px 2px solid #FFF;
 	}
 
 </style>
@@ -23,19 +25,31 @@
 		<div class="col-sm-12">
 			<div class="clearfix" style="width: 400px; margin: auto; height: 430px; background-color: #bebebe; overflow: hidden">
 				 <div style="padding: 5px 20px; position: relative">
-				 	<h5>My Account</h5>
-				 	<h6>Validity</h6>
-				 	<i class="fa fa-2x fa-ellipsis-v" style="position: absolute; top: 25px; right: 10px; z-index: 4000; cursor: pointer;" id="menu"></i>
-				 	<div id="slider" class="hide_menu">
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 10px;">lorem</p>
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Acc</p>
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Group</p>
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Year</p>
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;" ui-sref="myAcc.credit">Credit</p>
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;" ui-sref="myAcc.debit">Debit</p>
-				 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;" ui-sref="myAcc.summary">Summary</p>
-				 		
+				 	<div class="row">
+				 		<div class="col-xs-6">
+				 			<h5>My Account</h5>
+				 			<h6>Validity</h6>
+				 		</div>
+				 		<div class="col-xs-5">
+				 			<p style="background-color: red; height: 30px; width: 30px; border-radius: 30px; padding: 5px; display: inline;  ">A+</p>
+				 			<p style="background-color: red; height: 30px; width: 30px; border-radius: 30px; padding: 5px; display: inline;  ">G+</p>
+				 			<p style="background-color: red; height: 30px; width: 30px; border-radius: 30px; padding: 5px; display: inline;  ">Y+</p>
+				 		</div>
+				 		<div class="col-xs-1">
+				 			<i class="fa fa-2x fa-ellipsis-v" style="position: absolute; top: 25px; right: 10px; z-index: 4000; cursor: pointer;" id="menu"></i>
+						 	<div id="slider" class="hide_menu">
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 10px;">lorem</p>
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Acc</p>
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Group</p>
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;">Add Year</p>
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;" ui-sref="myAcc.credit">Credit</p>
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;" ui-sref="myAcc.debit">Debit</p>
+						 		<p style="width: 100%; padding: 10px; background-color: #f1f1f1; margin-bottom: 5px;" ui-sref="myAcc.summary">Summary</p>
+						 	</div>
+				 		</div>
 				 	</div>
+
+				 	
 				 </div>
 				 <div ui-view></div>
 				 <!-- <div style="height: 300px; overflow-y: scroll; padding: 10px; position: relative; background-color: #f9f9f9">
