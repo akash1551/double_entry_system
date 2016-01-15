@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        chu kinni
+        Mudra
     </title>
 
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}">
+    <link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
 
 </head>
 <body ng-app="mudraApp" ng-controller="mudraAppCtrl">
     {% verbatim %}
     <button class="btn btn-default" ui-sref="registration">Register</button>
     <button class="btn btn-default" ui-sref="userLogin">Login</button>
+    <button class="btn btn-default" ui-sref="myAcc">MyAcc</button>
+    <button class="btn btn-default" ui-sref="menu">menu</button>
+    <button class="btn btn-default" ui-sref="myAcc.credit">credit</button>
+    <button class="btn btn-default" ui-sref="myAcc.debit">debit</button>
+    <button class="btn btn-default" ui-sref="accounting">accounting</button>
+    <button class="btn btn-default" ui-sref="newUserAccount">newUserAccount</button>
    {% endverbatim %}
     <div ui-view></div>
 

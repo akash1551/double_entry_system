@@ -1,0 +1,24 @@
+{
+  "name": "font-awesome-less",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/owencraig/font-awesome-less.git"
+  },
+  "main":[
+    "fonts/fontawesome-webfont.eot",
+    "fonts/fontawesome-webfont.woff",
+    "fonts/fontawesome-webfont.ttf",
+    "fonts/fontawesome-webfont.svg",
+    "less/font-awesome.less"
+  ],
+  "description": "Less bindings for bower install",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

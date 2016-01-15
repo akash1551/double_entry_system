@@ -32,10 +32,18 @@ urlpatterns = [
     url(r'^$', 'double_entry_system.views.home'),
 
     # akshay
-    url(r'^accList/$', 'double_entry_system.views.accList'),
-    url(r'^accDetail/$', 'double_entry_system.views.accDetail'),
     url(r'^registration/$', 'double_entry_system.views.registration'),
     url(r'^userLogin/$', 'double_entry_system.views.userLogin'),
+    url(r'^myAcc/$', 'double_entry_system.views.myAcc'),
+    url(r'^myAccHomePage/$', 'double_entry_system.views.myAccHomePage'),
+    url(r'^menu/$', 'double_entry_system.views.menu'),
+    url(r'^credit/$', 'double_entry_system.views.credit'),
+    url(r'^debit/$', 'double_entry_system.views.debit'),
+    url(r'^summary/$', 'double_entry_system.views.summary'),
+    url(r'^accounting/$', 'double_entry_system.views.accounting'),
+    url(r'^accountingCredit/$', 'double_entry_system.views.accountingCredit'),
+    url(r'^accountingDebit/$', 'double_entry_system.views.accountingDebit'),
+    url(r'^newUserAccount/$', 'double_entry_system.views.newUserAccount'),
 
 
 ]

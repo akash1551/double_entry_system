@@ -49,14 +49,38 @@ def invalid_login(request):
 def registration(request):
     return render_to_response('html_templates/user/registration.html')
 
-def accList(request):
-    return render_to_response('accList.html')
-
-def accDetail(request):
-    return render_to_response('accountDetail.html')
-
 def userLogin(request):
     return render_to_response('html_templates/user/login.html')
+
+def myAcc(request):
+    return render_to_response('html_templates/user/myAccMaster.html')
+
+def myAccHomePage(request):
+    return render_to_response('html_templates/user/myAccHomePage.html')
+
+def summary(request):
+    return render_to_response('html_templates/user/myAccountSummary.html')
+
+def accounting(request):
+    return render_to_response('html_templates/user/accounting.html')
+
+def accountingCredit(request):
+    return render_to_response('html_templates/user/accountingCredit.html')
+
+def accountingDebit(request):
+    return render_to_response('html_templates/user/accountingDebit.html')
+
+def newUserAccount(request):
+    return render_to_response('html_templates/user/newUserAccount.html')
+
+def menu(request):
+    return render_to_response('html_templates/user/menu.html')
+
+def credit(request):
+    return render_to_response('html_templates/user/credit.html')
+
+def debit(request):
+    return render_to_response('html_templates/user/debit.html')
 
 def logout(request):
     auth.logout(request)

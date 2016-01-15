@@ -8,15 +8,6 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
   // Now set up the states
   $stateProvider
 
-    .state('accList', {
-      url: '/acc_list',
-      templateUrl: '/accList'
-      // controller: 'mudraAppCtrl'
-    })
-    .state('accDetail', {
-      url: '/accDetail',
-      templateUrl: '/accDetail'
-    })
     .state('registration', {
       url: '/registration',
       templateUrl: '/registration'
@@ -24,6 +15,46 @@ mudraApp.config(function($stateProvider, $urlRouterProvider) {
     .state('userLogin', {
       url: '/userLogin',
       templateUrl: '/userLogin'
+    })
+    .state('menu', {
+      url: '/menu',
+      templateUrl: '/menu'
+    })
+    .state('myAcc', {
+      url: '/myAcc',
+      templateUrl: '/myAcc'
+    })
+    .state('myAcc.myAccHomePage', {
+      url: '/myAccHomePage',
+      templateUrl: '/myAccHomePage'
+    })
+    .state('myAcc.credit', {
+      url: '/credit',
+      templateUrl: '/credit'
+    })
+    .state('myAcc.debit', {
+      url: '/debit',
+      templateUrl: '/debit'
+    })
+    .state('myAcc.summary', {
+      url: '/summary',
+      templateUrl: '/summary'
+    })
+    .state('accounting', {
+      url: '/accounting',
+      templateUrl: '/accounting'
+    })
+    .state('newUserAccount', {
+      url: '/newUserAccount',
+      templateUrl: '/newUserAccount'
+    })
+    .state('accounting.accountingCredit', {
+      url: '/accountingCredit',
+      templateUrl: '/accountingCredit'
+    })
+    .state('accounting.accountingDebit', {
+      url: '/accountingDebit',
+      templateUrl: '/accountingDebit'
     });
 
  });

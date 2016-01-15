@@ -148,3 +148,54 @@
     margin-top: 0px;
   }
 }
+.menu_section .menu_section_holder {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+.menu_section .menu_section_holder .menu_wrapper {
+  border: 1px solid #FFF;
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+.menu_section .menu_section_holder .menu_wrapper:hover {
+  border: 1px solid #404952;
+}
+.menu_section .menu_section_holder .menu_wrapper .menu_name {
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+.section_myAcc .holder_myAcc {
+  width: 400px;
+  margin: auto;
+  height: 430px;
+  background-color: #f1f1f1;
+  overflow: hidden;
+}
+.section_myAcc .holder_myAcc .header_myAcc {
+  padding: 5px 20px;
+  position: relative;
+  background-color: #bebebe;
+}
+.section_myAcc .holder_myAcc .menu_circular {
+  background-color: #FFF;
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  padding: 5px;
+  display: inline;
+}
+.section_myAcc .holder_myAcc .ellipsis_nav {
+  position: absolute;
+  top: 25px;
+  right: 10px;
+  z-index: 4000;
+  cursor: pointer;
+}
+.section_myAcc .holder_myAcc #slider_cust .menu_slider {
+  width: 100%;
+  padding: 10px;
+  background-color: #f1f1f1;
+  margin-bottom: 10px;
+}
