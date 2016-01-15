@@ -1,4 +1,4 @@
-var mudraApp = angular.module('mudraApp', ['mudraApp.controllers','ui.router','ui-notification', 'ui.bootstrap']);
+var mudraApp = angular.module('mudraApp', ['mudraApp.controllers','mudraApp.services','ui.router','ui-notification', 'ui.bootstrap']);
 
 mudraApp.config(function($stateProvider, $urlRouterProvider) {
   //

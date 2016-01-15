@@ -1,5 +1,5 @@
 angular.module('mudraApp.controllers',[])
-.controller('mudraAppCtrl', function($scope, $timeout, $http, $window, Notification){
+.controller('mudraAppCtrl', function($scope, $timeout, $http, $window, Notification, networkCall){
 	console.log("mudraAppCtrl loaded");
 
  	// register user
@@ -196,10 +196,8 @@ angular.module('mudraApp.controllers',[])
     return '';
   };
 
-  var addAccYear = function(dateOfAcc){
-  	console.log("addAccYear function called");
-  	var newDateOfAcc = dateOfAcc;
-  	var dataPromiss = networkCall.saveNewAccYear(newDateOfAcc);
+  $scope.addAccYear = function(){
+  	var dataPromiss = networkCall.saveNewAccYearRequest($scope.dt.getTime());
   	dataPromiss.then(function(result){
   		console.log("result");
   	});
