@@ -9,6 +9,9 @@ from accounts.models import UserDetail,Group,AccountType,Account,AccountingYear
 import json
 from django import forms
 from django.db import IntegrityError
+import re
+from django.core.urlresolvers import reverse
+
 
 
 #def login(request):
@@ -32,7 +35,8 @@ def user_login(request):
 
     if user is not None:
         auth.login(request,user)
-        return HttpResponse(json.dumps({"validation":"Login Successful","status":True}), content_type="application/json")
+        #return HttpResponseRedirect(reverse(''),json.dumps({"validation":"Login Successful","status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Login Successful","status":True,'redirecturl':"/home"}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"Invalid Login","status":False}), content_type="application/json")
 
@@ -109,8 +113,9 @@ def register_new_user(request):
     address_line1 = json_obj['addressLine1']
     address_line2 = json_obj['addressLine2']
     
-    if UserDetail.objects.filter(contact_no = json_obj['mobileNo0']).exists():
-        return HttpResponse(json.dumps({"validation":"This Mobile Number is already exist.","status":False}), content_type="application/json")
+   # prog = re.compile(r'^\+?(91)?(0|7)\d{9,13}$')
+    #if prog.match(json_obj['mobileNo0']):
+     #   return HttpResponse(json.dumps({"validation":"This Mobile Number is already exist.","status":False}), content_type="application/json")
     contact_no = json_obj['mobileNo0']
     contact_no1 = json_obj['mobileNo1']
     city = json_obj['city']
@@ -154,3 +159,12 @@ def transactions(request):
     print user_list
 
     return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")
+
+def create_new_user_account(request):
+    print request.body    
+    json_obj = json.loads(request.body)
+
+    username = json_obj['userName']
+    contact_no = json_obj['mobileNo0']
+    email = json_obj['email']
+    
