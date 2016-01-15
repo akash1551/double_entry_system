@@ -111,7 +111,9 @@ angular.module('mudraApp.controllers',[])
 		});
 	};
 
-	// datepicker
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++
+// +++++++++++   datepicker  ++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++
 	$scope.today = function() {
     $scope.dt = new Date();
   };
@@ -192,6 +194,14 @@ angular.module('mudraApp.controllers',[])
     }
 
     return '';
+  };
+
+  var addAccYear = function(dateOfAcc){
+  	var newDateOfAcc = dateOfAcc;
+  	var dataPromiss = networkCall.saveNewAccYear(newDateOfAcc);
+  	dataPromiss.then(function(result){
+  		console.log("result");
+  	});
   };
 
 
