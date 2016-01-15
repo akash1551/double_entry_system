@@ -82,6 +82,9 @@ def credit(request):
 def debit(request):
     return render_to_response('html_templates/user/debit.html')
 
+def accountDetailBasedOnYear(request):
+    return render_to_response('html_templates/user/accountDetailBasedOnYear.html')
+
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
