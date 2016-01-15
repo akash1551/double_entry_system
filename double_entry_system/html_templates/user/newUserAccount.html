@@ -16,7 +16,7 @@
 
 				
 				<h5>Group Name*</h5>
-				<select name="" id="" class="form-control">
+				<select ng-options="tem.label for item in items track by item.id" ng-model="selected">
 					<option value="">1</option>
 				</select>
 
