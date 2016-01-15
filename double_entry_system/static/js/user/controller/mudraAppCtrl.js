@@ -197,8 +197,7 @@ angular.module('mudraApp.controllers',[])
   };
 
   $scope.addAccYear = function(){
- 
-  	var dataPromiss = networkCall.saveNewAccYear($scope.dt.getTime());
+  	var dataPromiss = networkCall.saveNewAccYearRequest($scope.dt.getTime());
   	dataPromiss.then(function(result){
   		console.log("result");
   	});
