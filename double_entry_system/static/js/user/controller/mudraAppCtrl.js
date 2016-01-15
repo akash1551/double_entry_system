@@ -203,5 +203,16 @@ angular.module('mudraApp.controllers',[])
   	});
   };
 
+  //newUserAccount
+  $scope.newUserAccount = {};
+
+ $scope.submitUserNewAccForm = function(){
+ 	$scope.userNewAccForm="";
+    // check to make sure the form is completely valid
+    if ($scope.userNewAccForm.$valid) {
+       console.log("form validated");
+    }
+       console.log("validated" + $scope.newUserAccount );
+};
 
 });
