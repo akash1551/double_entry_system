@@ -1,4 +1,4 @@
-angular.module('FrontPageApp.services',[])
+angular.module('mudraApp.services',[])
 .factory('networkCall', function($log,$http) {
 
 	var saveNewAccYear = function(date){
@@ -10,7 +10,7 @@ angular.module('FrontPageApp.services',[])
 
 
 	return{
-		getNotificationCountRequest : getNotificationCountRequest
+		saveNewAccYear : saveNewAccYear
 	}
 });
 
