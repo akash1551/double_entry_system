@@ -10,7 +10,8 @@ import json
 from django import forms
 from django.db import IntegrityError
 import re
-from django.core.urlresolvers import reverse\
+from datetime import datetime
+from datetime import date
 from datetime import timedelta
 
 #def login(request):
@@ -164,29 +165,32 @@ def create_new_user_account(request):
     json_obj = json.loads(request.body)
 
     username = json_obj['userName']
+    first_name = json_obj['first_name']
+    last_name = json_obj['last_name']
+    alias = json_obj['alias']
     contact_no = json_obj['mobileNo0']
+    contact_no1 = json_obj['mobileNo1']
     email = json_obj['email']
     group = json_obj['group']
-    accounttype = json_obj['accounttype']
-    start_date = json_obj['start_date']
-    duration = json_obj['duration']
-    end_date = json_obj['end_date']
-    password = json_obj['password']
 
-    userdetail_obj = UserDetail(contact_no=contact_no,)
+    userdetail_obj = UserDetail(contact_no=mobileNo0,alias=alias,contact_no1=mobileNo1)
     userdetail_obj.save()
 
     group_obj = Group(group=group)
     userdetail_obj.save()
 
-    accounttype_obj = AccountType()
+    user_obj = User(username=username,first_name=first_name,last_name=last_name)
+    User.save()
 
-def add_year(request):
-    print request.body
-    json_obj = json.loads['request.body']
+def add_acc_validity_date(request):
+    print request.POST
+#    json_obj = json.loads['request.POST']
 
-    start_date = json_obj['start_date']
-
-    exp_date = +str(start_date + timedelta(days=365))
-
+    start_date = request.POST['start_date']
+    print start_date
+    date = datetime.datetime.strptime(request.body.get('start_date'),"Y-mm-dd").date()
+    
+    exp_date = +str(date + timedelta(days=365))
+    
+    print exp_date
     return HttpResponse(json.dumps({'exp_date':exp_date}), content_type="application/json")

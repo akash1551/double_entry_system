@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from time import time
+from datetime import date
+from datetime import datetime
 
 # Create your models here.
 
@@ -9,6 +11,7 @@ class UserDetail(models.Model):
 	my_bank_account = models.IntegerField(default=0)
 	my_cash_account = models.IntegerField(default=0)
 	user = models.ForeignKey(User)
+	alias = models.CharField(max_length=100)
 	address_line1 = models.CharField(max_length=200,null=False)
 	address_line2 = models.CharField(max_length=200,null=True)
 	contact_no = models.IntegerField(null=False)
@@ -32,6 +35,13 @@ class AccountingYear(models.Model):
 	end_date = models.DateField()
 	company = models.ForeignKey('Company',null=True)
 	duration = models.IntegerField()
+
+	def __unicode__(self):
+		return unicode(self)
+
+class SelfMadeAccount(models.Model):
+	account_name = models.CharField(max_length=100)
+	opening_balance = models.IntegerField()
 
 class TransactionType(models.Model):
 	RECIEPT = 0
