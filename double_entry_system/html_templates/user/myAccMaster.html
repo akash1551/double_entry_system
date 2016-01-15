@@ -8,7 +8,9 @@
 	    -o-transition: 0.51s ease-in-out;
 	    transition: 0.51s ease-in-out;
 		height: 400px; padding: 10px;
-		width: 400px; background-color: #bebebe; position: absolute; right: -410px; top: 0;
+		z-index: 2000;
+		width: 400px; background-color: #bebebe; position: absolute; right: -410px; 
+		top: 0;
 	}
 	.show_menu{
 		-webkit-transition: 0.51s ease-in-out;
@@ -18,9 +20,10 @@
 		padding: 5px;
 		height: 450px;
 		width: 200px;
-		background-color: #bebebe; 
+		background-color: #249C93; 
 		position: 
-		absolute; right: 0px; top: 0;
+		absolute; right: 0px; top: -5px;
+		right: 0px;
 		z-index: 2000;
 		opacity: 0.9;
 		border: 2px solid #888;
@@ -39,7 +42,7 @@
 				 			<h6>Validity</h6>
 				 		</div>
 				 		<div class="col-xs-5" style="padding-top: 15px;">
-				 			<p class="menu_circular">A+</p>
+				 			<p class="menu_circular" ui-sref="newUserAccount">A+</p>
 				 			<p class="menu_circular">G+</p>
 				 			<p class="menu_circular">Y+</p>
 				 		</div>
