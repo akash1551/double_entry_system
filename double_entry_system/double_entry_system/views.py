@@ -10,9 +10,8 @@ import json
 from django import forms
 from django.db import IntegrityError
 import re
-from django.core.urlresolvers import reverse
-
-
+from django.core.urlresolvers import reverse\
+from datetime import timedelta
 
 #def login(request):
  #   return render_to_response('login.html')
@@ -167,4 +166,27 @@ def create_new_user_account(request):
     username = json_obj['userName']
     contact_no = json_obj['mobileNo0']
     email = json_obj['email']
-    
+    group = json_obj['group']
+    accounttype = json_obj['accounttype']
+    start_date = json_obj['start_date']
+    duration = json_obj['duration']
+    end_date = json_obj['end_date']
+    password = json_obj['password']
+
+    userdetail_obj = UserDetail(contact_no=contact_no,)
+    userdetail_obj.save()
+
+    group_obj = Group(group=group)
+    userdetail_obj.save()
+
+    accounttype_obj = AccountType()
+
+def add_year(request):
+    print request.body
+    json_obj = json.loads['request.body']
+
+    start_date = json_obj['start_date']
+
+    exp_date = +str(start_date + timedelta(days=365))
+
+    return HttpResponse(json.dumps({'exp_date':exp_date}), content_type="application/json")
