@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^transactions/', 'double_entry_system.views.transactions'),
     url(r'^$', 'double_entry_system.views.home'),
+    url(r'^add_year/', 'double_entry_system.views.add_year'),
 
     # akshay
     url(r'^registration/$', 'double_entry_system.views.registration'),
@@ -44,6 +45,4 @@ urlpatterns = [
     url(r'^accountingCredit/$', 'double_entry_system.views.accountingCredit'),
     url(r'^accountingDebit/$', 'double_entry_system.views.accountingDebit'),
     url(r'^newUserAccount/$', 'double_entry_system.views.newUserAccount'),
-
-
 ]
