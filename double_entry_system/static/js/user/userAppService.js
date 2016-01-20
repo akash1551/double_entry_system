@@ -7,10 +7,17 @@ angular.module('mudraApp.services',[])
 		});
 	};
 
+	var addNewAccRequest = function(data){
+		return $http.post("/create_new_user_account/",{newUserAccount:data}).then(function(result){
+			return result.data;
+		});
+	};
+
 
 
 	return{
-		saveNewAccYearRequest : saveNewAccYearRequest
+		saveNewAccYearRequest : saveNewAccYearRequest,
+		addNewAccRequest : addNewAccRequest
 	}
 });
 
