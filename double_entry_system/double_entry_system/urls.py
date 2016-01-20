@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^transactions/', 'double_entry_system.views.transactions'),
     url(r'^$', 'double_entry_system.views.home'),
-    url(r'^add_year/', 'double_entry_system.views.add_year'),
+    url(r'^add_acc_validity_date/', 'double_entry_system.views.add_acc_validity_date'),
 
     # akshay
     url(r'^registration/$', 'double_entry_system.views.registration'),
