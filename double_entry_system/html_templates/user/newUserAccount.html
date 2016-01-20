@@ -1,13 +1,22 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2" style="background-color: #bebebe">
+			<form name="userNewAccForm" ng-submit="submitUserNewAccForm();" novalidate>
 			<div style="">
-				<h5>New Account Name*</h5>
-				<input type="text" class="form-control" placeholder="Name">
+				
+				<div class="form-group" ng-class="{ 'has-error' : userNewAccForm.name.$invalid && !userNewAccForm.name.$pristine }">
+					<h5>New Account Name*</h5>
+					<input type="text" name= "name" ng-model="newUserAccount.userName" class="form-control" placeholder="Name" required>
+					<p class="error_msg" ng-show="userNewAccForm.name.$invalid && !userNewAccForm.name.$pristine" >You name is required.</p>
+				</div>
+
+
 				<h5>Alias for Account</h5>
-				<input type="text" class="form-control" placeholder="Alias Name">
+				<input type="text"  ng-model="newUserAccount.alias" class="form-control" placeholder="Alias Name">
+
+				
 				<h5>Group Name*</h5>
-				<select name="" id="" class="form-control">
+				<select ng-options="tem.label for item in items track by item.id" ng-model="selected">
 					<option value="">1</option>
 				</select>
 
@@ -17,45 +26,46 @@
 				<h5>Name</h5>
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" class="form-control" placeholder="First Name">
+						<input type="text" ng-model="newUserAccount.firstName"class="form-control" placeholder="First Name">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" class="form-control" placeholder="Last Name">
+						<input type="text" ng-model="newUserAccount.lastName" class="form-control" placeholder="Last Name">
 					</div>
 				</div>
 				<h5>Address</h5>
-				<input type="text" class="form-control" placeholder="Address Line 1">
-				<input type="text" class="form-control" placeholder="Address Line 2">
+				<input type="text" ng-model="newUserAccount.addressLine1" class="form-control" placeholder="Address Line 1">
+				<input type="text" ng-model="newUserAccount.addressLine2" class="form-control" placeholder="Address Line 2">
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" class="form-control" placeholder="City">
+						<input type="text" ng-model="newUserAccount.city" class="form-control" placeholder="City">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" class="form-control" placeholder="State">
+						<input type="text" ng-model="newUserAccount.state" class="form-control" placeholder="State">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" class="form-control" placeholder="Country">
+						<input type="text" ng-model="newUserAccount.country"class="form-control" placeholder="Country">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" class="form-control" placeholder="Pin">
+						<input type="text" ng-model="newUserAccount.pin"class="form-control" placeholder="Pin">
 					</div>
 				</div>
 
 				 <h5>Email</h5>
-				<input type="text" class="form-control" placeholder="Email">
+				<input type="text" ng-model="newUserAccount.email" class="form-control" placeholder="Email">
 				<h5>Mobile Number</h5>
-				<input type="text" class="form-control" placeholder="Mobile Number">
+				<input type="text" ng-model="newUserAccount.mobileNo0" class="form-control" placeholder="Mobile Number">
 				<h5>Alternate Mobile Number</h5>
-				<input type="text" class="form-control" placeholder="Alternate Mobile Number">
+				<input type="text" ng-model="newUserAccount.mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
 				<hr>
 				<h5>Opening Balance</h5>
-				<input type="text" class="form-control" placeholder="Opening Balance">
+				<input type="text" ng-model="newUserAccount.openingBalance" class="form-control" placeholder="Opening Balance">
 
 
 			</div>
-			<button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;"> Add User </button>
+			<button ng-disabled="userNewAccForm.$invalid" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" ng-click="submitUserNewAccForm()"> Add User </button>
+			</form>
 
 		</div>
 	</div>
