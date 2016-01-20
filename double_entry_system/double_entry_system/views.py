@@ -129,7 +129,7 @@ def register_new_user(request):
     user_obj.save()
     user_obj.set_password(password)
   
-    userdetail_obj = UserDetail(address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
+    userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1)
     
     if user_obj is not None:
@@ -166,7 +166,8 @@ def transactions(request):
 def create_new_user_account(request):
     print request.body    
     json_obj = json.loads(request.body)
-
+    json_obj=json_obj["newUserAccount"]
+    
     username = json_obj['userName']
     first_name = json_obj['first_name']
     last_name = json_obj['last_name']
@@ -175,15 +176,26 @@ def create_new_user_account(request):
     contact_no1 = json_obj['mobileNo1']
     email = json_obj['email']
     group = json_obj['group']
+    city = json_obj['city']
+    state = json_obj['state']
+    country = json_obj['country']
+    pin_code = json_obj['pincode']
+    opening_balance = json_obj['opening_balance']
 
-    userdetail_obj = UserDetail(contact_no=mobileNo0,alias=alias,contact_no1=mobileNo1)
+    user_obj = User(username=username,first_name=first_name,last_name=last_name)
+    User.save()
+    
+    userdetail_obj = UserDetail(user=user_obj,contact_no=mobileNo0,alias=alias,contact_no1=mobileNo1,city=city,
+        state=state,country=country,pin_code=pincode)
     userdetail_obj.save()
 
     group_obj = Group(group=group)
     userdetail_obj.save()
 
-    user_obj = User(username=username,first_name=first_name,last_name=last_name)
-    User.save()
+    opening_balance_obj = SelfMadeAccount(opening_balance=opening_balance)
+    opening_balance_obj.save()
+
+    return HttpResponse(json.dumps({"validation":"New User and Account registered Successfully","status":True}), content_type="application/json")
 
 def add_acc_validity_date(request):
     print request.POST

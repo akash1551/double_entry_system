@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^transactions/', 'double_entry_system.views.transactions'),
     url(r'^$', 'double_entry_system.views.home'),
     url(r'^add_acc_validity_date/', 'double_entry_system.views.add_acc_validity_date'),
+    url(r'^create_new_user_account/', 'double_entry_system.views.create_new_user_account'),
 
     # akshay
     url(r'^registration/$', 'double_entry_system.views.registration'),
