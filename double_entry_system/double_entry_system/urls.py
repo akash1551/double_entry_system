@@ -20,17 +20,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    # Akash
     url(r'^admin/', admin.site.urls),
-#    url(r'^show_registration_page/', 'double_entry_system.views.show_registration_page'),
-#    url(r'^register_user/', 'double_entry_system.views.register_user'),
     url(r'^register_new_user/$', 'double_entry_system.views.register_new_user'),
     url(r'^user_login/', 'double_entry_system.views.user_login'),
-    #url(r'^auth_view/', 'double_entry_system.views.auth_view'),
     url(r'^account_creation_page/', 'double_entry_system.views.account_creation_page'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^transactions/', 'double_entry_system.views.transactions'),
     url(r'^$', 'double_entry_system.views.home'),
     url(r'^add_acc_validity_date/', 'double_entry_system.views.add_acc_validity_date'),
+    url(r'^create_new_user_account/', 'double_entry_system.views.create_new_user_account'),
+    url(r'^get_group_names_from_db/', 'double_entry_system.views.get_group_names_from_db'),
 
     # akshay
     url(r'^registration/$', 'double_entry_system.views.registration'),
