@@ -201,6 +201,7 @@ angular.module('mudraApp.controllers',[])
   	dataPromiss.then(function(result){
   		console.log("result");
   	});
+  	 $scope.clear();
   };
 
   //newUserAccount

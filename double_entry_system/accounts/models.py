@@ -31,13 +31,11 @@ class AccountType(models.Model):
 	nominal_account = models.IntegerField(default=0)
 
 class AccountingYear(models.Model):
+	user = models.ForeignKey(User)
 	start_date = models.DateField()
 	end_date = models.DateField()
 	company = models.ForeignKey('Company',null=True)
 	duration = models.IntegerField()
-
-	def __unicode__(self):
-		return unicode(self)
 
 class SelfMadeAccount(models.Model):
 	account_name = models.CharField(max_length=100)

@@ -202,6 +202,7 @@ def create_new_user_account(request):
 
     return HttpResponse(json.dumps({"validation":"New User and Account registered Successfully","status":True}), content_type="application/json")
 
+@login_required
 def add_acc_validity_date(request):
     print request.body
     json_obj = json.loads(request.body)
@@ -241,3 +242,17 @@ def get_group_names_from_db(request):
         "STOCK_IN_HAND":"Stock in Hand"}
 
     return HttpResponse(json.dumps({"json_obj":"json_obj"}),content_type="application/json")
+
+@login_required
+def list_of_accounting_years(request):
+    print request.user.id
+    acc_years_list = AccountingYear.objects.filter(id=request.user.id)
+    args = {}
+    AccYearsList = []
+    for i in acc_years_list:
+        obj = {"start_date":i.start_date,"end_date":i.end_date}
+        AccYearsList.append(obj)
+
+    args['AccYearsList'] = AccYearsList
+    print AccYearsList
+    return render_to_response('sample.html',args)
