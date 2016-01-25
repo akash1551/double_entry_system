@@ -8,6 +8,7 @@ from datetime import datetime
 # Create your models here.
 
 class UserDetail(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	my_bank_account = models.IntegerField(default=0)
 	my_cash_account = models.IntegerField(default=0)
 	user = models.ForeignKey(User)
@@ -22,15 +23,23 @@ class UserDetail(models.Model):
 	pin_code = models.IntegerField(null=False)
 
 class Account(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True)
 	accounttype= models.ForeignKey('AccountType')
 	group = models.ForeignKey('Group')
 
 class AccountType(models.Model):
-	real_account = models.IntegerField(default=0)
-	personal_account = models.IntegerField(default=0)
-	nominal_account = models.IntegerField(default=0)
+	created_at = models.DateTimeField(auto_now_add=True,null=True)
+
+	REAL_ACCOUNT = 0
+	PERSONAL_ACCOUNT = 1
+	NOMINAL_ACCOUNT = 2
+
+	ACCOUNTCHOICES = ((REAL_ACCOUNT,"Real Account"),(PERSONAL_ACCOUNT,"Personal Account"),(NOMINAL_ACCOUNT,"Nominal Account"))
+	
+	optionType = models.IntegerField(choices=ACCOUNTCHOICES)
 
 class AccountingYear(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	user = models.ForeignKey(User)
 	start_date = models.DateField()
 	end_date = models.DateField()
@@ -38,8 +47,16 @@ class AccountingYear(models.Model):
 	duration = models.IntegerField()
 
 class SelfMadeAccount(models.Model):
-	account_name = models.CharField(max_length=100)
+	created_at = models.DateTimeField(auto_now_add=True,null=True)
+	account = models.ManyToManyField('DebtorAndCreditor',related_name='DebtorAndCreditor_account')
 	opening_balance = models.IntegerField()
+
+class DebtorAndCreditor(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True,null=True)
+	debtor_name = models.CharField(max_length=100,null=True)
+	creditor_name = models.CharField(max_length=100,null=True)
+	debit_amount = models.IntegerField(null=True)
+	credit_amount = models.IntegerField(null=True)
 
 class TransactionType(models.Model):
 	RECIEPT = 0
@@ -47,8 +64,13 @@ class TransactionType(models.Model):
 	SALE = 2
 	CONTRA = 3
 	JOURNAL = 4
+	PURCHASE = 5
+	DEBIT_NOTE = 6
+	CREDIT_NOTE = 7
+	MEMO = 8
 
-	PAYMENTCHOICES = ((RECIEPT, "Reciept"), (PAYMENT, "Payment"), (SALE, 'Sale'), (CONTRA, 'Contra'),(JOURNAL,'Journal'))
+	PAYMENTCHOICES = ((RECIEPT, "Reciept"), (PAYMENT, "Payment"), (SALE, 'Sale'), (CONTRA, 'Contra'),(JOURNAL,'Journal'),
+	(PURCHASE,"Purchase"),(DEBIT_NOTE,"Debit Note"),(CREDIT_NOTE,"Crdit Note"),(MEMO,"Memo"))
 	
    	optionType = models.IntegerField(choices=PAYMENTCHOICES)
 
