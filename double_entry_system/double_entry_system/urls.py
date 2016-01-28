@@ -30,7 +30,6 @@ urlpatterns = [
     url(r'^$', 'double_entry_system.views.home'),
     url(r'^add_acc_validity_date/$', 'double_entry_system.views.add_acc_validity_date'),
     url(r'^create_new_user_account/$', 'double_entry_system.views.create_new_user_account'),
-    url(r'^get_group_names_from_db/$', 'double_entry_system.views.get_group_names_from_db'),
     url(r'^list_of_accounting_years/$', 'double_entry_system.views.list_of_accounting_years'),
     url(r'^my_cash_accounts/$', 'double_entry_system.views.my_cash_accounts'),
     url(r'^my_bank_accounts/$', 'double_entry_system.views.my_bank_accounts'),
@@ -47,6 +46,8 @@ urlpatterns = [
     url(r'^search_account_names/$', 'double_entry_system.views.search_account_names'),
     url(r'^show_all_debit/$', 'double_entry_system.views.show_all_debit'),
     url(r'^show_all_credit/$', 'double_entry_system.views.show_all_credit'),
+    url(r'^get_groups_from_db/$', 'double_entry_system.views.get_groups_from_db'),
+    url(r'^send_account_names/$', 'double_entry_system.views.send_account_names'),
 
 
     # akshay
