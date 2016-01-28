@@ -43,6 +43,10 @@ urlpatterns = [
     url(r'^show_all_creditors/$', 'double_entry_system.views.show_all_creditors'),
     url(r'^show_all_debtors/$', 'double_entry_system.views.show_all_debtors'),
     url(r'^add_debit_amount/$', 'double_entry_system.views.add_debit_amount'),
+    url(r'^show_account_names/$', 'double_entry_system.views.show_account_names'),
+    url(r'^search_account_names/$', 'double_entry_system.views.search_account_names'),
+    url(r'^show_all_debit/$', 'double_entry_system.views.show_all_debit'),
+    url(r'^show_all_credit/$', 'double_entry_system.views.show_all_credit'),
 
 
     # akshay
