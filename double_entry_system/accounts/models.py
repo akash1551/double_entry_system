@@ -24,8 +24,11 @@ class UserDetail(models.Model):
 
 class Account(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
-	accounttype= models.ForeignKey('AccountType')
+	accounttype= models.ForeignKey('AccountType',null=True)
+	account_name = models.CharField(max_length=100)
+	account = models.ManyToManyField('DebtorAndCreditor')
 	group = models.ForeignKey('Group')
+	description = models.TextField()
 
 class AccountType(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
@@ -40,7 +43,7 @@ class AccountType(models.Model):
 
 class AccountingYear(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User,null=True)
 	start_date = models.DateField()
 	end_date = models.DateField()
 	company = models.ForeignKey('Company',null=True)
@@ -50,6 +53,7 @@ class SelfMadeAccount(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	account = models.ManyToManyField('DebtorAndCreditor',related_name='DebtorAndCreditor_account')
 	opening_balance = models.IntegerField()
+	account_name = models.CharField(max_length=100)
 
 class DebtorAndCreditor(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
