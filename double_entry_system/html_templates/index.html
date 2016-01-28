@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>
-		Mudra
-	</title>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			Mudra
+		</title>
 
-	{% load staticfiles %}
-	<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
-	<!-- <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}"> -->
-	<link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
+		<!-- <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}"> -->
+		<link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
 
-</head>
-<body>
+	</head>
+	<body>
 
-	<button class="btn btn-default" ui-sref="registration">Register</button>
-	<a href="/userLogin/" style="text-decoration: none;">
-	<button class="btn btn-default">Login</button>
-	</a>
-	<button class="btn btn-default" ui-sref="myAcc">MyAcc</button>
-	<button class="btn btn-default" ui-sref="menu">menu</button>
-	<button class="btn btn-default" ui-sref="myAcc.credit">credit</button>
-	<button class="btn btn-default" ui-sref="myAcc.debit">debit</button>
-	<button class="btn btn-default" ui-sref="accounting">accounting</button>
-	<button class="btn btn-default" ui-sref="newUserAccount">newUserAccount</button>
-
-
-	{% block pageContainer %}
-
-	{% endblock %}
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="{% static 'jquery.min.js' %}"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
-	<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
-	<script src="{% static 'js/user/login.js' %}"></script>
-	<!-- <script src="{% static 'bower_components/angular/angular.min.js' %}"></script> -->
-	<!-- <script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script> -->
-	<!-- <script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script> -->
-	<!-- <script src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script> -->
+		<button class="btn btn-default" ui-sref="registration">Register</button>
+		<a href="/userLogin/" style="text-decoration: none;">
+		<button class="btn btn-default">Login</button>
+		</a>
+		<button class="btn btn-default" ui-sref="myAcc">MyAcc</button>
+		<button class="btn btn-default" ui-sref="menu">menu</button>
+		<button class="btn btn-default" ui-sref="myAcc.credit">credit</button>
+		<button class="btn btn-default" ui-sref="myAcc.debit">debit</button>
+		<button class="btn btn-default" ui-sref="accounting">accounting</button>
+		<button class="btn btn-default" ui-sref="newUserAccount">newUserAccount</button>
 
 
-   <!--  <script src="{% static 'js/user/userApp.js' %}"></script>
-	<script src="{% static 'js/user/userAppService.js' %}"></script>
-	<script src="{% static 'js/user/controller/mudraAppCtrl.js' %}"></script> -->
-</body>
+		{% block pageContainer %}
+
+		{% endblock %}
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="{% static 'jquery.min.js' %}"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
+		<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
+		<script src="{% static 'js/user/login.js' %}"></script>
+		<!-- <script src="{% static 'bower_components/angular/angular.min.js' %}"></script> -->
+		<!-- <script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script> -->
+		<!-- <script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script> -->
+		<!-- <script src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script> -->
+
+
+	   <!--  <script src="{% static 'js/user/userApp.js' %}"></script>
+		<script src="{% static 'js/user/userAppService.js' %}"></script>
+		<script src="{% static 'js/user/controller/mudraAppCtrl.js' %}"></script> -->
+	</body>
 </html>
