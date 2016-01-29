@@ -1,7 +1,15 @@
-<div class="container">
+{% extends 'html_templates/user/accounting.html' %}
+
+{% block childPageContainer %}
+
+{% load staticfiles %}
+{% verbatim %}
+<!-- <div class="container"> -->
 	<div class="row">
 		 <div class="col-sm-12">
 		 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum expedita aspernatur, illo obcaecati placeat consectetur, provident eveniet deleniti laudantium facilis ullam exercitationem vel atque rem natus rerum, facere pariatur velit!</p>
 		 </div>
 	</div>
-</div>
+<!-- </div> -->
+{% endverbatim %}
+{% endblock %}

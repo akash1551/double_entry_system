@@ -7,19 +7,27 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2" style="background-color: #bebebe; height: 400px;">
-			 <p>datepicker</p>
-			 <select class="form-control">
-			 	<option value="">1</option>
-			 	<option value="">2</option>
-			 </select>
-			 <div style="max-width: 150px; margin: auto;">
-				 <div class="btn btn-group" >
-				 	<button class="btn btn-primary" ui-sref="accounting.accountingCredit">Credit</button>
-				 	<button class="btn btn-primary" ui-sref="accounting.accountingDebit">Debit</button>
-				 </div>
-			 </div>
+			<p>datepicker</p>
+			<select class="form-control">
+				<option value="">1</option>
+				<option value="">2</option>
+			</select>
+			<div style="max-width: 150px; margin: auto;">
+				<div class="btn btn-group" >
+					<a href="/accountingCredit/" style="text-decoration: none;">
+						<button class="btn btn-primary">Credit</button>
+					</a>
+					<a href="/accountingDebit/" style="text-decoration: none;">
+						<button class="btn btn-primary">Debit</button>
+					</a>
+				</div>
+			</div>
+{% endverbatim %}
+			{% block childPageContainer %}
 
-			 <div ui-view></div>
+			{% endblock %}
+{% verbatim %}
+			<!-- <div ui-view></div> -->
 		</div>
 	</div>
 </div>

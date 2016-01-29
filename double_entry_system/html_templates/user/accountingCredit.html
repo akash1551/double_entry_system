@@ -1,4 +1,10 @@
-<div class="container">
+{% extends 'html_templates/user/accounting.html' %}
+
+{% block childPageContainer %}
+
+{% load staticfiles %}
+{% verbatim %}
+<!-- <div class="container"> -->
 	<div class="row">
 		 <div class="col-sm-12">
 		 	<div class="row">
@@ -23,4 +29,6 @@
 		 	</div>
 		 </div>
 	</div>
-</div>
+<!-- </div> -->
+{% endverbatim %}
+{% endblock %}
