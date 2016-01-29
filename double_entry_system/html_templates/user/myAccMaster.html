@@ -1,3 +1,8 @@
+{% extends 'html_templates/index.html' %}
+
+{% block pageContainer %}
+
+{% load staticfiles %}
 <style>
 	.icon_acc{
 		width: 40px; height: 40px; border-radius: 30px; background-color: #bebebe; display: inline; padding: 10px; font-weight: bold; cursor: pointer; cursor: hand;
@@ -9,7 +14,7 @@
 	    transition: 0.51s ease-in-out;
 		height: 400px; padding: 10px;
 		z-index: 2000;
-		width: 400px; background-color: #bebebe; position: absolute; right: -410px; 
+		width: 400px; background-color: #bebebe; position: absolute; right: -410px;
 		top: 0;
 	}
 	.show_menu{
@@ -20,8 +25,8 @@
 		padding: 5px;
 		height: 450px;
 		width: 200px;
-		background-color: #249C93; 
-		position: 
+		background-color: #249C93;
+		position:
 		absolute; right: 0px; top: -5px;
 		right: 0px;
 		z-index: 2000;
@@ -63,7 +68,7 @@
 					 							<div style="display:inline-block; min-height:290px;">
 					 								<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
 					 							</div>
-				 							</div>	
+				 							</div>
 				 						</div>
 				 						<div class="modal-footer">
 				 							<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAccYear();">save</button>
@@ -88,14 +93,14 @@
 				 		</div>
 				 	</div>
 
-				 	
+
 				 </div>
 				 <div ui-view></div>
 			</div>
 		</div>
 	</div>
-</div>	
-{% endverbatim %}	
+</div>
+{% endverbatim %}
 
 <script>
 	$('document').ready(function(){
@@ -109,3 +114,5 @@
 		});
 	});
 </script>
+
+{% endblock %}
