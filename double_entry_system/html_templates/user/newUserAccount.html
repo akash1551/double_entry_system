@@ -1,9 +1,15 @@
+{% extends 'html_templates/index.html' %}
+
+{% block pageContainer %}
+
+{% load staticfiles %}
+{% verbatim %}
 <div class="container">
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2" style="background-color: #bebebe">
 			<form name="userNewAccForm" ng-submit="submitUserNewAccForm();" novalidate>
 			<div style="">
-				
+
 				<div class="form-group" ng-class="{ 'has-error' : userNewAccForm.name.$invalid && !userNewAccForm.name.$pristine }">
 					<h5>New Account Name*</h5>
 					<input type="text" name= "name" ng-model="newUserAccount.userName" class="form-control" placeholder="Name" required>
@@ -14,7 +20,7 @@
 				<h5>Alias for Account</h5>
 				<input type="text"  ng-model="newUserAccount.alias" class="form-control" placeholder="Alias Name">
 
-				
+
 				<h5>Group Name*</h5>
 				<select ng-options="tem.label for item in items track by item.id" ng-model="selected">
 					<option value="">1</option>
@@ -70,3 +76,5 @@
 		</div>
 	</div>
 </div>
+{% endverbatim %}
+{% endblock %}
