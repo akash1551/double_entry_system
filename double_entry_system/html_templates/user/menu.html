@@ -1,16 +1,28 @@
+{% extends 'html_templates/index.html' %}
+
+{% block pageContainer %}
+
+{% load staticfiles %}
+{% verbatim %}
 <div class="container menu_section">
 	<div class="row">
 		<div class=" col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2 menu_section_holder">
-			 <div class="menu_wrapper">
-			 	<p class="menu_name" ui-sref="myAcc"> My Account</p>
-			 </div>
-			 <div class="menu_wrapper">
-			 	<p class="menu_name" ui-sref="accounting"> Event Accounting</p>
-			 </div>
-			 <div class="menu_wrapper">
-			 	<p class="menu_name"> Other Accounts</p>
-			 </div>
-		
+			<a href="/myAcc/" style="text-decoration: none;">
+				<div class="menu_wrapper">
+					<p class="menu_name"> My Account</p>
+				</div>
+			</a>
+			<a href="/accounting/" style="text-decoration: none;">
+				<div class="menu_wrapper">
+					<p class="menu_name" ui-sref="accounting"> Event Accounting</p>
+				</div>
+			</a>
+				<div class="menu_wrapper">
+					<p class="menu_name"> Other Accounts</p>
+				</div>
+
 	</div>
 	</div>
 </div>
+{% endverbatim %}
+{% endblock %}
