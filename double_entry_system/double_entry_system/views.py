@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from accounts.models import UserDetail,Group,AccountType,Account,AccountingYear,TransactionType
-from accounts.models import SelfMadeAccount,DebtorAndCreditor
+from accounts.models import Transaction
 import json
 from django import forms
 from django.db import IntegrityError
@@ -16,6 +16,10 @@ from datetime import date
 from datetime import timedelta
 import time
 import datetime
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+
+
 
 
 def home(request):
@@ -91,14 +95,10 @@ def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
 
-
-#def register_user(request):
- #   return render_to_response('register_user.html')
-
 def register_new_user(request):
     print request.body
     json_obj=json.loads(request.body)
-    #json_obj=json_obj['newUser']
+    json_obj=json_obj['userInfo']
 
     if User.objects.filter(username = json_obj['userName']).exists():
         print "Username already Exist."
@@ -175,8 +175,8 @@ def create_new_user_account(request,user_id=None):
 #    json_obj=json_obj["newUserAccount"]
     username = json_obj['username']
     account_name = json_obj['account_name']
-    alias = json_obj['alias']
-    group = json_obj['group']
+    alias = json_obj['alias']   
+    group = json_obj['group']   
     first_name = json_obj['firstName']
     last_name = json_obj['lastName']
     address_line1 = json_obj['addressLine1']
@@ -204,6 +204,26 @@ def create_new_user_account(request,user_id=None):
     opening_balance_obj.save()
 
     return HttpResponse(json.dumps({"validation":"New User and Account registered Successfully","status":True}), content_type="application/json")
+
+def list_of_accounting_years(request):
+    print request.user
+    acc_years_list = AccountingYear.objects.all()
+    AccYearsList = []
+    for i in acc_years_list:
+        start_date = str(i.start_date)
+        print start_date
+        start_date = int(time.mktime(time.strptime(start_date,'%Y-%m-%d')))
+        obj = {"start_date":start_date}
+        AccYearsList.append(obj)
+        print start_date
+
+        end_date = str(i.end_date)
+        end_date = int(time.mktime(time.strptime(end_date,'%Y-%m-%d')))
+        obj = {"end_date":end_date}
+        AccYearsList.append(obj)
+        print end_date
+
+    return HttpResponse(json.dumps({"AccYearsList":AccYearsList}), content_type="application/json")
 
 def get_groups_from_db1(request):
 
@@ -244,10 +264,7 @@ def add_acc_validity_date(request):
     end_date_as_string = datetime.datetime.strftime(end_date,'%Y-%m-%d')
     print end_date_as_string
     
-
     accountingyear_obj = AccountingYear(start_date=start_date_as_string,end_date=end_date_as_string,duration=1)
-    #accountingyear_obj_list = []
-    #accountingyear_obj_list.append(accountingyear_obj)
     accountingyear_obj.save()
 
     end_date_in_epoch = int(time.mktime(time.strptime(end_date_as_string,'%Y-%m-%d')))
@@ -255,35 +272,13 @@ def add_acc_validity_date(request):
     print end_date_in_epoch    
     return HttpResponse(json.dumps({'exp_date':end_date_in_epoch}), content_type="application/json")
     
-def list_of_accounting_years(request):
-
-    print request.user
-    acc_years_list = AccountingYear.objects.all()
-    AccYearsList = []
-    for i in acc_years_list:
-        start_date = str(i.start_date)
-        print start_date
-        start_date = int(time.mktime(time.strptime(start_date,'%Y-%m-%d')))
-        obj = {"start_date":start_date}
-        AccYearsList.append(obj)
-        print start_date
-
-        end_date = str(i.end_date)
-        end_date = int(time.mktime(time.strptime(end_date,'%Y-%m-%d')))
-        obj = {"end_date":end_date}
-        AccYearsList.append(obj)
-        print end_date
-
-
-
-    return HttpResponse(json.dumps({"AccYearsList":AccYearsList}), content_type="application/json")
 
 def my_cash_accounts(request):
     print request.user
     acc_years_list = AccountingYear.objects.filter(id=request.user.id)
     start_date = datetime.date(2016, 1, 20)
     end_date = datetime.date(2017, 1, 19)
-    cash_account_balance = UserDetail.objects.filter(created_at__range=(start_date,end_date))
+    cash_account_balance = Account.objects.filter(created_at__range=(start_date,end_date))
 
     cash_account_balance_list = []
     for i in cash_account_balance:
@@ -299,7 +294,7 @@ def my_bank_accounts(request):
     acc_years_list = AccountingYear.objects.filter(id=request.user.id)
     start_date = datetime.date(2016, 1, 20)
     end_date = datetime.date(2017, 1, 19)
-    bank_account_balance = UserDetail.objects.filter(created_at__range=(start_date,end_date))
+    bank_account_balance = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
 
     bank_account_balance_list = []
     for i in bank_account_balance:
@@ -330,91 +325,39 @@ def show_all_creditors(request):
         creditors_details_list.append(obj)
 
     print creditors_details_list
-   
-#    args['creditors_details_list'] = creditors_details_list
 
     return HttpResponse(json.dumps({"creditors_details_list":creditors_details_list}), content_type="application/json")
 
-def show_debtor(request):
-    print request.user
-    debtor = DebtorAndCreditor.objects.get(id=request.user.id)
-    args = {}
-    debtor_detail = []
-
-    obj = {"debtor_name":debtor.debtor_name,"debtor_amount":debtor.debit_amount}
-    debtor_detail.append(obj)
-    args['debtor_detail'] = debtor_detail
-    print debtor.debtor_name,debtor.debit_amount
-
-    return render_to_response('sample.html',args)
-
-def show_creditor(request):
-    print request.user
-    creditor = DebtorAndCreditor.objects.get(id=request.user.id)
-    args = {}
-    creditor_detail = []
-
-    obj = {"creditor_name": creditor.creditor_name,"credit_amount":creditor.credit_amount}
-    creditor_detail.append(obj)
-    args['creditor_detail'] = creditor_detail
-    print creditor.creditor_name, creditor.credit_amount
-    return render_to_response('sample.html',args)
-
-def search_SelfMadeAccount(request):
-    selfmadeaccount_obj = SelfMadeAccount.objects.filter(id=request.user.id)
-    args = {}
-    selfmadeaccount_obj_list = []
-
-    for i in selfmadeaccount_obj:
-        obj = {"account":i.account}
-        selfmadeaccount_obj_list.append(obj)
-
-    args['selfmadeaccount_obj_list'] = selfmadeaccount_obj_list
-    print selfmadeaccount_obj_list
-    return render_to_response('sample.html',args)
-
-@login_required
 def search_Transaction(request):
-    transactiontype_obj = TransactionType.objects.filter(id=request.user.id)
-    args = {}
-    transactiontype_obj_list = []
+    transactiontype_obj = TransactionType.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
 
+    transactionList = []
     for i in transactiontype_obj:
-        obj = {"RECIEPT":i.RECIEPT,"PAYMENT":i.PAYMENT,"CONTRA":i.CONTRA,"JOURNAL":i.JOURNAL,"SALE":i.SALE}
-        transactiontype_obj_list.append(obj)
+        [transactionList.append({'choice_name':dict(TransactionType.PAYMENTCHOICES)[i], 'id': i, 'is_selected': False}) for i in dict(TransactionType.PAYMENTCHOICES)]
+    print transactionList
+    return HttpResponse(json.dumps({"transactionList": transactionList,"status": True}), content_type="application/json")
 
-    args['transactiontype_obj_list'] = transactiontype_obj_list
-    return  render_to_response('sample.html',args)
-
-@login_required
 def show_all_transactions(request):
-    transactiontype_obj = TransactionType.objects.filter(id=request.user.id)
-    args = {}
-    transactiontype_obj_list = []
+    transactiontype_obj = TransactionType.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
 
-    print transactiontype_obj
-
+    transactionList = []
     for i in transactiontype_obj:
-        obj = {"RECIEPT":i.RECIEPT,"PAYMENT":i.PAYMENT,"CONTRA":i.CONTRA,"JOURNAL":i.JOURNAL,"SALE":i.SALE}
-        transactiontype_obj_list.append(obj)
+        [transactionList.append({'choice_name':dict(TransactionType.PAYMENTCHOICES)[i], 'id': i, 'is_selected': False}) for i in dict(TransactionType.PAYMENTCHOICES)]
+    print transactionList
+    return HttpResponse(json.dumps({"transactionList": transactionList,"status": True}), content_type="application/json")
 
-    args['transactiontype_obj_list'] = transactiontype_obj_list
-    print transactiontype_obj_list
-    return  render_to_response('sample.html',args)
-
-@login_required
 def show_transaction(request):
     print request.user
-    transactiontype_obj= TransactionType.objects.get(id=request.user.id)
-    print transactiontype_obj
+    try:
+        transactiontype_obj= TransactionType.objects.get(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
+    except TransactionType.DoesNotExist:
+        print "No Transaction."
+        return HttpResponse(json.dumps({"validation": "No Transactions For This User","status": False}), content_type="application/json")
     
-    args = {}
-    args['transactiontype_obj'] = transactiontype_obj
-
-    return render_to_response('sample.html',args)
+    return HttpResponse(json.dumps({"transactiontype_obj": transactiontype_obj,"status": True}), content_type="application/json")
 
 def send_account_names(request):
-    obj = Account.objects.all()
+    obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
 
     account_name_list = []
 
@@ -424,88 +367,113 @@ def send_account_names(request):
     print account_name_list
     return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
 
+def add_credit_transaction(request):
+    if request.user.is_authenticated():
+        print request.user
+        json_obj = json.loads(request.body)
+        
 
-def add_debit_amount(request):
-    print request.user
-    json_obj = json.loads(request.body)
+        for i in json_obj:
+            amount = i['credit_amount']
+            account_id = i['account_id']
+            transactiontype = i['transactiontype']
+            account_name_obj = Account.objects.get(id=account_id)
+            transactiontype_obj = TransactionType(optionType=transactiontype)
+            transactiontype_obj.save()
+            transaction_queries = Transaction(credit_amount=amount,transactiontype=transactiontype_obj)
+            transaction_queries.save()
 
-    total_debit_amount = 0
-    
-    debit_obj_list = []
-    account_name_obj_list =[]
-    
-    for i in json_obj:
-        amount = i['debit_amount']
-        account_name = i['account_name']
-        total_debit_amount = total_debit_amount + amount
-        account_name_obj_list.append(account_name)
-    print account_name_obj_list       
-    print total_debit_amount
+        print transactiontype_obj
 
-    debitandcredit_obj = DebtorAndCreditor.objects.get(id=1)
+        return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not Loggedin for this transaction.","status":True}), content_type="application/json")
 
-    debitandcredit_obj.debit_amount = debitandcredit_obj.debit_amount + total_debit_amount
-    debitandcredit_obj.save()
-    print debitandcredit_obj.debit_amount
+def add_debit_transaction(request):
+    if request.user.is_authenticated():
+        print request.user
+        json_obj = json.loads(request.body)
 
-    account_names_obj = Account.objects.get(id=1)
+        for i in json_obj:
+            amount = i['debit_amount']
+            account_id = i['account_id']
+            transactiontype = i['transactiontype']
+            account_name_obj = Account.objects.get(id=account_id)
+            transactiontype_obj = TransactionType(optionType=transactiontype)
+            transactiontype_obj.save()
+            transaction_queries = Transaction(debit_amount=amount,transactiontype=transactiontype_obj)
+            transaction_queries.save()
 
-    return render_to_response('sample.html')
+        print transactiontype_obj
 
-    #if j.debit_amount > 0:
-     #   date = i.created_at.strftime('%s')
-      #  obj = {"account_name":i.account_name,"description":i.description,"debit_amount":j.debit_amount,"created_at":date}
-       # debit_obj_list.append(obj)
-    #print debit_obj_list"""
+        return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not Loggedin for this transaction.","status":True}), content_type="application/json")
+
 
 def show_account_names(request):
-    account_name_obj = SelfMadeAccount.objects.filter(id=request.user.id)
-    account_name_list = []
+     if request.user.is_authenticated:
+        account_name_obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
+        account_name_list = []
 
-    for i in account_name_obj:
-        obj = {"account_name":i.account_name}
-        account_name_list.append(obj)
-    
-    print account_name_list 
-    return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
+        for i in account_name_obj:
+            date = i.created_at.strftime('%s')
+            obj = {"account_name":i.account_name,"created_at":date}
+            account_name_list.append(obj)
+        
+        print account_name_list 
+        return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
 
 def search_account_names(request):
-    account_name_obj = SelfMadeAccount.objects.filter(id=request.user.id)
-    account_name_list = []
+    if request.user.is_authenticated:
+        account_name_obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
+        account_name_list = []
 
-    for i in account_name_obj:
-        obj = {"account_name":i.account_name}
-        account_name_list.append(obj)
-    
-    print account_name_list 
-    return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
+        for i in account_name_obj:
+            date = i.created_at.strftime('%s')
+            obj = {"account_name":i.account_name,"created_at":date}
+            account_name_list.append(obj)
+        
+        print account_name_list 
+        return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
 
 def show_all_debit(request):
-    debit_obj = Account.objects.filter(id=request.user.id)
-    debit_obj_list = []
+    if request.user.is_authenticated():
+        print request.user
+        debit_obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
+        debit_obj_list = []
 
-    for i in debit_obj:
-        debitandcredit_queries = i.account.all()
-        for j in debitandcredit_queries:
-            if j.debit_amount > 0:
-                date = i.created_at.strftime('%s')
-                obj = {"account_name":i.account_name,"debit_amount":j.debit_amount,"created_at":date}
-                debit_obj_list.append(obj)
-    print debit_obj_list
-    return HttpResponse(json.dumps({"debit_obj_list":debit_obj_list}), content_type="application/json")
+        for i in debit_obj:
+            obj1 = {"account_name":i.account_name}                                                                                           
+            #credit_obj_list.append(obj1)                
+            transaction_queries = i.transaction.all()
+            for j in transaction_queries:
+                if j.debit_amount > 0:
+                    date = i.created_at.strftime('%s')
+                    obj2 = {"debit_amount":j.debit_amount,"created_at":date}
+                    obj2.add(obj1)
+                    debit_obj_list.append(obj2)
+            
+        print debit_obj_list
+        return HttpResponse(json.dumps({"debit_obj_list":debit_obj_list}), content_type="application/json")
 
 def show_all_credit(request):
-    print request.user.id
-    credit_obj = Account.objects.filter(id=request.user.id)
-    credit_obj_list = []
+    if request.user.is_authenticated():
+        print request.user
 
-    for i in credit_obj:
-        debitandcredit_queries = i.account.all()
-        for j in debitandcredit_queries:
-            if j.credit_amount > 0:
-                date = i.created_at.strftime('%s')
-                obj = {"account_name":i.account_name,"credit_amount":j.credit_amount,"created_at":date}
-                credit_obj_list.append(obj)
+        credit_obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
+        credit_obj_list = []
+
+        for i in credit_obj:
+            obj1 = {"account_name":i.account_name}                                                                                           
+        #credit_obj_list.append(obj1)                
+            transaction_queries = i.transaction.all()
+            for j in transaction_queries:
+                if j.credit_amount > 0:
+                    date = i.created_at.strftime('%s')
+                    obj2 = {"credit_amount":j.credit_amount,"created_at":date}
+                    obj2.add(obj1)
+                    credit_obj_list.append(obj2)
         
-    print credit_obj_list
-    return HttpResponse(json.dumps({"credit_obj_list":credit_obj_list}), content_type="application/json")
+        print credit_obj_list
+        return HttpResponse(json.dumps({"credit_obj_list":credit_obj_list}), content_type="application/json")
