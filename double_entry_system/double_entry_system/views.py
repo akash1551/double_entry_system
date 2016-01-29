@@ -98,7 +98,7 @@ def logout(request):
 def register_new_user(request):
     print request.body
     json_obj=json.loads(request.body)
-   # json_obj=json_obj['newUser']
+    #json_obj=json_obj['newUser']
 
     if User.objects.filter(username = json_obj['userName']).exists():
         print "Username already Exist."
@@ -169,41 +169,61 @@ def transactions(request):
 
     return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")
 
-def create_new_user_account(request):
+def create_new_user_account(request,user_id=None):
     print request.body    
     json_obj = json.loads(request.body)
-    json_obj=json_obj["newUserAccount"]
-    
-    username = json_obj['userName']
+#    json_obj=json_obj["newUserAccount"]
+    username = json_obj['username']
+    account_name = json_obj['account_name']
+    alias = json_obj['alias']
+    group = json_obj['group']
     first_name = json_obj['firstName']
     last_name = json_obj['lastName']
-    alias = json_obj['alias']
     address_line1 = json_obj['addressLine1']
     address_line2 = json_obj['addressLine2']
-    contact_no = json_obj['mobileNo0']
-    contact_no1 = json_obj['mobileNo1']
-    email = json_obj['email']
-    group = json_obj['group']
     city = json_obj['city']
     state = json_obj['state']
     country = json_obj['country']
     pin_code = json_obj['pincode']
+    email = json_obj['email']
+    contact_no = json_obj['mobileNo0']
+    contact_no1 = json_obj['mobileNo1']
     opening_balance = json_obj['openingBalance']
 
-    user_obj = User(username=username,first_name=first_name,last_name=last_name)
+    user_obj = User(username=username,first_name=first_name,last_name=last_name,email=email)
     user_obj.save()
     
-    userdetail_obj = UserDetail(user=user_obj,contact_no=mobileNo0,alias=alias,contact_no1=mobileNo1,city=city,
-        state=state,country=country,pin_code=pincode)
+    userdetail_obj = UserDetail(user=user_obj,contact_no=contact_no,alias=alias,contact_no1=contact_no1,city=city,
+        state=state,country=country,pin_code=pin_code)
     userdetail_obj.save()
 
-    group_obj = Group(group=group)
-    userdetail_obj.save()
+    group_obj = Group(optionType=group)
+    group_obj.save()
 
-    opening_balance_obj = SelfMadeAccount(opening_balance=opening_balance)
+    opening_balance_obj = SelfMadeAccount(account_name=account_name,opening_balance=opening_balance)
     opening_balance_obj.save()
 
     return HttpResponse(json.dumps({"validation":"New User and Account registered Successfully","status":True}), content_type="application/json")
+
+def get_groups_from_db1(request):
+
+    json_obj = {"BANK_ACCOUNT": "Bank Account","BANK_OCC_AC": "Bank OCC A/C","BRANCH_OR_DIVISION": "Branch/Division","CAPITAL_ACCOUNT": "Capital Account","CASH_IN_HAND":"Cash in Hand","CURRENT_ASSETS":"Current Assets","CURRENT_LIABILITY": "Current Liabilities",
+        "DEPOSITES_ASSETS": "Deposites (Assets)","DIRECT_EXPENSE":"Direct Expense","DIRECT_INCOME":"Direct Income",
+        "DUTY_AND_TAX":"Duty & Tax","EXPENSE_DIRECT":"Expense (Direct)","EXPENSE_INDIRECT":"Expense (Indirect)",
+        "FIXED_ASSETS":"fixed Assets","INCOME_DIRECT":"Income (Direct)","INCOME_INDIRECT":"Income (Indirect)",
+        "INDIRECT_EXPENSE":"Indirect Expense","INDIRECT_INCOME":"Indirect Income","INVESTMENT":"Investments",
+        "LOAN_AND_ADVANCE_ASSETS":"Loan & Advance Assets","LOAN_LIABILITY":"Loan Liability","MISC_EXPENSE_ASSETS":"Misc.Expense Assets",
+        "PROVISION":"Provision","PURCAHSE_ACCOUNT":"Purchase Account","RESERVE_AND_SURPLUS":"Reserve & Surplus",
+        "RETAINED_EARNING":"Retained Earning","SALES_ACCOUNTS":"Sales Accounts","SECURED_LOANS":"Secured Loans",
+        "STOCK_IN_HAND":"Stock in Hand"}
+
+    return HttpResponse(json.dumps({"json_obj":json_obj}),content_type="application/json")
+
+def get_groups_from_db(request):
+    accGroupList = []
+    [accGroupList.append({'choice_name':dict(Group.ACCOUNTCHOICES)[i], 'id': i, 'is_selected': False}) for i in dict(Group.ACCOUNTCHOICES)]
+    # print type_of_property_list
+    return HttpResponse(json.dumps({"accGroupList": accGroupList,"status": True}), content_type="application/json")
 
 def add_acc_validity_date(request):
     print request.body
@@ -234,21 +254,9 @@ def add_acc_validity_date(request):
     print accountingyear_obj.start_date, accountingyear_obj.end_date, accountingyear_obj.duration
     print end_date_in_epoch    
     return HttpResponse(json.dumps({'exp_date':end_date_in_epoch}), content_type="application/json")
-
-def get_group_names_from_db(request):
-    json_obj = {"BANK_ACCOUNT": "Bank Account","BANK_OCC_AC": "Bank OCC A/C","BRANCH_OR_DIVISION": "Branch/Division","CAPITAL_ACCOUNT": "Capital Account","CASH_IN_HAND":"Cash in Hand","CURRENT_ASSETS":"Current Assets","CURRENT_LIABILITY": "Current Liabilities",
-        "DEPOSITES_ASSETS": "Deposites (Assets)","DIRECT_EXPENSE":"Direct Expense","DIRECT_INCOME":"Direct Income",
-        "DUTY_AND_TAX":"Duty & Tax","EXPENSE_DIRECT":"Expense (Direct)","EXPENSE_INDIRECT":"Expense (Indirect)",
-        "FIXED_ASSETS":"fixed Assets","INCOME_DIRECT":"Income (Direct)","INCOME_INDIRECT":"Income (Indirect)",
-        "INDIRECT_EXPENSE":"Indirect Expense","INDIRECT_INCOME":"Indirect Income","INVESTMENT":"Investments",
-        "LOAN_AND_ADVANCE_ASSETS":"Loan & Advance Assets","LOAN_LIABILITY":"Loan Liability","MISC_EXPENSE_ASSETS":"Misc.Expense Assets",
-        "PROVISION":"Provision","PURCAHSE_ACCOUNT":"Purchase Account","RESERVE_AND_SURPLUS":"Reserve & Surplus",
-        "RETAINED_EARNING":"Retained Earning","SALES_ACCOUNTS":"Sales Accounts","SECURED_LOANS":"Secured Loans",
-        "STOCK_IN_HAND":"Stock in Hand"}
-
-    return HttpResponse(json.dumps({"json_obj":json_obj}),content_type="application/json")
-
+    
 def list_of_accounting_years(request):
+
     print request.user
     acc_years_list = AccountingYear.objects.all()
     AccYearsList = []
@@ -405,6 +413,17 @@ def show_transaction(request):
 
     return render_to_response('sample.html',args)
 
+def send_account_names(request):
+    obj = Account.objects.all()
+
+    account_name_list = []
+
+    for i in obj:
+        account_name_obj = {"id":i.id,"account_name":i.account_name}
+        account_name_list.append(account_name_obj)
+    print account_name_list
+    return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
+
 
 def add_debit_amount(request):
     print request.user
@@ -416,8 +435,11 @@ def add_debit_amount(request):
     account_name_obj_list =[]
     
     for i in json_obj:
-        amount = json_obj[i]
+        amount = i['debit_amount']
+        account_name = i['account_name']
         total_debit_amount = total_debit_amount + amount
+        account_name_obj_list.append(account_name)
+    print account_name_obj_list       
     print total_debit_amount
 
     debitandcredit_obj = DebtorAndCreditor.objects.get(id=1)
@@ -426,27 +448,15 @@ def add_debit_amount(request):
     debitandcredit_obj.save()
     print debitandcredit_obj.debit_amount
 
-    return  render_to_response('sample.html')
+    account_names_obj = Account.objects.get(id=1)
 
+    return render_to_response('sample.html')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-""" if j.debit_amount > 0:
-        date = i.created_at.strftime('%s')
-        obj = {"account_name":i.account_name,"description":i.description,"debit_amount":j.debit_amount,"created_at":date}
-        debit_obj_list.append(obj)
-    print debit_obj_list"""
+    #if j.debit_amount > 0:
+     #   date = i.created_at.strftime('%s')
+      #  obj = {"account_name":i.account_name,"description":i.description,"debit_amount":j.debit_amount,"created_at":date}
+       # debit_obj_list.append(obj)
+    #print debit_obj_list"""
 
 def show_account_names(request):
     account_name_obj = SelfMadeAccount.objects.filter(id=request.user.id)
