@@ -9,8 +9,6 @@ from datetime import datetime
 
 class UserDetail(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	my_bank_account = models.IntegerField(default=0)
-	my_cash_account = models.IntegerField(default=0)
 	user = models.ForeignKey(User)
 	alias = models.CharField(max_length=100)
 	address_line1 = models.CharField(max_length=200,null=False)
@@ -21,14 +19,28 @@ class UserDetail(models.Model):
 	state = models.CharField(max_length=50,null=False)
 	country = models.CharField(max_length=100,null=False)
 	pin_code = models.IntegerField(null=False)
+	account = models.ForeignKey('Account',null=True)
 
 class Account(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
-	accounttype= models.ForeignKey('AccountType',null=True)
+	my_bank_account = models.IntegerField(default=0)
+	my_cash_account = models.IntegerField(default=0)
+	accounttype= models.ForeignKey('AccountType',null=False)
 	account_name = models.CharField(max_length=100)
-	account = models.ManyToManyField('DebtorAndCreditor')
+	transaction = models.ManyToManyField('Transaction')
 	group = models.ForeignKey('Group')
+	opening_balance = models.IntegerField()
+
+class Transaction(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True)
 	description = models.TextField()
+	debit_amount = models.IntegerField(null=True)
+	credit_amount = models.IntegerField(null=True)
+	transactiontype = models.ForeignKey('TransactionType')
+
+class Company(models.Model):
+	company_name = models.CharField(max_length=100)
+	company_account = models.ForeignKey('Account',null=True)
 
 class AccountType(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
@@ -43,24 +55,11 @@ class AccountType(models.Model):
 
 class AccountingYear(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
+	accounting_year = models.ForeignKey('Account',null=False)
 	user = models.ForeignKey(User,null=True)
 	start_date = models.DateField()
 	end_date = models.DateField()
-	company = models.ForeignKey('Company',null=True)
 	duration = models.IntegerField()
-
-class SelfMadeAccount(models.Model):
-	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	account = models.ManyToManyField('DebtorAndCreditor',related_name='DebtorAndCreditor_account')
-	opening_balance = models.IntegerField()
-	account_name = models.CharField(max_length=100)
-
-class DebtorAndCreditor(models.Model):
-	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	debtor_name = models.CharField(max_length=100,null=True)
-	creditor_name = models.CharField(max_length=100,null=True)
-	debit_amount = models.IntegerField(null=True)
-	credit_amount = models.IntegerField(null=True)
 
 class TransactionType(models.Model):
 	RECIEPT = 0
@@ -78,8 +77,6 @@ class TransactionType(models.Model):
 	
    	optionType = models.IntegerField(choices=PAYMENTCHOICES)
 
-class Company(models.Model):
-	company_name = models.CharField(max_length=100)
 
 class Group(models.Model):
 	BANK_ACCOUNT = 0
