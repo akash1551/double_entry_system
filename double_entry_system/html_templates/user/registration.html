@@ -1,3 +1,7 @@
+{% extends 'html_templates/index.html' %}
+
+{% block pageContainer %}
+
 {% load staticfiles %}
 <style>
 	.error_msg{
@@ -13,134 +17,97 @@
 	}++++++++++++++++
 
 </style>
-<div class="container user_registrationForm">
+{% verbatim %}
+
+<div class="container user_registrationForm" id="registration">
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2 form_bg_clr">
-			<form name="userForm" ng-submit="submitForm()" novalidate>
+			<form @submit.prevent="submitRegistration">
 			<h3>Register</h3>
 			<hr>
 
 
 			<!-- userName -->
-			<div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
 				<h5>User Name</h5>
 				<div class="row">
 					<div class="col-sm-12">
-					<input type="text" name= "name" class="form-control custom_input_registrationForm_user" placeholder="User Name" ng-model="userAcc.userName" required>
-						<p class="error_msg" ng-show="userForm.name.$invalid && !userForm.name.$pristine" >You name is required.</p>
+						<input type="text" name= "name" class="form-control custom_input_registrationForm_user" placeholder="User Name" v-model="userInfo.userName">
 					</div>
 				</div>
-			</div>
 
 
 			<h5>Password</h5>
 			<div class="row ">
 				<div class="col-sm-6">
-					<input type="password" name="password1" id="password1" class="form-control custom_input_registrationForm_user" placeholder="Password" ng-model="newUser.password" required>
+					<input type="password" name="password1" id="password1" class="form-control custom_input_registrationForm_user" placeholder="Password" v-model="userInfo.password" >
 				</div>
 				<div class="col-sm-6">
-					<input type="password" pw-check="password1" name="password2" id="password2" class="form-control custom_input_registrationForm_user" placeholder="Confirm Password" ng-model="newUser.confirmPassword" required>
-				</div>
-				<div class="msg-block col-sm-12" ng-show="userForm.$error"> 
-					<span class="msg-error" ng-show="userForm.password2.$error.pwmatch">Passwords don't match.</span>
+					<input type="password" pw-check="password1" name="password2" id="password2" class="form-control custom_input_registrationForm_user" placeholder="Confirm Password" v-model="userInfo.confirmPassword">
 				</div>
 			</div>
-			
 
 
-			<div class="form-group" ng-class="{ 'has-error' : newUser.firstName && !newUser.firstName.$pristine&& newUser.lastName 
-			&& !newUser.lastName.$pristine}">
+
 			<h5>Name</h5>
 				<div class="row">
 					<div class="col-sm-6">
-						
-						<input type="text" name="firstName" class="form-control custom_input_registrationForm_user" placeholder="Name" ng-model="newUser.firstName" required=""> 
-						<p class="error_msg" ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block">
-							First Name is Required
-						</p>
+						<input type="text" name="firstName" class="form-control custom_input_registrationForm_user" placeholder="Name" v-model="userInfo.firstName" >
 					</div>
 					<div class="col-sm-6">
-						<input type="text" name="lastName" class="form-control custom_input_registrationForm_user" 
-						placeholder="Last Name" ng-model="newUser.lastName" required="">
-						<p class="error_msg" ng-show="userForm.lastName.$invalid && !userForm.lastName.$pristine" class="help-block">
-							Last Name is Required
-						</p>
+						<input type="text" name="lastName" class="form-control custom_input_registrationForm_user"
+						placeholder="Last Name" v-model="userInfo.lastName" >
 					</div>
 				</div>
-			</div>
 
 			<h5>Address</h5>
-				<div class="form-group" ng-class=" {'has-error ' : newUser.addressLine1 && !newUser.addressLine1.$pristine 
-															&&  newUser.city && !newUser.city.$pristine 
-															&&  newUser.state && !newUser.state.$pristine 
-															&& newUser.pincode && !newUser.pincode.$pristine  
-															&& newUser.country && !newUser.country.$pristine  }">
-					
-					<input type="text" name="addressLine1" class="form-control custom_input_registrationForm_user " placeholder="Address line 1" ng-model="newUser.addressLine1" required>
-						<p class="error_msg" ng-show="userForm.addressLine1.$invalid && !userForm.addressLine1.$pristine" class="help-block">
-							Address is Required
-						</p>
-					<input type="text" class="form-control custom_input_registrationForm_user input_margin_top" placeholder="Address line 2" ng-model="newUser.addressLine2">
-					
+
+					<input type="text" name="addressLine1" class="form-control custom_input_registrationForm_user " placeholder="Address line 1" v-model="userInfo.addressLine1">
+
+					<input type="text" class="form-control custom_input_registrationForm_user input_margin_top" placeholder="Address line 2" v-model="userInfo.addressLine2">
+
 					<div class="row input_margin_top">
 						<div class="col-sm-6">
-							<input type="text" name="city" class="form-control custom_input_registrationForm_user " placeholder="City" ng-model="newUser.city" required="">
-								<p class="error_msg" ng-show="userForm.city.$invalid && !userForm.city.$pristine" class="help-block">
-								City is Required
-								</p>
+							<input type="text" name="city" class="form-control custom_input_registrationForm_user " placeholder="City" v-model="userInfo.city" >
+
 						</div>
 						<div class="col-sm-6">
-							<input type="text" name="state"  class="form-control custom_input_registrationForm_user " placeholder="State" ng-model="newUser.state" required="">
-								<p class="error_msg" ng-show="userForm.state.$invalid && !userForm.state.$pristine" class="help-block">
-								State is Required
-								</p>
+							<input type="text" name="state"  class="form-control custom_input_registrationForm_user " placeholder="State" v-model="userInfo.state" >
 						</div>
 					</div>
 					<div class="row input_margin_top">
 						<div class="col-sm-6">
-							<input type="text" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" ng-model="newUser.pincode" required="" maxlength="6">
-								<p class="error_msg" ng-show="userForm.pincode.$invalid && !userForm.pincode.$pristine" class="help-block">
-								Pin is Required
-								</p>
+							<input type="text" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" v-model="userInfo.pincode"  maxlength="6">
 						</div>
 						<div class="col-sm-6">
-							<input type="text" name="country" class="form-control custom_input_registrationForm_user " placeholder="Country" ng-model="newUser.country" required="">
-							<p class="error_msg" ng-show="userForm.country.$invalid && !userForm.country.$pristine" class="help-block">
-								Country is Required
-								</p>
+							<input type="text" name="country" class="form-control custom_input_registrationForm_user " placeholder="Country" v-model="userInfo.country" >
 						</div>
 					</div>
-				</div>
 
 				<h5>Mobile No</h5>
-				<div class="form-group" ng-class="{ 'has-error' : newUser.mobileNo0 && !newUser.mobileNo0.$pristine}">
 					<div class="row ">
 						<div class="col-sm-6">
-							<input type="text" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" ng-model="newUser.mobileNo0" required="" maxlength="10">
-							<p class="error_msg" ng-show="userForm.mobileNo0.$invalid && !userForm.mobileNo0.$pristine" class="help-block" maxlength="10">
-								mobile Number is Required
-							</p>
+							<input type="text" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" v-model="userInfo.mobileNo0"  maxlength="10">
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" ng-model="newUser.mobileNo1" maxlength="10">
+							<input type="text" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" v-model="userInfo.mobileNo1" maxlength="10">
 						</div>
 					</div>
-				</div>
-				
+
 				<h5>Email</h5>
-				<div class="form-group" ng-class="{ 'has-error' : newUser.email.$invalid && !newUser.email.$pristine }">
 					<div class="row ">
 						<div class="col-sm-12">
-							<input type="email" name="email" class="form-control custom_input_registrationForm_user " placeholder="Email" ng-model="newUser.email" required="">
-							 <p class="error_msg" ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+							<input type="email" name="email" class="form-control custom_input_registrationForm_user " placeholder="Email" v-model="userInfo.email" >
 						</div>
 					</div>
-				</div>
-			
-				<button class="btn btn-primary input_margin_top pull-right" style="margin-left: 10px;" ng-click="signUp();" ng-disabled="userForm.$invalid">Submit</button>
+
+				<button class="btn btn-primary input_margin_top pull-right" style="margin-left: 10px;" type="submit">Submit</button>
 				<button class="btn btn-danger input_margin_top pull-right">Cancel</button>
 
 			</form>
+
+
 		</div>
 	</div>
 </div>
+{% endverbatim %}
+{% endblock %}
