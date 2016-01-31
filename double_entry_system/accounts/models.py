@@ -9,7 +9,10 @@ from datetime import datetime
 
 class UserDetail(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	user = models.ForeignKey(User)
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
+	email = models.TextField()
+	user = models.ForeignKey(User,null=True)
 	alias = models.CharField(max_length=100)
 	address_line1 = models.CharField(max_length=200,null=False)
 	address_line2 = models.CharField(max_length=200,null=True)
@@ -25,11 +28,11 @@ class Account(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	my_bank_account = models.IntegerField(default=0)
 	my_cash_account = models.IntegerField(default=0)
-	accounttype= models.ForeignKey('AccountType',null=False)
+	accounttype= models.ForeignKey('AccountType',null=True)
 	account_name = models.CharField(max_length=100)
 	transaction = models.ManyToManyField('Transaction')
-	group = models.ForeignKey('Group')
-	opening_balance = models.IntegerField()
+	group = models.ForeignKey('Group',null=True)
+	opening_balance = models.IntegerField(null=True)
 
 class Transaction(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -55,7 +58,7 @@ class AccountType(models.Model):
 
 class AccountingYear(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	accounting_year = models.ForeignKey('Account',null=False)
+	account = models.ForeignKey('Account',null=True)
 	user = models.ForeignKey(User,null=True)
 	start_date = models.DateField()
 	end_date = models.DateField()
