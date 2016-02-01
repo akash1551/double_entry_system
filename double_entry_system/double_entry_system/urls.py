@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^register_new_user/$', 'double_entry_system.views.register_new_user'),
     url(r'^user_login/$', 'double_entry_system.views.user_login'),
+    url(r'^logout/$', 'double_entry_system.views.logout'),
     url(r'^account_creation_page/$', 'double_entry_system.views.account_creation_page'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^transactions/$', 'double_entry_system.views.transactions'),
@@ -36,10 +37,6 @@ urlpatterns = [
     url(r'^show_all_transactions/$', 'double_entry_system.views.show_all_transactions'),
     url(r'^show_transaction/$', 'double_entry_system.views.show_transaction'),
     url(r'^search_Transaction/$', 'double_entry_system.views.search_Transaction'),
-    url(r'^show_creditor/$', 'double_entry_system.views.show_creditor'),
-    url(r'^show_debtor/$', 'double_entry_system.views.show_debtor'),
-    url(r'^show_all_creditors/$', 'double_entry_system.views.show_all_creditors'),
-    url(r'^show_all_debtors/$', 'double_entry_system.views.show_all_debtors'),
     url(r'^add_debit_transaction/$', 'double_entry_system.views.add_debit_transaction'),
     url(r'^show_account_names/$', 'double_entry_system.views.show_account_names'),
     url(r'^search_account_names/$', 'double_entry_system.views.search_account_names'),
@@ -48,7 +45,7 @@ urlpatterns = [
     url(r'^get_groups_from_db/$', 'double_entry_system.views.get_groups_from_db'),
     url(r'^send_account_names/$', 'double_entry_system.views.send_account_names'),
     url(r'^add_credit_transaction/$', 'double_entry_system.views.add_credit_transaction'),
-
+    url(r'^add_amount_to_cash_account/$', 'double_entry_system.views.add_amount_to_cash_account'),
 
     # akshay
     url(r'^registration/$', 'double_entry_system.views.registration'),
