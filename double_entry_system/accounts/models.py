@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from time import time
 from datetime import date
 from datetime import datetime
+from django.utils.encoding import python_2_unicode_compatible
+
 
 # Create your models here.
 
@@ -24,6 +26,9 @@ class UserDetail(models.Model):
 	pin_code = models.IntegerField(null=False)
 	account = models.ForeignKey('Account',null=True)
 
+	def __unicode__(self):
+		return self.first_name
+
 class Account(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	my_bank_account = models.IntegerField(default=0)
@@ -34,16 +39,25 @@ class Account(models.Model):
 	group = models.ForeignKey('Group',null=True)
 	opening_balance = models.IntegerField(null=True)
 
+	def __unicode__(self):
+		return self.account_name
+
 class Transaction(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	description = models.TextField()
-	debit_amount = models.IntegerField(null=True)
-	credit_amount = models.IntegerField(null=True)
+	debit_amount = models.IntegerField(null=True,default=0)
+	credit_amount = models.IntegerField(null=True,default=0)
 	transactiontype = models.ForeignKey('TransactionType')
+
+	def __unicode__(self):
+		return self.description
 
 class Company(models.Model):
 	company_name = models.CharField(max_length=100)
 	company_account = models.ForeignKey('Account',null=True)
+
+	def __unicode__(self):
+		return self.company_name
 
 class AccountType(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
@@ -63,6 +77,9 @@ class AccountingYear(models.Model):
 	start_date = models.DateField()
 	end_date = models.DateField()
 	duration = models.IntegerField()
+
+	def __unicode__(self):
+		return self.user.username +str(self.start_date) +str(self.end_date)
 
 class TransactionType(models.Model):
 	RECIEPT = 0
