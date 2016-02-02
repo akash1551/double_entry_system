@@ -17,31 +17,62 @@
 	</head>
 	<body>
 
-		<a href="/registration/" style="text-decoration: none;">
-		<button class="btn btn-default">Register</button>
-		</a>
-		<a href="/userLogin/" style="text-decoration: none;">
-		<button class="btn btn-default">Login</button>
-		</a>
-		<a href="/myAcc/" style="text-decoration: none;">
-			<button class="btn btn-default">MyAcc</button>
-		</a>
-		<a href="/menu/" style="text-decoration: none;">
-			<button class="btn btn-default">menu</button>
-		</a>
-		<a href="/credit/" style="text-decoration: none;">
-			<button class="btn btn-default">credit</button>
-		</a>
-		<a href="/debit/" style="text-decoration: none;">
-			<button class="btn btn-default">debit</button>
-		</a>
-		<a href="/accounting/" style="text-decoration: none;">
-			<button class="btn btn-default" ui-sref="accounting">accounting</button>
-		</a>
-		<a href="/newUserAccount/" style="text-decoration: none;">
-			<button class="btn btn-default" ui-sref="newUserAccount">newUserAccount</button>
-		</a>
+		<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 40px;">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/menu/">Mudra</a>
+			</div>
 
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<!-- <li class="active"><a href="#">Link</a></li> -->
+					<li class="active">
+						<a href="/registration/" style="text-decoration: none;">Registration</a>
+					</li>
+					<li class="">
+						<a href="/userLogin/" style="text-decoration: none;">Login</a>
+					</li>
+					<li class="">
+						<a href="/myAcc/" style="text-decoration: none;">MyAcc</a>
+					</li>
+					<li class="">
+						<a href="/menu/" style="text-decoration: none;">menu</a>
+					</li>
+					<li class="">
+						<a href="/credit/" style="text-decoration: none;">credit</a>
+					</li>
+					<li class="">
+						<a href="/debit/" style="text-decoration: none;">debit</a>
+					</li>
+					<li class="">
+						<a href="/accounting/" style="text-decoration: none;">accounting</a>
+					</li>
+					<li class="">
+						<a href="/newUserAccount/" style="text-decoration: none;">newUserAccount</a>
+					</li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Link</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li><a href="#">Separated link</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
@@ -49,12 +80,13 @@
 		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
 		<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
-		<script src="{% static 'js/user/login.js' %}"></script>
-		<script src="{% static 'js/user/registration.js' %}"></script>
-		<script src="{% static 'js/user/registration.js' %}"></script>
 		{% block pageContainer %}
 
 		{% endblock %}
+		<script src="{% static 'js/user/login.js' %}"></script>
+		<script src="{% static 'js/user/registration.js' %}"></script>
+		<script src="{% static 'js/user/myAccMaster.js' %}"></script>
+		<script src="{% static 'js/user/newUserAccount.js' %}"></script>
 
 
 	</body>
