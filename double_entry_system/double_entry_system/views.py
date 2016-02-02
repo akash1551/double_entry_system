@@ -391,6 +391,7 @@ def show_account_names(request):
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         print userdetail_obj
         account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        print account_obj
         for i in account_obj:
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
