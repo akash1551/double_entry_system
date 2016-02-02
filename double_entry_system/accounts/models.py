@@ -24,7 +24,7 @@ class UserDetail(models.Model):
 	state = models.CharField(max_length=50,null=False)
 	country = models.CharField(max_length=100,null=False)
 	pin_code = models.IntegerField(null=False)
-	account = models.ForeignKey('Account',null=True)
+	account = models.ManyToManyField('Account')
 
 	def __unicode__(self):
 		return self.first_name
@@ -67,8 +67,10 @@ class AccountType(models.Model):
 	NOMINAL_ACCOUNT = 2
 
 	ACCOUNTCHOICES = ((REAL_ACCOUNT,"Real Account"),(PERSONAL_ACCOUNT,"Personal Account"),(NOMINAL_ACCOUNT,"Nominal Account"))
-	
 	optionType = models.IntegerField(choices=ACCOUNTCHOICES)
+
+	def __unicode__(self):
+		return str(self.optionType)
 
 class AccountingYear(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
@@ -77,9 +79,6 @@ class AccountingYear(models.Model):
 	start_date = models.DateField()
 	end_date = models.DateField()
 	duration = models.IntegerField()
-
-	def __unicode__(self):
-		return self.user.username +str(self.start_date) +str(self.end_date)
 
 class TransactionType(models.Model):
 	RECIEPT = 0
