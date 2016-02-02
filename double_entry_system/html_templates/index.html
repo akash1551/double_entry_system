@@ -14,8 +14,17 @@
 		<!-- <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}"> -->
 		<link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
 
+		<style>
+			.cover_bg {
+				background: url(/static/img/bg.jpg) no-repeat center center fixed;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+			}
+		</style>
 	</head>
-	<body>
+	<body class="cover_bg">
 
 		<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 40px;">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -80,9 +89,16 @@
 		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
 		<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
-		{% block pageContainer %}
 
-		{% endblock %}
+		<div class="" style="min-height: 55vh;">
+			{% block pageContainer %}
+
+			{% endblock %}
+		</div>
+
+		<div class="">
+			{% include 'html_templates/footer.html'%}
+		</div>
 		<script src="{% static 'js/user/login.js' %}"></script>
 		<script src="{% static 'js/user/registration.js' %}"></script>
 		<script src="{% static 'js/user/myAccMaster.js' %}"></script>
