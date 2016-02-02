@@ -21,7 +21,7 @@ from django.http import Http404
 import calendar
 
 def home(request):
-    return render_to_response('index.html')
+    return render_to_response('loginIndex.html')
 
 def user_login(request):
     print request.body
