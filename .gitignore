@@ -3,6 +3,7 @@ Media/
 db.sqlite3
 /double_entry_system/db.sqlite3
 *~
+migrations/
 
 
 
