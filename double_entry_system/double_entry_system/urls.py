@@ -34,14 +34,10 @@ urlpatterns = [
     url(r'^list_of_accounting_years/$', 'double_entry_system.views.list_of_accounting_years'),
     url(r'^my_cash_account_balance/$', 'double_entry_system.views.my_cash_account_balance'),
     url(r'^my_bank_account_balance/$', 'double_entry_system.views.my_bank_account_balance'),
-    url(r'^show_transaction/$', 'double_entry_system.views.show_transaction'),
     url(r'^search_Transaction/$', 'double_entry_system.views.search_Transaction'),
     url(r'^show_account_names/$', 'double_entry_system.views.show_account_names'),
     url(r'^search_account_names/$', 'double_entry_system.views.search_account_names'),
-    url(r'^show_all_debit/$', 'double_entry_system.views.show_all_debit'),
-    url(r'^show_all_credit/$', 'double_entry_system.views.show_all_credit'),
     url(r'^get_groups_from_db/$', 'double_entry_system.views.get_groups_from_db'),
-    url(r'^send_account_names/$', 'double_entry_system.views.send_account_names'),
     url(r'^add_amount_to_cash_account/$', 'double_entry_system.views.add_amount_to_cash_account'),
     url(r'^debit_transaction_for_cash_account/$', 'double_entry_system.views.debit_transaction_for_cash_account'),
     url(r'^credit_transaction_for_cash_account/$', 'double_entry_system.views.credit_transaction_for_cash_account'),
@@ -49,6 +45,9 @@ urlpatterns = [
     url(r'^credit_transaction_for_bank_account/$', 'double_entry_system.views.credit_transaction_for_bank_account'),
     url(r'^show_all_debit_transactions/$', 'double_entry_system.views.show_all_debit_transactions'),
     url(r'^show_all_credit_transactions/$', 'double_entry_system.views.show_all_credit_transactions'),
+    url(r'^todays_debit/$', 'double_entry_system.views.todays_debit'),
+    url(r'^todays_credit/$', 'double_entry_system.views.todays_credit'),
+    url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
 
 
     # akshay

@@ -37,7 +37,7 @@ def user_login(request):
         if user.is_active:
             auth.login(request,user)
             print "Login Successful"
-            return HttpResponse(json.dumps({"validation":"Login Successful","status":True,'redirecturl':"/home/"}), content_type="application/json")
+            return HttpResponse(json.dumps({"validation":"Login Successful","status":True,'redirecturl':"/menu"}), content_type="application/json")
         else:
             print "Login Failed"
             return HttpResponse(json.dumps({"validation":"Invalid Login","status":False}), content_type="application/json")
@@ -98,7 +98,7 @@ def register_new_user(request):
     print request.user
     
     json_obj=json.loads(request.body)
-    json_obj=json_obj['userInfo']
+    #json_obj=json_obj['userInfo']
 
     if User.objects.filter(username = json_obj['userName']).exists():
         print "Username already Exist."
@@ -121,25 +121,23 @@ def register_new_user(request):
     address_line1 = json_obj['addressLine1']
     address_line2 = json_obj['addressLine2']
     
-   # prog = re.compile(r'^\+?(91)?(0|7)\d{9,13}$')
-    #if prog.match(json_obj['mobileNo0']):
-     #   return HttpResponse(json.dumps({"validation":"This Mobile Number is already exist.","status":False}), content_type="application/json")
     contact_no = json_obj['mobileNo0']
     contact_no1 = json_obj['mobileNo1']
     city = json_obj['city']
     state = json_obj['state']
     country = json_obj['country']
     pin_code = json_obj['pincode']
-    user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password,)
-    user_obj.save()
+
+    user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
+    user_obj.save()
   
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1)
-    
-    if user_obj is not None:
-        print "Registration Successful"
-        return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
+    userdetail_obj.save()
+
+    print "Registration Successful"
+    return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
 def account_creation_page(request):
     return render_to_response('create_account.html')
@@ -171,14 +169,14 @@ def transactions(request):
 
         return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
-def create_new_user_account(request,user_id=None):
+def create_new_user_account(request):
     if request.user.is_authenticated():
         print request.body
-        print request.user
+        print request.user.first_name
         cash_account_balance = 0
-        bank_account_balance = 0    
+        bank_account_balance = 0
         json_obj = json.loads(request.body)
         #json_obj=json_obj["newUserAccount"]
         account_name = json_obj['account_name']
@@ -206,28 +204,28 @@ def create_new_user_account(request,user_id=None):
         
         start_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(start_date))
         print start_date_as_datetime
-
         end_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(end_date))
-        print end_date_as_datetime       
-        
-        userdetail_obj = UserDetail(first_name=first_name,last_name=last_name,email=email,contact_no=contact_no,alias=alias,contact_no1=contact_no1,city=city,
-            state=state,country=country,pin_code=pin_code)
-        userdetail_obj.save()
+        print end_date_as_datetime
+        user_obj = User.objects.get(id=request.user.id)
 
         accounttype_obj = AccountType(optionType=accounttype)
         accounttype_obj.save()
-
+        
         group_obj = Group(optionType=group)
         group_obj.save()
-
+        
         account_obj = Account(account_name=account_name,opening_balance=opening_balance,group=group_obj,accounttype=accounttype_obj,my_cash_account=my_cash_account,my_bank_account=my_bank_account)
         account_obj.save()
+        
         accountingyear_obj = AccountingYear(account=account_obj,duration=duration,user=request.user,start_date=start_date_as_datetime,end_date=end_date_as_datetime)
         accountingyear_obj.save()
-
+        
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        userdetail_obj.account.add(account_obj)
+        userdetail_obj.save()
         return HttpResponse(json.dumps({"validation":"New Account created Successfully","status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def list_of_accounting_years(request):
     print request.COOKIES
@@ -246,7 +244,7 @@ def list_of_accounting_years(request):
             AccYearsList.append(obj)
         return HttpResponse(json.dumps({"AccYearsList":AccYearsList}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def get_groups_from_db1(request):
 
@@ -269,10 +267,8 @@ def get_groups_from_db(request):
         # print type_of_property_list
         return HttpResponse(json.dumps({"accGroupList": accGroupList,"status": True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
-"""def opening_balance(request):
-    account_obj = Account.objects.get()"""
 def add_acc_validity_date(request):
     if request.user.is_authenticated():
         print request.body
@@ -315,34 +311,51 @@ def add_amount_to_cash_account(request):
 def my_cash_account_balance(request):
     if request.user.is_authenticated():
         print request.user
-        start_date = datetime.date(2016, 1, 30)
-        end_date = datetime.date(2017, 1, 29)
-        cash_account_balance = Account.objects.filter(id=request.user.id,created_at__gte=start_date,created_at__lte=end_date)
-        print cash_account_balance
-        cash_account_balance_list = []
+        json_obj = json.loads(request.body)
+        start_date = json_obj['start_date']
+        end_date = json_obj['end_date']
+        print type(start_date)
+        print type(end_date)
+        start_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        start_date_as_datetime = datetime.datetime.strptime(start_date_as_string, '%Y-%m-%d')
+        end_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        end_date_as_datetime = datetime.datetime.strptime(end_date_as_string, '%Y-%m-%d')
+        cash_balance = 0
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date_as_datetime,created_at__lte=end_date_as_datetime)
         for i in cash_account_balance:
-            obj = {"my_cash_account":i.my_cash_account}
-            cash_account_balance_list.append(obj)
-        print cash_account_balance_list
-        return HttpResponse(json.dumps({"cash_account_balance_list":cash_account_balance_list}), content_type="application/json")
+            cash_balance = cash_balance + i.my_cash_account  
+        return HttpResponse(json.dumps({"cash_balance":cash_balance}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 ###########################################################################################
     ###################### Bank Account Balance ######################################
+###########################################################################################
 
 def my_bank_account_balance(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
-        account_id = json_obj['account_id']
-        bank_account_balance = Account.objects.get(id=account_id)
-        #account_obj = bank_account_balance.account.my_bank_account
-        obj = {"my_bank_account":bank_account_balance.my_bank_account}
-        print bank_account_balance.my_bank_account
-        return HttpResponse(json.dumps({"obj":obj}), content_type="application/json")
+        start_date = json_obj['start_date']
+        end_date = json_obj['end_date']
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        print start_date
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        print end_date
+        bank_balance = 0
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        for i in cash_account_balance:
+            bank_balance = bank_balance + i.my_bank_account  
+        return HttpResponse(json.dumps({"bank_balance":bank_balance}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+
+                ####################################################
+                ############## Search Transactions #################
+                ####################################################
 
 def search_Transaction(request):
     if request.user.is_authenticated():
@@ -355,47 +368,33 @@ def search_Transaction(request):
         print transactionList
         return HttpResponse(json.dumps({"transactionList": transactionList,"status": True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
-def show_transaction(request):
-    if request.user.is_authenticated():
-        print request.user
-        try:
-            transactiontype_obj= TransactionType.objects.get(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
-        except TransactionType.DoesNotExist:
-            print "No Transaction."
-            return HttpResponse(json.dumps({"validation": "No Transactions For This User","status": False}), content_type="application/json")
-        
-        return HttpResponse(json.dumps({"transactiontype_obj": transactiontype_obj,"status": True}), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
-
-def send_account_names(request):
-    if request.user.is_authenticated():
-        obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
-
-        account_name_list = []
-
-        for i in obj:
-            account_name_obj = {"id":i.id,"account_name":i.account_name}
-            account_name_list.append(account_name_obj)
-        print account_name_list
-        return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+                ##############################################################
+                #################### Send Account Names ######################
+                ##############################################################
 
 def show_account_names(request):
-     if request.user.is_authenticated:
-        account_name_obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
-        account_name_list = []
-
-        for i in account_name_obj:
+    if request.user.is_authenticated:
+        print request.user
+        json_obj = json.loads(request.body)
+        start_date = json_obj['start_date']
+        end_date = json_obj['end_date']
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        print start_date
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        print end_date
+        account_obj_list = []
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        print userdetail_obj
+        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        for i in account_obj:
             date = i.created_at.strftime('%s')
-            obj = {"account_name":i.account_name,"created_at":date}
-            account_name_list.append(obj)
-        
-        print account_name_list 
-        return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
+            obj = {"id":i.id,"account_name":i.account_name,"created_at":date}        
+            account_obj_list.append(obj)
+        return HttpResponse(json.dumps({"account_obj_list":account_obj_list}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def search_account_names(request):
     if request.user.is_authenticated:
@@ -438,7 +437,7 @@ def debit_transaction_for_cash_account(request):
         print account_name_obj.my_cash_account
         return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def credit_transaction_for_cash_account(request):
     if request.user.is_authenticated():
@@ -463,7 +462,7 @@ def credit_transaction_for_cash_account(request):
         print account_name_obj.my_cash_account
         return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def debit_transaction_for_bank_account(request):
     if request.user.is_authenticated():
@@ -488,7 +487,7 @@ def debit_transaction_for_bank_account(request):
         print account_name_obj.my_bank_account
         return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def credit_transaction_for_bank_account(request):
     if request.user.is_authenticated():
@@ -513,44 +512,99 @@ def credit_transaction_for_bank_account(request):
         print account_name_obj.my_bank_account
         return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+
+                ###########################################################
+                ########## Show All Debit And Credit Transactions #########
+                ###########################################################
 
 def show_all_debit_transactions(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
-        account_id = json_obj['account_id']
-        account_obj = Account.objects.get(id=account_id)
-        print account_obj
+        start_date = json_obj['start_date']
+        end_date = json_obj['end_date']
+        print start_date
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        print end_date
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        
         transactionList = []
-        transaction_obj = account_obj.transaction.filter(debit_amount__gt=0)
-        print transaction_obj
-        for i in transaction_obj:
-            created_at_in_epoch = calendar.timegm(i.created_at.timetuple())
-            print created_at_in_epoch
-            obj = {"debit_amount":i.debit_amount,"description":i.description,"created_at":created_at_in_epoch}
-            transactionList.append(obj)
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        print account_obj
+        for i in account_obj:
+            transaction_obj = i.transaction.filter(debit_amount__gt=0,created_at__gte=start_date,created_at__lte=end_date)
+            for j in transaction_obj:
+                created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
+                obj = {"debit_amount":j.debit_amount,"description":j.description,"created_at":created_at_in_epoch}
+                transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
 def show_all_credit_transactions(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
-        account_id = json_obj['account_id']
-        account_obj = Account.objects.get(id=account_id)
-        print account_obj
+        start_date = json_obj['start_date']
+        end_date = json_obj['end_date']
+        print start_date
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        print end_date
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        
         transactionList = []
-        transaction_obj = account_obj.transaction.filter(credit_amount__gt=0)
-        print transaction_obj
-        for i in transaction_obj:
-            created_at_in_epoch = calendar.timegm(i.created_at.timetuple())
-            print created_at_in_epoch
-            obj = {"credit_amount":i.credit_amount,"description":i.description,"created_at":created_at_in_epoch}
-            transactionList.append(obj)
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        print account_obj
+        for i in account_obj:
+            transaction_obj = i.transaction.filter(credit_amount__gt=0,created_at__gte=start_date,created_at__lte=end_date)
+            for j in transaction_obj:
+                created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
+                obj = {"credit_amount":j.credit_amount,"description":j.description,"created_at":created_at_in_epoch}
+                transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+def todays_debit(request):
+    todays_debit = 0
+    json_obj = json.loads(request.body)
+    account_id = json_obj['account_id']
+    account_obj = Account.objects.get(id=account_id)
+    transaction_obj = account_obj.transaction.filter(created_at__lte=datetime.datetime.today(),created_at__gte=datetime.datetime.today()-timedelta(days=1))
+    print transaction_obj
+    for i in transaction_obj:
+        todays_debit = todays_debit + i.debit_amount
+    print todays_debit
+    return HttpResponse(json.dumps({"todays_debit":todays_debit}), content_type="application/json")
+
+def todays_credit(request):
+    todays_credit = 0
+    json_obj = json.loads(request.body)
+    account_id = json_obj['account_id']
+    account_obj = Account.objects.get(id=account_id)
+    transaction_obj = account_obj.transaction.filter(created_at__lte=datetime.datetime.today(),created_at__gte=datetime.datetime.today()-timedelta(days=1))
+    print transaction_obj
+    for i in transaction_obj:
+        todays_credit = todays_credit + i.credit_amount
+    print todays_credit
+    return HttpResponse(json.dumps({"todays_credit":todays_credit}), content_type="application/json")
+
+def show_current_balance(request):
+    if request.user.is_authenticated():
+        json_obj = json.loads(request.body)
+        account_id = json_obj['account_id']
+        Account_obj = Account.objects.get(id=account_id)
+        current_balance = Account_obj.my_bank_account + Account_obj.my_cash_account
+        if datetime.datetime.now()>=datetime.datetime.today()-timedelta(days=1):
+            Account_obj = Account.objects.get(id=account_id)
+            Account_obj.opening_balance = current_balance
+            Account_obj.save()
+        return HttpResponse(json.dumps({"current_balance":current_balance}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
