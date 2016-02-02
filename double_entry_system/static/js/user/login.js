@@ -13,9 +13,14 @@ new Vue ({
 			console.log(this.password);
 
 			this.$http.post('/user_login/', {username: this.userName, password: this.password}).then(function (response) {
-				console.log(response);
+				console.log(response.data);
+				if(!response.data.status){
+					console.log('Error');
+				}else{
+					window.location.href = response.data.redirecturl;
+				}
 			}, function (response) {
-				console.log(response);
+				console.log(response.data);
 			});
 
 		}
