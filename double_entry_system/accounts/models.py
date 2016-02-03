@@ -25,7 +25,7 @@ class UserDetail(models.Model):
 	country = models.CharField(max_length=100,null=False)
 	pin_code = models.IntegerField(null=False)
 	account = models.ManyToManyField('Account')
-
+	
 	def __unicode__(self):
 		return self.first_name
 
@@ -33,10 +33,22 @@ class Account(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	my_bank_account = models.IntegerField(default=0)
 	my_cash_account = models.IntegerField(default=0)
-	accounttype= models.ForeignKey('AccountType',null=True)
 	account_name = models.CharField(max_length=100)
-	transaction = models.ManyToManyField('Transaction')
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
+	alias = models.CharField(max_length=100)
+	address_line1 = models.CharField(max_length=200,null=False)
+	address_line2 = models.CharField(max_length=200,null=True)
+	contact_no = models.IntegerField(null=False)
+	contact_no1 = models.IntegerField(null=True)
+	email = models.TextField()
+	city = models.CharField(max_length=50,null=False)
+	state = models.CharField(max_length=50,null=False)
+	country = models.CharField(max_length=100,null=False)
+	pin_code = models.IntegerField(null=False)
 	opening_balance = models.IntegerField(null=True)
+	accounttype= models.ForeignKey('AccountType',null=True)
+	transaction = models.ManyToManyField('Transaction')
 	group = models.ForeignKey('Group',null=True)
 
 	def __unicode__(self):
@@ -45,7 +57,6 @@ class Account(models.Model):
 class Transaction(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	description = models.TextField()
-	
 	debit_amount = models.IntegerField(null=True,default=0)
 	credit_amount = models.IntegerField(null=True,default=0)
 	transactiontype = models.ForeignKey('TransactionType')
