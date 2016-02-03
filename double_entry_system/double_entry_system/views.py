@@ -42,7 +42,7 @@ def user_login(request):
             print "Login Failed"
             return HttpResponse(json.dumps({"validation":"Invalid Login","status":False}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"Fill the login details","status":False}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Invalid Login Credentials","status":False}), content_type="application/json")
 
 def loggedin(request):
     return render_to_response('loggedin.html',{'full_name': request.user.username})
