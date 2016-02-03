@@ -41,7 +41,7 @@ urlpatterns = [
     url(r'^credit_transaction_for_cash_account/$', 'double_entry_system.views.credit_transaction_for_cash_account'),
     url(r'^debit_transaction_for_bank_account/$', 'double_entry_system.views.debit_transaction_for_bank_account'),
     url(r'^credit_transaction_for_bank_account/$', 'double_entry_system.views.credit_transaction_for_bank_account'),
-    url(r'^show_all_debit_transactions/$', 'double_entry_system.views.show_all_debit_transactions'),
+   # url(r'^show_all_debit_transactions/$', 'double_entry_system.views.show_all_debit_transactions'),
     url(r'^show_all_credit_transactions/$', 'double_entry_system.views.show_all_credit_transactions'),
     # url(r'^todays_debit/$', 'double_entry_system.views.todays_debit'),
     # url(r'^todays_credit/$', 'double_entry_system.views.todays_credit'),
