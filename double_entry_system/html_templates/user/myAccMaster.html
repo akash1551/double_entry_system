@@ -95,10 +95,21 @@
 						 	</div>
 				 		</div>
 				 	</div>
-
-
 				 </div>
-				 <div ui-view></div>
+
+				<div class="row text-center" v-for="item in accYearsList" style="cursor: hand; cursor: pointer;">
+					<div class="col-sm-6">
+						<p style="background-color: #aaa; padding: 20px; margin: 15px;">
+							<span>{{item.start_date}}</span>
+						</p>
+					</div>
+					<div class="col-sm-6">
+						<p style="background-color: #aaa; padding: 20px; margin: 15px;">
+							<span>{{item.end_date}}</span>
+						</p>
+					</div>
+				</div>
+				 <!-- <div ui-view></div> -->
 			</div>
 		</div>
 	</div>
