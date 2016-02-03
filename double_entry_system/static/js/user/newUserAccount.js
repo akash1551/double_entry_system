@@ -54,7 +54,7 @@ new Vue ({
 	methods: {
 		createNewUser: function(){
 			if(this.startDate != '' && this.endDate != ''){
-				var tempStartDate = new Date(this.startDate).getTime();
+				var tempStartDate = new Date( this.startDate ).getTime();
 				var tempEndDate = new Date(this.startDate).getTime();
 				this.$http.post('/create_new_user_account/', {
 					account_name: this.accountName, alias : this.alias,

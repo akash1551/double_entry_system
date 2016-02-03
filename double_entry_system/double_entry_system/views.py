@@ -68,12 +68,6 @@ def summary(request):
 def accounting(request):
     return render_to_response('html_templates/user/accounting.html')
 
-def accountingCredit(request):
-    return render_to_response('html_templates/user/accountingCredit.html')
-
-def accountingDebit(request):
-    return render_to_response('html_templates/user/accountingDebit.html')
-
 def newUserAccount(request):
     return render_to_response('html_templates/user/newUserAccount.html')
 
@@ -83,11 +77,6 @@ def footer(request):
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 
-def credit(request):
-    return render_to_response('html_templates/user/credit.html')
-
-def debit(request):
-    return render_to_response('html_templates/user/debit.html')
 
 def accountDetailBasedOnYear(request):
     return render_to_response('html_templates/user/accountDetailBasedOnYear.html')
@@ -250,6 +239,7 @@ def list_of_accounting_years(request):
             print i.end_date
             end_date = int(i.end_date.strftime("%s")) * 1000
             print end_date
+           
             obj = {"start_date":start_date,"end_date":end_date}
             AccYearsList.append(obj)
         return HttpResponse(json.dumps({"AccYearsList":AccYearsList,"status":True}), content_type="application/json")
@@ -311,6 +301,25 @@ def add_acc_validity_date(request):
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
+def add_amount_to_cash_account(request):
+    print request.user
+    json_obj = json.loads(request.body)
+    start_date = json_obj['start_date']
+    end_date = json_obj['end_date']
+    amou0nt = json_obj['amount']
+    account_id = json_obj['account_id']
+    transactiontype = json_obj['transactiontype']
+    group = json_obj['group']
+    description = json_obj['description']
+    userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+    cash_account_balance = userdetail_obj.account.get(id=account_id,created_at__gte=start_date,created_at__lte=end_date)
+
+    print cash_account_balance.my_cash_account
+    cash_account_balance.my_cash_account = cash_account_balance.my_cash_account + my_cash_account
+    cash_account_balance.save()
+
+    print cash_account_balance.my_cash_account
+    return HttpResponse(json.dumps({"validation":"cash amount added in your account."}), content_type="application/json")
             ################################################################
             #################### Show Account Details ######################
             ################################################################
@@ -330,18 +339,17 @@ def show_account_details(request):
         print end_date_as_string
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        print userdetail_obj
         cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
         for i in cash_account_balance:
             cash_balance = cash_balance + i.my_cash_account
-                        
-                        ######## For Bank Account Balance ######
+
+                        ##### For Bank Account Balance ######
         bank_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
         for i in cash_account_balance:
             bank_balance = bank_balance + i.my_bank_account
-    
+
                         ######### Show Account Names ###########
 
         account_obj_list = []
@@ -362,7 +370,7 @@ def show_account_details(request):
             transaction_obj = i.transaction.all()
             for j in transaction_obj:
                 all_debit = all_debit + j.debit_amount
-    
+
                         ############## Show Credit Amount ############
         all_credit = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
@@ -404,9 +412,9 @@ def show_account_names(request):
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
         print start_date
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
         print end_date
         account_obj_list = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
@@ -445,7 +453,6 @@ def debit_transaction_for_cash_account(request):
         json_obj = json.loads(request.body)
         Acc_list = json_obj['Acc_list']
         for i in Acc_list:
-
             amount = i['debit_amount']
             account_id = i['account_id']
             transactiontype = i['transactiontype']
@@ -653,7 +660,7 @@ def show_all_credit_amount(request):
                 all_credit = all_credit + j.credit_amount
         return HttpResponse(json.dumps({"all_credit":all_credit}), content_type="application/json")
     else:
-        return 
+        return
 def show_current_balance(request):
     if request.user.is_authenticated():
         json_obj = json.loads(request.body)
