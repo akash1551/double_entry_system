@@ -42,7 +42,7 @@ def user_login(request):
             print "Login Failed"
             return HttpResponse(json.dumps({"validation":"Invalid Login","status":False}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"Fill the login details","status":False}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Invalid Login Credentials","status":False}), content_type="application/json")
 
 def loggedin(request):
     return render_to_response('loggedin.html',{'full_name': request.user.username})
@@ -245,9 +245,9 @@ def list_of_accounting_years(request):
             end_date = int(time.mktime(time.strptime(end_date,'%Y-%m-%d')))
             obj = {"start_date":start_date,"end_date":end_date}
             AccYearsList.append(obj)
-        return HttpResponse(json.dumps({"AccYearsList":AccYearsList}), content_type="application/json")
+        return HttpResponse(json.dumps({"AccYearsList":AccYearsList,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
 def get_groups_from_db1(request):
 
