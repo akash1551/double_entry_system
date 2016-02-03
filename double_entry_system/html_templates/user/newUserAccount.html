@@ -12,10 +12,10 @@
 			<div style="">
 
 				<h5>New Account Name*</h5>
-				<input type="text" name= "name" v-model="newUser.accountName" class="form-control" placeholder="Name" required>
+				<input type="text" name= "name" v-model="accountName" class="form-control" placeholder="Name" required>
 
 				<h5>Alias for Account</h5>
-				<input type="text"  v-model="newUser.alias" class="form-control" placeholder="Alias Name">
+				<input type="text"  v-model="alias" class="form-control" placeholder="Alias Name">
 
 
 				<h5>Group Name*</h5>
@@ -31,41 +31,41 @@
 				<h5>Name</h5>
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" v-model="newUser.firstName"class="form-control" placeholder="First Name">
+						<input type="text" v-model="firstName"class="form-control" placeholder="First Name">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" v-model="newUser.lastName" class="form-control" placeholder="Last Name">
+						<input type="text" v-model="lastName" class="form-control" placeholder="Last Name">
 					</div>
 				</div>
 				<h5>Address</h5>
-				<input type="text" v-model="newUser.addressLine1" class="form-control" placeholder="Address Line 1">
-				<input type="text" v-model="newUser.addressLine2" class="form-control" placeholder="Address Line 2">
+				<input type="text" v-model="addressLine1" class="form-control" placeholder="Address Line 1">
+				<input type="text" v-model="addressLine2" class="form-control" placeholder="Address Line 2">
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" v-model="newUser.city" class="form-control" placeholder="City">
+						<input type="text" v-model="city" class="form-control" placeholder="City">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" v-model="newUser.state" class="form-control" placeholder="State">
+						<input type="text" v-model="state" class="form-control" placeholder="State">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" v-model="newUser.country"class="form-control" placeholder="Country">
+						<input type="text" v-model="country"class="form-control" placeholder="Country">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" v-model="newUser.pincode"class="form-control" placeholder="Pin">
+						<input type="text" v-model="pincode"class="form-control" placeholder="Pin">
 					</div>
 				</div>
 
 				 <h5>Email</h5>
-				<input type="text" v-model="newUser.email" class="form-control" placeholder="Email">
+				<input type="text" v-model="email" class="form-control" placeholder="Email">
 				<h5>Mobile Number</h5>
-				<input type="text" v-model="newUser.mobileNo0" class="form-control" placeholder="Mobile Number">
+				<input type="text" v-model="mobileNo0" class="form-control" placeholder="Mobile Number">
 				<h5>Alternate Mobile Number</h5>
-				<input type="text" v-model="newUser.mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
+				<input type="text" v-model="mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
 				<hr>
 				<h5>Opening Balance</h5>
-				<input type="text" v-model="newUser.openingBalance" class="form-control" placeholder="Opening Balance">
+				<input type="text" v-model="openingBalance" class="form-control" placeholder="Opening Balance">
 
 				<h5>Account Type</h5>
 				<select v-model="accountType" class="form-control">

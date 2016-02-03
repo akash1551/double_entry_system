@@ -53,22 +53,24 @@ new Vue ({
 
 	methods: {
 		createNewUser: function(){
-			console.log(this.newUser);
+			if(this.startDate != '' && this.endDate != ''){
+				var tempStartDate = new Date(this.startDate).getTime();
+				var tempEndDate = new Date(this.startDate).getTime();
+				this.$http.post('/create_new_user_account/', {
+					account_name: this.accountName, alias : this.alias,
+					firstName: this.firstName, lastName: this.lastName,
+					addressLine1: this.addressLine1, addressLine2: this.addressLine2,
+					city: this.city, state: this.state, country: this.country, pincode: this.pincode,
+					email: this.email, mobileNo0: this.mobileNo0, mobileNo1: this.mobileNo1,
+					group: this.group, openingBalance: this.openingBalance, accounttype: this.accountType,
+					duration: this.duration, start_date: this.tempStartDate, end_date: this.tempEndDate
 
-			this.$http.post('/create_new_user_account/', {
-				account_name: this.accountName, alias : this.alias,
-				firstName: this.firstName, lastName: this.lastName,
-				addressLine1: this.addressLine1, addressLine2: this.addressLine2,
-				city: this.city, state: this.state, country: this.country, pincode: this.pincode,
-				email: this.email, mobileNo0: this.mobileNo0, mobileNo1: this.mobileNo1,
-				group: this.group, openingBalance: this.openingBalance, accounttype: this.accountType,
-				duration: this.duration, start_date: this.startDate, end_date: this.endDate
-
-			}).then(function (response){
-				console.log(response.data);
-			}, function (response){
-				console.log(response.data);
-			});
+				}).then(function (response){
+					console.log(response.data);
+				}, function (response){
+					console.log(response.data);
+				});
+			}
 		}
 	}
 });
