@@ -79,8 +79,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'HOST': '192.168.1.107',
-         'PORT': '',
     }
 }
 
@@ -131,3 +129,7 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR,"Media")
 MEDIA_URL = "/Media/"
+try:
+    from local_settings import *
+except ImportError:
+    pass
