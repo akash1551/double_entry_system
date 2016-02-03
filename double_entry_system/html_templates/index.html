@@ -104,6 +104,13 @@
 		<script src="{% static 'js/user/myAccMaster.js' %}"></script>
 		<script src="{% static 'js/user/newUserAccount.js' %}"></script>
 
+		<script>
+			$(function(){
+				var height = $('#footer').height();
+				$('#content').css('padding-bottom', height+20);
+			});
+		</script>
+
 
 	</div>
 	</body>

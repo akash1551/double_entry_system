@@ -20,7 +20,8 @@
 
 				<h5>Group Name*</h5>
 				<select v-model="group" class="form-control">
-					<option v-for="option in groupList" v-bind:value="option.choice_name">
+					<option value="">Select</option>
+					<option v-for="option in groupList" v-bind:value="option.id">
 						{{ option.choice_name }}
 					</option>
 				</select>
@@ -69,7 +70,8 @@
 
 				<h5>Account Type</h5>
 				<select v-model="accountType" class="form-control">
-					<option v-for="option in accountTypeList" v-bind:value="option.choice_name">
+					<option value="">Select</option>
+					<option v-for="option in accountTypeList" v-bind:value="option.id">
 						{{ option.choice_name }}
 					</option>
 				</select>
