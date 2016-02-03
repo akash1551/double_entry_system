@@ -45,6 +45,7 @@ class Account(models.Model):
 class Transaction(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	description = models.TextField()
+	
 	debit_amount = models.IntegerField(null=True,default=0)
 	credit_amount = models.IntegerField(null=True,default=0)
 	transactiontype = models.ForeignKey('TransactionType')

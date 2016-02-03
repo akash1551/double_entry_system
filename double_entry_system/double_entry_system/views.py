@@ -412,6 +412,8 @@ def search_Transaction(request):
 def show_account_names(request):
     if request.user.is_authenticated:
         print request.user
+        print request.body
+        
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
