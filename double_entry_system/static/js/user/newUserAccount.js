@@ -63,7 +63,7 @@ new Vue ({
 					city: this.city, state: this.state, country: this.country, pincode: this.pincode,
 					email: this.email, mobileNo0: this.mobileNo0, mobileNo1: this.mobileNo1,
 					group: this.group, openingBalance: this.openingBalance, accounttype: this.accountType,
-					duration: this.duration, start_date: this.tempStartDate, end_date: this.tempEndDate
+					duration: this.duration, start_date: tempStartDate, end_date: tempEndDate
 
 				}).then(function (response){
 					console.log(response.data);
