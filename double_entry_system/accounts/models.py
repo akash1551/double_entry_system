@@ -36,7 +36,6 @@ class Account(models.Model):
 	accounttype= models.ForeignKey('AccountType',null=True)
 	account_name = models.CharField(max_length=100)
 	transaction = models.ManyToManyField('Transaction')
-	group = models.ForeignKey('Group',null=True)
 	opening_balance = models.IntegerField(null=True)
 
 	def __unicode__(self):
@@ -48,6 +47,7 @@ class Transaction(models.Model):
 	debit_amount = models.IntegerField(null=True,default=0)
 	credit_amount = models.IntegerField(null=True,default=0)
 	transactiontype = models.ForeignKey('TransactionType')
+	group = models.ForeignKey('Group',null=True)
 
 	def __unicode__(self):
 		return self.description
