@@ -45,34 +45,11 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
 					<!-- <li class="active"><a href="#">Link</a></li> -->
-					<!-- <li class="active">
-						<a href="/registration/" style="text-decoration: none;">Registration</a>
-					</li>
-					<li class="">
-						<a href="/userLogin/" style="text-decoration: none;">Login</a>
-					</li> -->
-					<li class="">
-						<a href="/myAcc/" style="text-decoration: none;">MyAcc</a>
-					</li>
-					<li class="">
-						<a href="/menu/" style="text-decoration: none;">menu</a>
-					</li>
-					<li class="">
-						<a href="/credit/" style="text-decoration: none;">credit</a>
-					</li>
-					<li class="">
-						<a href="/debit/" style="text-decoration: none;">debit</a>
-					</li>
-					<li class="">
-						<a href="/accounting/" style="text-decoration: none;">accounting</a>
-					</li>
-					<li class="">
-						<a href="/newUserAccount/" style="text-decoration: none;">newUserAccount</a>
-					</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Log Out</a></li>
+					<li><a href="/">Log In</a></li>
+					<li><a href="/registration/">Sign Up</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</nav>
@@ -84,17 +61,17 @@
 		<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
 		<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
 
-		<div class="" style="min-height: 50vh;">
-			{% block pageContainer %}
+		<div class="" style="min-height: 55vh;">
+			{% block loginContainer %}
 
 			{% endblock %}
 		</div>
 
-		{% include 'html_templates/footer.html'%}
+		<!-- {% include 'html_templates/footer.html'%} -->
 		<script src="{% static 'js/user/login.js' %}"></script>
-		<script src="{% static 'js/user/registration.js' %}"></script>
-		<script src="{% static 'js/user/myAccMaster.js' %}"></script>
-		<script src="{% static 'js/user/newUserAccount.js' %}"></script>
+		<!-- <script src="{% static 'js/user/registration.js' %}"></script> -->
+		<!-- <script src="{% static 'js/user/myAccMaster.js' %}"></script> -->
+		<!-- <script src="{% static 'js/user/newUserAccount.js' %}"></script> -->
 
 
 	</body>

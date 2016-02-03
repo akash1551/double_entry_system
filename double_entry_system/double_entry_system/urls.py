@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^account_creation_page/$', 'double_entry_system.views.account_creation_page'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^transactions/$', 'double_entry_system.views.transactions'),
-    url(r'^$', 'double_entry_system.views.home'),
+    url(r'^$', 'double_entry_system.views.userLogin'),
     url(r'^add_acc_validity_date/$', 'double_entry_system.views.add_acc_validity_date'),
     url(r'^create_new_user_account/$', 'double_entry_system.views.create_new_user_account'),
     url(r'^list_of_accounting_years/$', 'double_entry_system.views.list_of_accounting_years'),
@@ -54,7 +54,7 @@ urlpatterns = [
 
     # akshay
     url(r'^registration/$', 'double_entry_system.views.registration'),
-    url(r'^userLogin/$', 'double_entry_system.views.userLogin'),
+    # url(r'^userLogin/$', 'double_entry_system.views.userLogin'),
     url(r'^myAcc/$', 'double_entry_system.views.myAcc'),
     url(r'^myAccHomePage/$', 'double_entry_system.views.myAccHomePage'),
     url(r'^menu/$', 'double_entry_system.views.menu'),
@@ -65,5 +65,6 @@ urlpatterns = [
     url(r'^accountingCredit/$', 'double_entry_system.views.accountingCredit'),
     url(r'^accountingDebit/$', 'double_entry_system.views.accountingDebit'),
     url(r'^newUserAccount/$', 'double_entry_system.views.newUserAccount'),
+    url(r'^footer/$', 'double_entry_system.views.footer'),
     url(r'^accountDetailBasedOnYear/$', 'double_entry_system.views.accountDetailBasedOnYear'),
 ]

@@ -21,16 +21,16 @@ from django.http import Http404
 import calendar
 
 def home(request):
-    return render_to_response('index.html')
+    return render_to_response('loginIndex.html')
 
 def user_login(request):
     print request.body
     data_dict = json.loads(request.body)
     print request.COOKIES
-    
+
     username = data_dict['username']
     password = data_dict['password']
-    
+
     user = auth.authenticate(username=username,password=password)
     print username, password
     if user is not None:
@@ -77,6 +77,9 @@ def accountingDebit(request):
 def newUserAccount(request):
     return render_to_response('html_templates/user/newUserAccount.html')
 
+def footer(request):
+    return render_to_response('html_templates/footer.html')
+
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 
@@ -96,7 +99,7 @@ def logout(request):
 def register_new_user(request):
     print request.body
     print request.user
-    
+
     json_obj=json.loads(request.body)
     #json_obj=json_obj['userInfo']
 
@@ -120,7 +123,7 @@ def register_new_user(request):
 
     address_line1 = json_obj['addressLine1']
     address_line2 = json_obj['addressLine2']
-    
+
     contact_no = json_obj['mobileNo0']
     contact_no1 = json_obj['mobileNo1']
     city = json_obj['city']
@@ -131,7 +134,7 @@ def register_new_user(request):
     user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
     user_obj.save()
-  
+
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1)
     userdetail_obj.save()
@@ -182,8 +185,8 @@ def create_new_user_account(request):
         account_name = json_obj['account_name']
         my_cash_account = cash_account_balance
         my_bank_account = bank_account_balance
-        alias = json_obj['alias']   
-        group = json_obj['group']   
+        alias = json_obj['alias']
+        group = json_obj['group']
         first_name = json_obj['firstName']
         last_name = json_obj['lastName']
         email = json_obj['email']
@@ -201,7 +204,7 @@ def create_new_user_account(request):
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
         duration = json_obj['duration']
-        
+
         start_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(start_date))
         print start_date_as_datetime
         end_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(end_date))
@@ -210,16 +213,16 @@ def create_new_user_account(request):
 
         accounttype_obj = AccountType(optionType=accounttype)
         accounttype_obj.save()
-        
+
         group_obj = Group(optionType=group)
         group_obj.save()
-        
+
         account_obj = Account(account_name=account_name,opening_balance=opening_balance,group=group_obj,accounttype=accounttype_obj,my_cash_account=my_cash_account,my_bank_account=my_bank_account)
         account_obj.save()
-        
+
         accountingyear_obj = AccountingYear(account=account_obj,duration=duration,user=request.user,start_date=start_date_as_datetime,end_date=end_date_as_datetime)
         accountingyear_obj.save()
-        
+
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         userdetail_obj.account.add(account_obj)
         userdetail_obj.save()
@@ -287,11 +290,11 @@ def add_acc_validity_date(request):
         accountingyear_obj.save()
         end_date_in_epoch = int(time.mktime(time.strptime(end_date_as_string,'%Y-%m-%d')))
         print accountingyear_obj.start_date, accountingyear_obj.end_date, accountingyear_obj.duration
-        print end_date_in_epoch    
+        print end_date_in_epoch
         return HttpResponse(json.dumps({'exp_date':end_date_in_epoch}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
-        
+
 def add_amount_to_cash_account(request):
     print request.user
     json_obj = json.loads(request.body)
@@ -330,7 +333,7 @@ def my_cash_account_balance(request):
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date_as_datetime,created_at__lte=end_date_as_datetime)
         for i in cash_account_balance:
-            cash_balance = cash_balance + i.my_cash_account  
+            cash_balance = cash_balance + i.my_cash_account
         return HttpResponse(json.dumps({"cash_balance":cash_balance}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
@@ -353,7 +356,7 @@ def my_bank_account_balance(request):
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
         for i in cash_account_balance:
-            bank_balance = bank_balance + i.my_bank_account  
+            bank_balance = bank_balance + i.my_bank_account
         return HttpResponse(json.dumps({"bank_balance":bank_balance}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
@@ -397,7 +400,7 @@ def show_account_names(request):
         print account_obj
         for i in account_obj:
             date = i.created_at.strftime('%s')
-            obj = {"id":i.id,"account_name":i.account_name,"created_at":date}        
+            obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
             account_obj_list.append(obj)
         return HttpResponse(json.dumps({"account_obj_list":account_obj_list}), content_type="application/json")
     else:
@@ -412,8 +415,8 @@ def search_account_names(request):
             date = i.created_at.strftime('%s')
             obj = {"account_name":i.account_name,"created_at":date}
             account_name_list.append(obj)
-        
-        print account_name_list 
+
+        print account_name_list
         return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
 
 
@@ -552,7 +555,7 @@ def show_all_debit_transactions(request):
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
         print end_date
         end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
-        
+
         transactionList = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
@@ -578,7 +581,7 @@ def show_all_credit_transactions(request):
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
         print end_date
         end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
-        
+
         transactionList = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
