@@ -22,9 +22,7 @@ new Vue ({
 	filters: {
 		dateFilter: function(val) {
 			var date = new Date(val);
-			console.log(date);
-			return date;
-			// return isNaN(number) ? 0 : parseFloat(number.toFixed(2));
+			return date.getDate() + '/' + date.getMonth()+1 + '/' + date.getFullYear();
 		}
 	}
 

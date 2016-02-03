@@ -12,15 +12,17 @@
 			<div style="">
 
 				<h5>New Account Name*</h5>
-				<input type="text" name= "name" v-model="newUser.userName" class="form-control" placeholder="Name" required>
+				<input type="text" name= "name" v-model="newUser.accountName" class="form-control" placeholder="Name" required>
 
 				<h5>Alias for Account</h5>
 				<input type="text"  v-model="newUser.alias" class="form-control" placeholder="Alias Name">
 
 
 				<h5>Group Name*</h5>
-				<select ng-options="tem.label for item in items track by item.id" v-model="newUser.groupName">
-					<option value="">1</option>
+				<select v-model="group" class="form-control">
+					<option v-for="option in groupList" v-bind:value="option.choice_name">
+						{{ option.choice_name }}
+					</option>
 				</select>
 
 				<hr>
@@ -65,8 +67,33 @@
 				<h5>Opening Balance</h5>
 				<input type="text" v-model="newUser.openingBalance" class="form-control" placeholder="Opening Balance">
 
+				<h5>Account Type</h5>
+				<select v-model="accountType" class="form-control">
+					<option v-for="option in accountTypeList" v-bind:value="option.choice_name">
+						{{ option.choice_name }}
+					</option>
+				</select>
+
+				<div class="row">
+					<div class="col-xs-6">
+						<h5>Start Date</h5>
+						<input type="date" class="form-control" v-model="startDate">
+					</div>
+					<div class="col-xs-6">
+						<h5>End Date</h5>
+						<input type="date" class="form-control" v-model="endDate">
+					</div>
+				</div>
+
+				<h5>Period</h5>
+				<input type="text" class="form-control" v-model="duration" disabled>
+
+				<!-- <span>Selected: {{ selected }}</span> -->
 
 			</div>
+
+			<hr>
+
 			<button ng-disabled="userNewAccForm.$invalid" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;"> Add User </button>
 			</form>
 
