@@ -48,6 +48,8 @@ urlpatterns = [
     url(r'^todays_debit/$', 'double_entry_system.views.todays_debit'),
     url(r'^todays_credit/$', 'double_entry_system.views.todays_credit'),
     url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
+    url(r'^show_all_debit_amount/$', 'double_entry_system.views.show_all_debit_amount'),
+    url(r'^show_all_credit_amount/$', 'double_entry_system.views.show_all_credit_amount'),
 
 
     # akshay
