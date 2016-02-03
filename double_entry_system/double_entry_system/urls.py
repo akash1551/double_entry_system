@@ -32,8 +32,6 @@ urlpatterns = [
     url(r'^add_acc_validity_date/$', 'double_entry_system.views.add_acc_validity_date'),
     url(r'^create_new_user_account/$', 'double_entry_system.views.create_new_user_account'),
     url(r'^list_of_accounting_years/$', 'double_entry_system.views.list_of_accounting_years'),
-    url(r'^my_cash_account_balance/$', 'double_entry_system.views.my_cash_account_balance'),
-    url(r'^my_bank_account_balance/$', 'double_entry_system.views.my_bank_account_balance'),
     url(r'^search_Transaction/$', 'double_entry_system.views.search_Transaction'),
     url(r'^show_account_names/$', 'double_entry_system.views.show_account_names'),
     url(r'^search_account_names/$', 'double_entry_system.views.search_account_names'),
@@ -50,6 +48,8 @@ urlpatterns = [
     url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
     url(r'^show_all_debit_amount/$', 'double_entry_system.views.show_all_debit_amount'),
     url(r'^show_all_credit_amount/$', 'double_entry_system.views.show_all_credit_amount'),
+    url(r'^show_account_details/$', 'double_entry_system.views.show_account_details'),
+    url(r'^get_accounttype_from_db/$', 'double_entry_system.views.get_accounttype_from_db'),
 
 
     # akshay
