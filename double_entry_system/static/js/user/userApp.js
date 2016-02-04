@@ -11,13 +11,16 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
         positionY: 'top'
     });
 
-	$urlRouterProvider.otherwise('/login');
+	$urlRouterProvider.otherwise('/menu');
 
 	$stateProvider
-	.state('dashboard', {
-		url: '/menu/',
-		templateUrl: '/menu/',
-		controller: 'dashboardController'
+	.state('userHome', {
+        url: '/'
+    })
+	.state('menu', {
+		url: '/menu',
+		templateUrl: '/menu',
+		controller: 'menuController'
 	});
 
 });

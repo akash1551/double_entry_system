@@ -19,13 +19,13 @@ var loginApp = angular.module('loginApp', ['loginApp.service', 'ui.router', 'ui-
         url: '/'
     })
 	.state ('login', {
-		url: '/login/',
-		templateUrl: '/userLogin/',
+		url: '/login',
+		templateUrl: '/userLogin',
 		controller: 'loginController'
 	})
 	.state ('signUp', {
-		url: '/signUp/',
-		templateUrl: '/registration/',
+		url: '/signUp',
+		templateUrl: '/registration',
 		controller: 'signUpController'
 	});
 });

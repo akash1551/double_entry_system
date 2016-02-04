@@ -25,7 +25,7 @@
 			}
 		</style>
 	</head>
-	<body class="cover_bg" ng-app="userApp" ng-conroller="userCtrl">
+	<body class="cover_bg" ng-app="userApp" ng-controller="userCtrl">
 
 
 
@@ -74,6 +74,10 @@
 			</div>
 		</nav>
 
+		<div id="content" style="">
+			<div ui-view></div>
+		</div>
+
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -82,21 +86,9 @@
 		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script>
 
-
-
-		<div id="content" style="">
-			{% block pageContainer %}
-
-			{% endblock %}
-		</div>
-
-		<div id="footer">
-			{% include 'html_templates/footer.html'%}
-		</div>
-
 		<script src="{% static 'js/user/userApp.js' %}"></script>
-		<script src="{% static 'js/user/userServices.js' %}"></script>
 		<script src="{% static 'js/user/controller/userCtrl.js' %}"></script>
+		<script src="{% static 'js/user/userServices.js' %}"></script>
 
 		<script>
 			$(function(){
@@ -104,6 +96,13 @@
 				$('#content').css('padding-bottom', height+20);
 			});
 		</script>
+
+
+
+		<div id="footer">
+			{% include 'html_templates/footer.html'%}
+		</div>
+
 
 
 	</div>
