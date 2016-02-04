@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-		<!-- <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}"> -->
+		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}">
 		<link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
 
 		<style>
@@ -25,7 +25,7 @@
 			}
 		</style>
 	</head>
-	<body class="cover_bg">
+	<body class="cover_bg" ng-app="userApp" ng-conroller="userCtrl">
 
 
 
@@ -77,9 +77,10 @@
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+		<script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
 		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
-		<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
+		<script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script>
 
 
 
@@ -93,11 +94,9 @@
 			{% include 'html_templates/footer.html'%}
 		</div>
 
-		<script src="{% static 'js/user/login.js' %}"></script>
-		<script src="{% static 'js/user/registration.js' %}"></script>
-		<script src="{% static 'js/user/myAccMaster.js' %}"></script>
-		<script src="{% static 'js/user/newUserAccount.js' %}"></script>
-		<script src="{% static 'js/user/accounting.js' %}"></script>
+		<script src="{% static 'js/user/userApp.js' %}"></script>
+		<script src="{% static 'js/user/userServices.js' %}"></script>
+		<script src="{% static 'js/user/controller/userCtrl.js' %}"></script>
 
 		<script>
 			$(function(){

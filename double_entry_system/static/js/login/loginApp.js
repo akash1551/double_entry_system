@@ -54,6 +54,7 @@ loginApp.controller('loginController', function($scope, networkCall, Notificatio
 				Notification.error({message: result.validation});
 			}else{
 				Notification.success(result.validation);
+				window.location.href = result.redirecturl;
 			}
 		});
 	};
