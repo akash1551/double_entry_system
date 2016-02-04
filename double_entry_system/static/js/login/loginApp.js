@@ -1,4 +1,4 @@
-var loginApp = angular.module('loginApp', ['ui.router'])
+var loginApp = angular.module('loginApp', ['loginApp.service', 'ui.router'])
 .config(function($stateProvider, $urlRouterProvider){
 
 
@@ -27,8 +27,17 @@ loginApp.controller('loginMasterController', function($scope, $state, $timeout){
 	$timeout($scope.init);
 });
 
-loginApp.controller('loginController', function($scope){
+loginApp.controller('loginController', function($scope, networkCall){
 	console.log('loginController is loaded');
+
+	$scope.login = function(){
+		var dataPromis = networkCall.loginRequest();
+		dataPromis.then(function(result){
+			console.log(result);
+		});
+	};
+
+
 });
 
 loginApp.controller('signUpController', function($scope){
