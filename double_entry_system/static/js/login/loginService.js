@@ -8,8 +8,8 @@ angular.module('loginApp.service', [])
 		});
 	};
 
-	var signUpRequest = function(){
-		return $http.post('', {}).then(function(result){
+	var signUpRequest = function(userInfo){
+		return $http.post('/register_new_user/', {userInfo}).then(function(result){
 			return result.data;
 		});
 	};

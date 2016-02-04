@@ -26,7 +26,7 @@
 				<h5>User Name</h5>
 				<div class="row">
 					<div class="col-sm-12">
-						<input type="text" name= "name" class="form-control custom_input_registrationForm_user" placeholder="User Name" v-model="userInfo.userName">
+						<input type="text" name= "name" class="form-control custom_input_registrationForm_user" placeholder="User Name" ng-model="userInfo.userName">
 					</div>
 				</div>
 
@@ -34,10 +34,10 @@
 			<h5>Password</h5>
 			<div class="row ">
 				<div class="col-sm-6">
-					<input type="password" name="password1" id="password1" class="form-control custom_input_registrationForm_user" placeholder="Password" v-model="userInfo.password" >
+					<input type="password" name="password1" id="password1" class="form-control custom_input_registrationForm_user" placeholder="Password" ng-model="userInfo.password" >
 				</div>
 				<div class="col-sm-6">
-					<input type="password" pw-check="password1" name="password2" id="password2" class="form-control custom_input_registrationForm_user" placeholder="Confirm Password" v-model="userInfo.confirmPassword">
+					<input type="password" pw-check="password1" name="password2" id="password2" class="form-control custom_input_registrationForm_user" placeholder="Confirm Password" ng-model="userInfo.confirmPassword">
 				</div>
 			</div>
 
@@ -46,52 +46,52 @@
 			<h5>Name</h5>
 				<div class="row">
 					<div class="col-sm-6">
-						<input type="text" name="firstName" class="form-control custom_input_registrationForm_user" placeholder="Name" v-model="userInfo.firstName" >
+						<input type="text" name="firstName" class="form-control custom_input_registrationForm_user" placeholder="Name" ng-model="userInfo.firstName" >
 					</div>
 					<div class="col-sm-6">
 						<input type="text" name="lastName" class="form-control custom_input_registrationForm_user"
-						placeholder="Last Name" v-model="userInfo.lastName" >
+						placeholder="Last Name" ng-model="userInfo.lastName" >
 					</div>
 				</div>
 
 			<h5>Address</h5>
 
-					<input type="text" name="addressLine1" class="form-control custom_input_registrationForm_user " placeholder="Address line 1" v-model="userInfo.addressLine1">
+					<input type="text" name="addressLine1" class="form-control custom_input_registrationForm_user " placeholder="Address line 1" ng-model="userInfo.addressLine1">
 
-					<input type="text" class="form-control custom_input_registrationForm_user input_margin_top" placeholder="Address line 2" v-model="userInfo.addressLine2">
+					<input type="text" class="form-control custom_input_registrationForm_user input_margin_top" placeholder="Address line 2" ng-model="userInfo.addressLine2">
 
 					<div class="row input_margin_top">
 						<div class="col-sm-6">
-							<input type="text" name="city" class="form-control custom_input_registrationForm_user " placeholder="City" v-model="userInfo.city" >
+							<input type="text" name="city" class="form-control custom_input_registrationForm_user " placeholder="City" ng-model="userInfo.city" >
 
 						</div>
 						<div class="col-sm-6">
-							<input type="text" name="state"  class="form-control custom_input_registrationForm_user " placeholder="State" v-model="userInfo.state" >
+							<input type="text" name="state"  class="form-control custom_input_registrationForm_user " placeholder="State" ng-model="userInfo.state" >
 						</div>
 					</div>
 					<div class="row input_margin_top">
 						<div class="col-sm-6">
-							<input type="text" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" v-model="userInfo.pincode"  maxlength="6">
+							<input type="text" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" ng-model="userInfo.pincode"  maxlength="6">
 						</div>
 						<div class="col-sm-6">
-							<input type="text" name="country" class="form-control custom_input_registrationForm_user " placeholder="Country" v-model="userInfo.country" >
+							<input type="text" name="country" class="form-control custom_input_registrationForm_user " placeholder="Country" ng-model="userInfo.country" >
 						</div>
 					</div>
 
 				<h5>Mobile No</h5>
 					<div class="row ">
 						<div class="col-sm-6">
-							<input type="text" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" v-model="userInfo.mobileNo0"  maxlength="10">
+							<input type="text" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" ng-model="userInfo.mobileNo0"  maxlength="10">
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" v-model="userInfo.mobileNo1" maxlength="10">
+							<input type="text" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" ng-model="userInfo.mobileNo1" maxlength="10">
 						</div>
 					</div>
 
 				<h5>Email</h5>
 					<div class="row ">
 						<div class="col-sm-12">
-							<input type="email" name="email" class="form-control custom_input_registrationForm_user " placeholder="Email" v-model="userInfo.email" >
+							<input type="email" name="email" class="form-control custom_input_registrationForm_user " placeholder="Email" ng-model="userInfo.email" >
 						</div>
 					</div>
 

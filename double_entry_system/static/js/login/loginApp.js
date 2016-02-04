@@ -64,8 +64,25 @@ loginApp.controller('loginController', function($scope, networkCall, Notificatio
 loginApp.controller('signUpController', function($scope, networkCall){
 	console.log('signUpController is loaded');
 
+		$scope.userInfo = {
+			userName : '',
+			password : '',
+			confirmPassword : '',
+			firstName : '',
+			lastName : '',
+			addressLine1 : '',
+			addressLine2 : '',
+			city : '',
+			state : '',
+			pincode : '',
+			country : '',
+			mobileNo0 : '',
+			mobileNo1 : '',
+			email : '',
+		};
+
 	$scope.signUp = function(){
-		var dataPromis = networkCall.signUpRequest();
+		var dataPromis = networkCall.signUpRequest($scope.userInfo);
 		dataPromis.then(function(result){
 			console.log(result);
 		});
