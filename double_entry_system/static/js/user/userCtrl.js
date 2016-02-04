@@ -3,6 +3,6 @@ angular.module('userApp.controllers', [])
 	console.log('userCtrl is loaded');
 })
 
-.controller('menuController', function($scope){
-	console.log('menuController is loaded');
+.controller('dashboardController', function($scope){
+	console.log('dashboardController is loaded');
 });
