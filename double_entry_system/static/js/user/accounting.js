@@ -4,10 +4,14 @@ new Vue ({
 	data: {
 		date: '',
 		tranType: 'C',
-		credit: '',
-		debit: '',
+		credit: null,
+		debit: null,
 		tranList: [],
 		inputTabs: false
+	},
+
+	init: function() {
+		$( "#tranType" ).focus();
 	},
 
 	filters: {
@@ -15,27 +19,31 @@ new Vue ({
 			if(val == 'c' || val == 'C'){
 				this.inputTabs = false;
 				this.tranType = 'C';
-				return 'C';
+				return this.tranType;
 			}else if(val =='d' || val =='D'){
 				this.inputTabs = true;
 				this.tranType = 'D';
-				return 'D';
+				return this.tranType;
 			}else{
 				this.inputTabs = false;
 				this.tranType = 'C';
-				return 'C';
+				return this.tranType;
 			}
 		}
 	},
 
 	methods: {
 		addEntry: function(){
-			if(this.credit != '' || this.debit != ''){
-				this.tranList.push({tranType: this.tranType, credit: this.credit, debit: this.debit});
-				this.tranType = '';
-				this.credit = '';
-				this.debit = '';
+			if(this.tranType == 'C' && this.credit != null){
+				this.tranList.push({is_debit: this.tranType, amount: this.credit});
+			}else if(this.tranType == 'D' && this.debit != null){
+				this.tranList.push({is_debit: this.tranType, amount: this.debit});
 			}
+			this.credit = null;
+			this.debit = null;
+			$( "#credit" ).val('');
+			$( "#debit" ).val('');
+			$( "#tranType" ).focus();
 		},
 
 		removeEntry: function(entry){
