@@ -25,8 +25,8 @@ class UserDetail(models.Model):
 	country = models.CharField(max_length=100,null=False)
 	pin_code = models.IntegerField(null=False)
 	account = models.ManyToManyField('Account')
-#	bank_account = models.ForeignKey('Account',related_name='bank_account',null=True)
-#	cash_account = models.ForeignKey('Account',related_name='cash_account',null=True)
+	bank_account = models.ForeignKey('Account',related_name='bank_account')
+	cash_account = models.ForeignKey('Account',related_name='cash_account')
 
 	def __unicode__(self):
 		return self.first_name
@@ -60,8 +60,8 @@ class Transaction(models.Model):
 	transactiontype = models.ForeignKey('TransactionType')
 	transaction_record = models.ManyToManyField('TransactionRecord')
 	description = models.TextField()
-	user = models.ForeignKey('UserDetail')
-	
+	user = models.ForeignKey(User)
+
 	def __unicode__(self):
 		return self.description
 

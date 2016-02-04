@@ -326,36 +326,39 @@ def show_account_details(request):
         print end_date_as_string
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
-        for i in account_obj:
-            cash_balance = cash_balance + i.my_cash_account
-
-                        ##### For Bank Account Balance ######
-        bank_balance = 0
-        for i in account_obj:
-            bank_balance = bank_balance + i.my_bank_account
-
+        
+        bank_account_obj = userdetail_obj.bank_account.current_balance
+        print bank_account_obj
+                        ##### For Bank Account Balance #########
+        cash_account_obj = userdetail_obj.cash_account.current_balance
+        print cash_account_obj
                         ######### Show Account Names ###########
         account_obj_list = []
+        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
         for i in account_obj:
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
             account_obj_list.append(obj)
-
+        print account_obj_list
                         ######### Show Debit Amount ###########
         all_debit = 0
-        for i in account_obj:
-            transaction_obj = i.transaction.all()
-            for j in transaction_obj:
-                all_debit = all_debit + j.debit_amount
-
-                        ############## Show Credit Amount ############
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        for i in transaction_obj:
+            transaction_record_obj = i.transaction_record.all()
+            for j in transaction_record_obj:
+                if j.is_debit == True:
+                    all_debit = all_debit + j.amount
+        print all_debit       
+                   ############## Show Credit Amount ############
         all_credit = 0
-        for i in account_obj:
-            transaction_obj = i.transaction.all()
-            for j in transaction_obj:
-                all_credit = all_credit + j.credit_amount
-        return HttpResponse(json.dumps({"bank_balance":bank_balance,"cash_balance":cash_balance,"all_debit":all_debit,"all_credit":all_credit,"account_obj_list":account_obj_list}), content_type="application/json")
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        for i in transaction_obj:
+            transaction_record_obj = i.transaction_record.all()
+            for j in transaction_record_obj:
+                if j.is_debit == False:
+                    all_credit = all_debit + j.amount
+        print all_credit
+        return HttpResponse(json.dumps({"bank_balance":bank_account_obj,"cash_balance":cash_account_obj,"all_debit":all_debit,"all_credit":all_credit,"account_obj_list":account_obj_list}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
@@ -427,6 +430,7 @@ def transaction_for_account(request):
         print request.user
         json_obj = json.loads(request.body)
         Acc_list = json_obj['Acc_list']
+        print Acc_list
         for i in Acc_list:
             amount = i['amount']
             account_id = i['account_id']
@@ -450,6 +454,7 @@ def transaction_for_account(request):
             transaction_obj.save()
             transaction_obj.transaction_record.add(transactionrecord_queries)
             transaction_obj.save()
+        print "Transaction saved Successfully..."
         return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
