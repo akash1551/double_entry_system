@@ -15,9 +15,9 @@
 		<div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2" style="background-color: #f1f1f1; padding: 10px; max-height: 400px;">
 		<form ng-submit="login();">
 			<h4 class="caption">Username</h4>
-			<input type="text" v-model="userName" class="form-control loginFields " placeholder="Username">
+			<input type="text" ng-model="userName" class="form-control loginFields " placeholder="Username">
 			<h4 class="caption">Password</h4>
-			<input type="password" v-model="password" class="form-control loginFields" placeholder="Password">
+			<input type="password" ng-model="password" class="form-control loginFields" placeholder="Password">
 			<button class="btn btn-primary" style="width: 100%; height: 40px;">Login</button>
 		</form>
 		</div>

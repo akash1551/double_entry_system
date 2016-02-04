@@ -1,6 +1,18 @@
-var loginApp = angular.module('loginApp', ['loginApp.service', 'ui.router'])
-.config(function($stateProvider, $urlRouterProvider){
+var loginApp = angular.module('loginApp', ['loginApp.service', 'ui.router', 'ui-notification'])
+.config(function($stateProvider, $urlRouterProvider, NotificationProvider){
 
+
+	NotificationProvider.setOptions({
+        delay: 3000,
+        startTop: 20,
+        startRight: 10,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'right',
+        positionY: 'top'
+    });
+
+	$urlRouterProvider.otherwise('/login');
 
 	$stateProvider
 	.state('userLogin', {
@@ -21,19 +33,28 @@ var loginApp = angular.module('loginApp', ['loginApp.service', 'ui.router'])
 loginApp.controller('loginMasterController', function($scope, $state, $timeout){
 	console.log('loginMasterController is loaded');
 
+
 	$scope.init = function(){
 		$state.go('login');
 	};
 	$timeout($scope.init);
 });
 
-loginApp.controller('loginController', function($scope, networkCall){
+loginApp.controller('loginController', function($scope, networkCall, Notification){
 	console.log('loginController is loaded');
 
+	$scope.userName = '';
+	$scope.password = '';
+
 	$scope.login = function(){
-		var dataPromis = networkCall.loginRequest();
+		var dataPromis = networkCall.loginRequest($scope.userName, $scope.password);
 		dataPromis.then(function(result){
 			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				Notification.success(result.validation);
+			}
 		});
 	};
 
