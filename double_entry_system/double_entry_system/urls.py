@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^show_all_credit_amount/$', 'double_entry_system.views.show_all_credit_amount'),
     url(r'^show_account_details/$', 'double_entry_system.views.show_account_details'),
     url(r'^get_accounttype_from_db/$', 'double_entry_system.views.get_accounttype_from_db'),
+    url(r'^date_conversion/$', 'double_entry_system.views.date_conversion'),
 
 
     # akshay
