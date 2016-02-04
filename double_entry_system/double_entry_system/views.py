@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from accounts.models import UserDetail,Group,TransactionType
+from accounts.models import UserDetail,Group,TransactionType,TransactionRecord
 from accounts.models import Transaction,AccountType,Account,AccountingYear
 import json
 from django import forms
@@ -32,6 +32,7 @@ def user_login(request):
     password = data_dict['password']
 
     user = auth.authenticate(username=username,password=password)
+    print user
     print username, password
     if user is not None:
         if user.is_active:
@@ -110,7 +111,10 @@ def register_new_user(request):
             return HttpResponse(json.dumps({"validation":"Email is already exist.Try with another Email.","status":False}), content_type="application/json")
         email = json_obj['email']
 
-    address_line1 = json_obj['addressLine1']
+    if json_obj['addressLine1'] is None:
+        return HttpResponse(json.dumps({"validation":"Please Enter Your Address...!","status":False}), content_type="application/json")
+    else:
+        address_line1 = json_obj['addressLine1']
     address_line2 = json_obj['addressLine2']
 
     contact_no = json_obj['mobileNo0']
@@ -127,7 +131,8 @@ def register_new_user(request):
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1)
     userdetail_obj.save()
-
+    account = Account.create("Cash Account")
+    account = Account.create("Bank_Account")
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
@@ -282,7 +287,6 @@ def add_acc_validity_date(request):
     if request.user.is_authenticated():
         print request.body
         print request.user
-
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         print start_date
@@ -301,29 +305,9 @@ def add_acc_validity_date(request):
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
-def add_amount_to_cash_account(request):
-    print request.user
-    json_obj = json.loads(request.body)
-    start_date = json_obj['start_date']
-    end_date = json_obj['end_date']
-    amou0nt = json_obj['amount']
-    account_id = json_obj['account_id']
-    transactiontype = json_obj['transactiontype']
-    group = json_obj['group']
-    description = json_obj['description']
-    userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-    cash_account_balance = userdetail_obj.account.get(id=account_id,created_at__gte=start_date,created_at__lte=end_date)
-
-    print cash_account_balance.my_cash_account
-    cash_account_balance.my_cash_account = cash_account_balance.my_cash_account + my_cash_account
-    cash_account_balance.save()
-
-    print cash_account_balance.my_cash_account
-    return HttpResponse(json.dumps({"validation":"cash amount added in your account."}), content_type="application/json")
             ################################################################
             #################### Show Account Details ######################
             ################################################################
-
 
 def show_account_details(request):
     if request.user.is_authenticated():
@@ -339,24 +323,17 @@ def show_account_details(request):
         print end_date_as_string
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
-        for i in cash_account_balance:
+        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
+        for i in account_obj:
             cash_balance = cash_balance + i.my_cash_account
 
                         ##### For Bank Account Balance ######
         bank_balance = 0
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        cash_account_balance = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
-        for i in cash_account_balance:
+        for i in account_obj:
             bank_balance = bank_balance + i.my_bank_account
 
                         ######### Show Account Names ###########
-
         account_obj_list = []
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        print userdetail_obj
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
-        print account_obj
         for i in account_obj:
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
@@ -364,8 +341,6 @@ def show_account_details(request):
 
                         ######### Show Debit Amount ###########
         all_debit = 0
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
         for i in account_obj:
             transaction_obj = i.transaction.all()
             for j in transaction_obj:
@@ -373,8 +348,6 @@ def show_account_details(request):
 
                         ############## Show Credit Amount ############
         all_credit = 0
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
         for i in account_obj:
             transaction_obj = i.transaction.all()
             for j in transaction_obj:
@@ -408,13 +381,12 @@ def show_account_names(request):
     if request.user.is_authenticated:
         print request.user
         print request.body
-
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
         print start_date
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
         print end_date
         account_obj_list = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
@@ -447,31 +419,34 @@ def search_account_names(request):
             ################# Credit And Debit Transactions ##################
             ##################################################################
 
-def debit_transaction_for_cash_account(request):
+def transaction_for_account(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
         Acc_list = json_obj['Acc_list']
         for i in Acc_list:
-            amount = i['debit_amount']
+            amount = i['amount']
             account_id = i['account_id']
             transactiontype = i['transactiontype']
-            group = i['group']
             description = i['description']
-            try:
-                account_obj = Account.objects.get(id=account_id)
-            except Account.DoesNotExist:
-                return HttpResponse(json.dumps({"validation":"Something wrong.This account does not exist."}), content_type="application/json")
-            account_obj.my_cash_account = account_obj.my_cash_account + amount
+            transaction_date = i['transaction_date']
+            is_debit = i['is_debit']
+            print is_debit.capitalize()
+            if is_debit == "D":
+                is_debit = True
+            else:
+                is_debit = False
+            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
             transactiontype_obj = TransactionType(optionType=transactiontype)
             transactiontype_obj.save()
-            group_obj = Group(optionType=group)
-            group_obj.save()
-            transaction_queries = Transaction(debit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description)
-            transaction_queries.save()
-            account_obj.transaction.add(transaction_queries)
-            account_obj.save()
-            print account_obj.my_cash_account
+            account_obj = Account.objects.get(id=account_id)
+            transactionrecord_queries = TransactionRecord(amount=amount,is_debit=is_debit,account=account_obj)
+            transactionrecord_queries.save()
+            userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+            transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=userdetail_obj)
+            transaction_obj.save()
+            transaction_obj.transaction_record.add(transactionrecord_queries)
+            transaction_obj.save()
         return HttpResponse(json.dumps({"validation":"Transaction Saved Successfully","status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
@@ -487,16 +462,15 @@ def credit_transaction_for_cash_account(request):
             transactiontype = i['transactiontype']
             group = i['group']
             description = i['description']
-            try:
-                account_obj = Account.objects.get(id=account_id)
-            except Account.DoesNotExist:
-                return HttpResponse(json.dumps({"validation":"Something wrong.This account does not exist."}), content_type="application/json")
+            transaction_date = i['transaction_date']
+            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))            
+            account_obj = Account.objects.get(id=account_id)
             account_obj.my_cash_account = account_obj.my_cash_account - amount
             transactiontype_obj = TransactionType(optionType=transactiontype)
             transactiontype_obj.save()
             group_obj = Group(optionType=group)
             group_obj.save()
-            transaction_queries = Transaction(credit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description)
+            transaction_queries = Transaction(credit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description,transaction_date=transaction_date)
             transaction_queries.save()
             account_obj.transaction.add(transaction_queries)
             account_obj.save()
@@ -516,16 +490,15 @@ def debit_transaction_for_bank_account(request):
             transactiontype = i['transactiontype']
             group = i['group']
             description = i['description']
-            try:
-                account_obj = Account.objects.get(id=account_id)
-            except Account.DoesNotExist:
-                return HttpResponse(json.dumps({"validation":"Something wrong.This account does not exist."}), content_type="application/json")
+            transaction_date = i['transaction_date']
+            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
+            account_obj = Account.objects.get(id=account_id)
             account_obj.my_bank_account = account_obj.my_bank_account + amount
             transactiontype_obj = TransactionType(optionType=transactiontype)
             transactiontype_obj.save()
             group_obj = Group(optionType=group)
             group_obj.save()
-            transaction_queries = Transaction(debit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description)
+            transaction_queries = Transaction(debit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description,transaction_date=transaction_date)
             transaction_queries.save()
             account_obj.transaction.add(transaction_queries)
             account_obj.save()
@@ -543,18 +516,17 @@ def credit_transaction_for_bank_account(request):
             amount = i['credit_amount']
             account_id = i['account_id']
             transactiontype = i['transactiontype']
-            group = i['group']
+#            group = i['group']
             description = i['description']
-            try:
-                account_obj = Account.objects.get(id=account_id)
-            except Account.DoesNotExist:
-                return HttpResponse(json.dumps({"validation":"Something wrong.This account does not exist."}), content_type="application/json")
+            transaction_date = i['transaction_date']
+            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
+            account_obj = Account.objects.get(id=account_id)
             account_obj.my_cash_account = account_obj.my_cash_account + amount
             transactiontype_obj = TransactionType(optionType=transactiontype)
             transactiontype_obj.save()
-            group_obj = Group(optionType=group)
-            group_obj.save()
-            transaction_queries = Transaction(credit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description)
+            #group_obj = Group(optionType=group)
+            #group_obj.save()
+            transaction_queries = Transaction(credit_amount=amount,transactiontype=transactiontype_obj,group=group_obj,description=description,transaction_date=transaction_date)
             transaction_queries.save()
             account_obj.transaction.add(transaction_queries)
             account_obj.save()
@@ -568,27 +540,23 @@ def credit_transaction_for_bank_account(request):
                 ########## Show All Debit And Credit Transactions #########
                 ###########################################################
 
-def add_amount_to_cash_account(request):
+def show_all_debit_transactions(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
+        account_id = json_obj['account_id']
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
-        print start_date
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
-        print end_date
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
-
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))        
         transactionList = []
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        account_obj = Account.objects.get(id=account_id)
         print account_obj
-        for i in account_obj:
-            transaction_obj = i.transaction.filter(debit_amount__gt=0,created_at__gte=start_date,created_at__lte=end_date)
-            for j in transaction_obj:
-                created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
-                obj = {"debit_amount":j.debit_amount,"description":j.description,"created_at":created_at_in_epoch}
-                transactionList.append(obj)
+        transaction_obj = account_obj.transaction.filter(credit_amount__gt=0,created_at__gte=start_date,created_at__lte=end_date)
+        for j in transaction_obj:
+            created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
+            obj = {"debit_amount":j.debit_amount,"description":j.description,"created_at":created_at_in_epoch}
+            transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
@@ -598,27 +566,27 @@ def show_all_credit_transactions(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
+        account_id = json_obj['account_id']
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
-        print start_date
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
-        print end_date
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
-
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))        
         transactionList = []
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
+        account_obj = Account.objects.get(id=account_id)
         print account_obj
-        for i in account_obj:
-            transaction_obj = i.transaction.filter(credit_amount__gt=0,created_at__gte=start_date,created_at__lte=end_date)
-            for j in transaction_obj:
-                created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
-                obj = {"credit_amount":j.credit_amount,"description":j.description,"created_at":created_at_in_epoch}
-                transactionList.append(obj)
+        transaction_obj = account_obj.transaction.filter(credit_amount__gt=0,created_at__gte=start_date,created_at__lte=end_date)
+        for j in transaction_obj:
+            created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
+            obj = {"credit_amount":j.credit_amount,"description":j.description,"created_at":created_at_in_epoch}
+            transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+            #####################################################################
+            ####### Show Total Of Debit And Credit Amount Of All Accounts #######
+            #####################################################################
 
 def show_all_debit_amount(request):
     if request.user.is_authenticated():
@@ -660,17 +628,17 @@ def show_all_credit_amount(request):
                 all_credit = all_credit + j.credit_amount
         return HttpResponse(json.dumps({"all_credit":all_credit}), content_type="application/json")
     else:
-        return
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
 def show_current_balance(request):
     if request.user.is_authenticated():
         json_obj = json.loads(request.body)
         account_id = json_obj['account_id']
         Account_obj = Account.objects.get(id=account_id)
-        current_balance = Account_obj.my_bank_account + Account_obj.my_cash_account
+        Account_obj.current_balance = Account_obj.my_bank_account + Account_obj.my_cash_account
         if datetime.datetime.now()>=datetime.datetime.today()-timedelta(days=1):
-            Account_obj = Account.objects.get(id=account_id)
-            Account_obj.opening_balance = current_balance
+            Account_obj.opening_balance = Account_obj.current_balance
             Account_obj.save()
-        return HttpResponse(json.dumps({"current_balance":current_balance}), content_type="application/json")
+        return HttpResponse(json.dumps({"current_balance":Account_obj.current_balance}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
