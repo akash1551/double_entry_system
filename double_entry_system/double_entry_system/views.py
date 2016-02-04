@@ -23,6 +23,9 @@ import calendar
 def home(request):
     return render_to_response('loginIndex.html')
 
+def userHome(request):
+    return render_to_response('index.html')
+
 def user_login(request):
     print request.body
     data_dict = json.loads(request.body)
@@ -38,7 +41,7 @@ def user_login(request):
         if user.is_active:
             auth.login(request,user)
             print "Login Successful"
-            return HttpResponse(json.dumps({"validation":"Login Successful","status":True,'redirecturl':"/menu"}), content_type="application/json")
+            return HttpResponse(json.dumps({"validation":"Login Successful","status":True,'redirecturl':"/userHome"}), content_type="application/json")
         else:
             print "Login Failed"
             return HttpResponse(json.dumps({"validation":"Invalid Login","status":False}), content_type="application/json")
@@ -167,7 +170,7 @@ def transactions(request):
         return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
-        
+
 def date_conversion(request):
         start_date = 1454284800000/1000
         start_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(start_date))
@@ -244,7 +247,7 @@ def list_of_accounting_years(request):
             print i.end_date
             end_date = int(i.end_date.strftime("%s")) * 1000
             print end_date
-           
+
             obj = {"start_date":start_date,"end_date":end_date}
             AccYearsList.append(obj)
         return HttpResponse(json.dumps({"AccYearsList":AccYearsList,"status":True}), content_type="application/json")
@@ -463,7 +466,7 @@ def credit_transaction_for_cash_account(request):
             group = i['group']
             description = i['description']
             transaction_date = i['transaction_date']
-            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))            
+            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
             account_obj = Account.objects.get(id=account_id)
             account_obj.my_cash_account = account_obj.my_cash_account - amount
             transactiontype_obj = TransactionType(optionType=transactiontype)
@@ -548,7 +551,7 @@ def show_all_debit_transactions(request):
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))        
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
         transactionList = []
         account_obj = Account.objects.get(id=account_id)
         print account_obj
@@ -570,7 +573,7 @@ def show_all_credit_transactions(request):
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))        
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
         transactionList = []
         account_obj = Account.objects.get(id=account_id)
         print account_obj
