@@ -1,8 +1,3 @@
-{% extends 'html_templates/index.html' %}
-
-{% block pageContainer %}
-
-{% load staticfiles %}
 <style>
 	.icon_acc{
 		width: 40px; height: 40px; border-radius: 30px; background-color: #bebebe; display: inline; padding: 10px; font-weight: bold; cursor: pointer; cursor: hand;
@@ -100,12 +95,12 @@
 				<div class="row text-center" v-for="item in accYearsList" style="cursor: hand; cursor: pointer;">
 					<div class="col-sm-6">
 						<p style="background-color: #aaa; padding: 20px; margin: 15px;">
-							<span>{{item.start_date | dateFilter}}</span>
+							<span>{{item.start_date | date: 'dd/MMM/yyyy a'}}</span>
 						</p>
 					</div>
 					<div class="col-sm-6">
 						<p style="background-color: #aaa; padding: 20px; margin: 15px;">
-							<span>{{item.end_date | dateFilter}}</span>
+							<span>{{item.end_date | date: 'dd/MMM/yyyy a'}}</span>
 						</p>
 					</div>
 				</div>
@@ -128,5 +123,3 @@
 		});
 	});
 </script>
-
-{% endblock %}

@@ -27,14 +27,7 @@
 	</head>
 	<body class="cover_bg" ng-app="userApp" ng-controller="userCtrl">
 
-
-
 	<div id="wrapper">
-
-		<!-- <div id="header"> -->
-
-		<!-- </div> -->
-
 
 		<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 40px;">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -78,6 +71,9 @@
 			<div ui-view></div>
 		</div>
 
+		<div id="footer">
+			{% include 'html_templates/footer.html'%}
+		</div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -87,8 +83,9 @@
 		<script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script>
 
 		<script src="{% static 'js/user/userApp.js' %}"></script>
-		<script src="{% static 'js/user/userCtrl.js' %}"></script>
 		<script src="{% static 'js/user/userServices.js' %}"></script>
+		<script src="{% static 'js/user/userCtrl.js' %}"></script>
+		<script src="{% static 'js/user/controller/myAccMasterCtrl.js' %}"></script>
 
 		<script>
 			$(function(){
@@ -99,9 +96,6 @@
 
 
 
-		<div id="footer">
-			{% include 'html_templates/footer.html'%}
-		</div>
 
 
 

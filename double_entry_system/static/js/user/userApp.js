@@ -18,9 +18,14 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
         url: '/'
     })
 	.state('dashboard', {
-		url: '/dashboard',
-		templateUrl: '/menu',
-		controller: 'dashboardController'
+        url: '/dashboard',
+        templateUrl: '/menu',
+        controller: 'dashboardController'
+    })
+    .state('myAccMaster', {
+		url: '/myAccMaster',
+		templateUrl: '/myAcc',
+		controller: 'myAccMasterController'
 	});
 
 });
