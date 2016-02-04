@@ -12,6 +12,11 @@
 		appearance: none;
 		margin: 0;
 	}
+
+	.hand {
+		cursor: hand;
+		cursor: pointer;
+	}
 </style>
 <div class="container" id="accounting">
 	<div class="row">
@@ -28,12 +33,12 @@
 								<div class="col-xs-3">
 									<span>{{item.tranType}}</span>
 								</div>
-								<div class="col-xs-6">
+								<div class="col-xs-8">
 									<span>{{item.credit}}</span>
 									<span>{{item.debit}}</span>
 								</div>
-								<div class="col-xs-3">
-									<i class="fa fa-minus-circle fa-lg" @click="removeEntry(item)"></i>
+								<div class="col-xs-1">
+									<i class="fa fa-minus-circle fa-lg hand" @click="removeEntry(item)"></i>
 								</div>
 
 							</div>
@@ -49,17 +54,17 @@
 				</div>
 				<div class="col-xs-4">
 					<label for="">Credit</label>
-					<input type="number" v-model="credit" class="form-control" :disabled="inputTabs">
+					<input type="number" v-model="credit" class="form-control" :disabled="inputTabs" @keyup.enter="addEntry">
 				</div>
 				<div class="col-xs-4">
 					<label for="">Debit</label>
-					<input type="number" v-model="debit" class="form-control" :disabled="!inputTabs">
+					<input type="number" v-model="debit" class="form-control" :disabled="!inputTabs" @keyup.enter="addEntry">
 				</div>
 				<div class="col-xs-1">
 
 					<div class="row" style="margin-top: 30px;">
 						<div class="col-xs-6" style="padding: 0px;">
-							<i class="fa fa-plus-circle fa-lg" @click="addEntry"></i>
+							<i class="fa fa-plus-circle fa-lg hand" @click="addEntry"></i>
 						</div>
 					</div>
 
