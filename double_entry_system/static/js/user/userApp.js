@@ -23,9 +23,14 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
         controller: 'dashboardController'
     })
     .state('myAccMaster', {
-		url: '/myAccMaster',
-		templateUrl: '/myAcc',
-		controller: 'myAccMasterController'
+        url: '/myAccMaster',
+        templateUrl: '/myAcc',
+        controller: 'myAccMasterController'
+    })
+    .state('accountingApp', {
+		url: '/accountingApp',
+		templateUrl: '/accounting',
+		controller: 'accountingAppController'
 	});
 
 });
