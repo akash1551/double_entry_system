@@ -40,6 +40,13 @@ loginApp.controller('loginController', function($scope, networkCall){
 
 });
 
-loginApp.controller('signUpController', function($scope){
+loginApp.controller('signUpController', function($scope, networkCall){
 	console.log('signUpController is loaded');
+
+	$scope.signUp = function(){
+		var dataPromis = networkCall.signUpRequest();
+		dataPromis.then(function(result){
+			console.log(result);
+		});
+	};
 });

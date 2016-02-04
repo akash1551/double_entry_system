@@ -8,7 +8,7 @@ angular.module('loginApp.service', [])
 		});
 	};
 
-	var registerRequest = function(){
+	var signUpRequest = function(){
 		return $http.post('', {}).then(function(result){
 			return result.data;
 		});
@@ -16,6 +16,6 @@ angular.module('loginApp.service', [])
 
 	return {
 		loginRequest : loginRequest,
-		registerRequest : registerRequest
+		signUpRequest : signUpRequest
 	};
 });
