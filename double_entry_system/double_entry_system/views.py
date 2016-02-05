@@ -401,9 +401,9 @@ def show_account_names(request):
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
             account_obj_list.append(obj)
-        return HttpResponse(json.dumps({"account_obj_list":account_obj_list}), content_type="application/json")
+        return HttpResponse(json.dumps({"account_obj_list":account_obj_list,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
 def search_account_names(request):
     if request.user.is_authenticated:
@@ -550,7 +550,6 @@ def show_all_transactions(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
-        account_id = json_obj['account_id']
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
@@ -559,9 +558,10 @@ def show_all_transactions(request):
         print account_obj
         transaction_obj = Transaction.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
         for j in transaction_obj:
-            created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
-            obj = {"debit_amount":j.debit_amount,"description":j.description,"created_at":created_at_in_epoch}
-            transactionList.append(obj)
+            transaction_record_obj = i.transaction_record.all()
+            for i in transaction_record_obj:
+                obj = {"amount":j.amount,"is_debit":j.is_debit}
+                transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
