@@ -22,7 +22,7 @@
 			<div class="row" style="margin-top: 15px;">
 				<div class="col-xs-12">
 					<ul class="list-group">
-						<li class="list-group-item" ng-repeat="item in tranList">
+						<li class="list-group-item" ng-repeat="item in tranList track by $index">
 							<div class="row">
 
 								<div class="col-xs-3">
@@ -32,7 +32,7 @@
 									<span>{{item.amount}}</span>
 								</div>
 								<div class="col-xs-1">
-									<i class="fa fa-minus-circle fa-lg hand" ng-click="removeEntry(item);"></i>
+									<i class="fa fa-minus-circle fa-lg hand" ng-click="removeEntry($index);"></i>
 								</div>
 
 							</div>
