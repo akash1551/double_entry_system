@@ -438,13 +438,16 @@ def transaction_for_account(request):
         json_obj = json.loads(request.body)
         Acc_list = json_obj['Acc_list']
         transaction_date = json_obj['transaction_date']
+        transactiontype = ['transactiontype']
+        print type(transactiontype)
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
         description = json_obj['description']
         print Acc_list
         for i in Acc_list:
             amount = i['amount']
-            account_id = i['account_id']
-            transactiontype = i['transactiontype']
+            account = i['account']
+            account_id = account.get("id")
+            print account_id
             is_debit = i['is_debit']
             print is_debit.capitalize()
             if is_debit == "D":
@@ -452,8 +455,9 @@ def transaction_for_account(request):
             else:
                 is_debit = False
             account_obj = Account.objects.get(id=account_id)
-            transactiontype_obj = TransactionType(optionType=transactiontype)
+            print account_obj
             user_obj = User.objects.get(id=request.user.id)
+            transactiontype_obj = TransactionType(optionType=transactiontype)
             transactiontype_obj.save()
             transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
             transaction_obj.save()
