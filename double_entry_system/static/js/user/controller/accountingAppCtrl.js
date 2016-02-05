@@ -2,23 +2,28 @@ angular.module('userApp.controllers')
 .controller('accountingAppController', function($scope, $timeout, networkService, Notification){
 	console.log('accountingAppController is loaded');
 
-	$scope.date = null;
 	var change = false;
 
-	$scope.accountList = [];
-	$scope.account = {};
+	var clearData = function(){
+		$scope.date = null;
+		change = false;
 
-	$scope.transactionModeList = [];
-	$scope.transactionMode = {};
+		$scope.accountList = [];
+		$scope.account = {};
 
-	$scope.tranList = [];
-	$scope.tranType = 'C';
-	$scope.inputTabs = false;
-	$scope.credit = null;
-	$scope.debit = null;
-	$scope.description = '';
+		$scope.transactionModeList = [];
+		$scope.transactionMode = {};
+
+		$scope.tranList = [];
+		$scope.tranType = 'C';
+		$scope.inputTabs = false;
+		$scope.credit = null;
+		$scope.debit = null;
+		$scope.description = '';
+	};
 
 	$scope.init = function(){
+		clearData();
 		getAccountList();
 		getTransactionModeList();
 		$('#tranType').focus();
@@ -132,6 +137,7 @@ angular.module('userApp.controllers')
 					if(!result.status){
 						Notification.error({message: result.validation});
 					}else{
+						clearData();
 						Notification.success(result.validation);
 					}
 				});
