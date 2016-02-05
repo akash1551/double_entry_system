@@ -23,6 +23,11 @@
 				-o-background-size: cover;
 				background-size: cover;
 			}
+
+			.hand {
+				cursor: pointer;
+				cursor: hand;
+			}
 		</style>
 	</head>
 	<body class="cover_bg" ng-app="userApp" ng-controller="userCtrl">
@@ -62,7 +67,7 @@
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a ng-click="logout();">Log Out</a></li>
+					<li class="hand"><a ng-click="logout();">Log Out</a></li>
 				</ul>
 			</div>
 		</nav>

@@ -94,7 +94,7 @@ def register_new_user(request):
     print request.user
 
     json_obj=json.loads(request.body)
-    #json_obj=json_obj['userInfo']
+    json_obj=json_obj['userInfo']
 
     if User.objects.filter(username = json_obj['userName']).exists():
         print "Username already Exist."
@@ -121,11 +121,14 @@ def register_new_user(request):
     address_line2 = json_obj['addressLine2']
 
     contact_no = json_obj['mobileNo0']
+    contact_no = int(contact_no)
     contact_no1 = json_obj['mobileNo1']
+    contact_no = int(contact_no)
     city = json_obj['city']
     state = json_obj['state']
     country = json_obj['country']
     pin_code = json_obj['pincode']
+    pin_code = int(pin_code)
     bank_account_name = "My Bank Account"
     cash_account_name = "My Cash Account"
     bank_account_obj = Account(account_name=bank_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
