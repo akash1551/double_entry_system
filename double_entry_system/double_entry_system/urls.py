@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^show_account_names/$', 'double_entry_system.views.show_account_names'),
     url(r'^search_account_names/$', 'double_entry_system.views.search_account_names'),
     url(r'^get_groups_from_db/$', 'double_entry_system.views.get_groups_from_db'),
-    #url(r'^add_amount_to_cash_account/$', 'double_entry_system.views.add_amount_to_cash_account'),
+    url(r'^get_transactiontype_from_db/$', 'double_entry_system.views.get_transactiontype_from_db'),
     url(r'^transaction_for_account/$', 'double_entry_system.views.transaction_for_account'),
     url(r'^credit_transaction_for_cash_account/$', 'double_entry_system.views.credit_transaction_for_cash_account'),
     url(r'^debit_transaction_for_bank_account/$', 'double_entry_system.views.debit_transaction_for_bank_account'),

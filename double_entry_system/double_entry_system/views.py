@@ -126,10 +126,11 @@ def register_new_user(request):
     state = json_obj['state']
     country = json_obj['country']
     pin_code = json_obj['pincode']
-
-    bank_account_obj = Account(contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
+    bank_account_name = "My Bank Account"
+    cash_account_name = "My Cash Account"
+    bank_account_obj = Account(account_name=bank_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     bank_account_obj.save()
-    cash_account_obj = Account(contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
+    cash_account_obj = Account(account_name=cash_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     cash_account_obj.save()
     user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
@@ -290,7 +291,7 @@ def get_transactiontype_from_db(request):
         # print type_of_property_list
         return HttpResponse(json.dumps({"TransactionTypeList": TransactionTypeList,"status": True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":True}), content_type="application/json")
 
 def add_acc_validity_date(request):
     if request.user.is_authenticated():
@@ -394,16 +395,18 @@ def show_account_names(request):
         print request.body
         account_obj_list = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        print userdetail_obj
+        bank_account_obj = userdetail_obj.bank_account
+        print bank_account_obj.account_name
+        cash_account_obj = userdetail_obj.cash_account
         account_obj = userdetail_obj.account.all()
         print account_obj
         for i in account_obj:
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
             account_obj_list.append(obj)
-        return HttpResponse(json.dumps({"account_obj_list":account_obj_list}), content_type="application/json")
+        return HttpResponse(json.dumps({"account_obj_list":account_obj_list,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
 def search_account_names(request):
     if request.user.is_authenticated:
@@ -550,7 +553,6 @@ def show_all_transactions(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
-        account_id = json_obj['account_id']
         start_date = json_obj['start_date']
         end_date = json_obj['end_date']
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
@@ -559,9 +561,10 @@ def show_all_transactions(request):
         print account_obj
         transaction_obj = Transaction.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
         for j in transaction_obj:
-            created_at_in_epoch = calendar.timegm(j.created_at.timetuple())
-            obj = {"debit_amount":j.debit_amount,"description":j.description,"created_at":created_at_in_epoch}
-            transactionList.append(obj)
+            transaction_record_obj = i.transaction_record.all()
+            for i in transaction_record_obj:
+                obj = {"amount":j.amount,"is_debit":j.is_debit}
+                transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
