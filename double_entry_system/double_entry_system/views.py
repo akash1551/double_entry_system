@@ -94,7 +94,7 @@ def register_new_user(request):
     print request.user
 
     json_obj=json.loads(request.body)
-    #json_obj=json_obj['userInfo']
+    json_obj=json_obj['userInfo']
 
     if User.objects.filter(username = json_obj['userName']).exists():
         print "Username already Exist."
@@ -121,11 +121,14 @@ def register_new_user(request):
     address_line2 = json_obj['addressLine2']
 
     contact_no = json_obj['mobileNo0']
+    contact_no = int(contact_no)
     contact_no1 = json_obj['mobileNo1']
+    contact_no = int(contact_no)
     city = json_obj['city']
     state = json_obj['state']
     country = json_obj['country']
     pin_code = json_obj['pincode']
+    pin_code = int(pin_code)
     bank_account_name = "My Bank Account"
     cash_account_name = "My Cash Account"
     bank_account_obj = Account(account_name=bank_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
@@ -436,15 +439,19 @@ def transaction_for_account(request):
         print request.user
         print request.body
         json_obj = json.loads(request.body)
-        Acc_list = json_obj['Acc_list']
-        transaction_date = json_obj['transaction_date']
+        data = json_obj['data']
+        Acc_list = data.get("Acc_list")
+        transaction_date = data.get("transaction_date")
+        transactiontype = data.get("transactiontype")
+        print type(transactiontype)
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
-        description = json_obj['description']
+        description = data.get("description")
         print Acc_list
         for i in Acc_list:
             amount = i['amount']
-            account_id = i['account_id']
-            transactiontype = i['transactiontype']
+            account = i['account']
+            account_id = account.get("id")
+            print account_id
             is_debit = i['is_debit']
             print is_debit.capitalize()
             if is_debit == "D":
@@ -452,8 +459,9 @@ def transaction_for_account(request):
             else:
                 is_debit = False
             account_obj = Account.objects.get(id=account_id)
-            transactiontype_obj = TransactionType(optionType=transactiontype)
+            print account_obj
             user_obj = User.objects.get(id=request.user.id)
+            transactiontype_obj = TransactionType(optionType=transactiontype)
             transactiontype_obj.save()
             transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
             transaction_obj.save()
