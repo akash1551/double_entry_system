@@ -16,6 +16,7 @@ angular.module('userApp.controllers')
 	$scope.inputTabs = false;
 	$scope.credit = null;
 	$scope.debit = null;
+	$scope.description = '';
 
 	$scope.init = function(){
 		getAccountList();
@@ -111,5 +112,18 @@ angular.module('userApp.controllers')
 
 	$scope.removeEntry = function(index){
 		$scope.tranList.splice(index, 1);
+	};
+
+	$scope.saveTransactionEntry = function(){
+		var obj = {
+			Acc_list: $scope.tranList,
+			transaction_date: $scope.date,
+			description: $scope.description,
+			transactiontype: $scope.transactionMode.id
+		};
+		var dataPromis = networkService.saveTransactionEntryRequest(obj);
+		dataPromis.then(function(result){
+			console.log(result);
+		});
 	};
 });

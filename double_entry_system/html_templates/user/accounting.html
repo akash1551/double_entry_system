@@ -93,10 +93,10 @@
 			</form>
 			<div class="row" style="margin-top: 20px;" ng-show="tranList.length">
 				<div class="col-xs-9 text-center">
-					<textarea class="form-control" placeholder="Add Description here ..." style="resize: none;"></textarea>
+					<textarea class="form-control" placeholder="Add Description here ..." style="resize: none;" ng-model="description"></textarea>
 				</div>
 				<div class="col-xs-3">
-					<button class="btn btn-info form-control">Save</button>
+					<button class="btn btn-info form-control" ng-click="saveTransactionEntry();">Save</button>
 				</div>
 			</div>
 		</div>
