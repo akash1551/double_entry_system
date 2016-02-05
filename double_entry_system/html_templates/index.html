@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-		<!-- <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}"> -->
+		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}">
 		<link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
 
 		<style>
@@ -25,16 +25,9 @@
 			}
 		</style>
 	</head>
-	<body class="cover_bg">
-
-
+	<body class="cover_bg" ng-app="userApp" ng-controller="userCtrl">
 
 	<div id="wrapper">
-
-		<!-- <div id="header"> -->
-
-		<!-- </div> -->
-
 
 		<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 40px;">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -61,7 +54,7 @@
 						<a href="/menu/" style="text-decoration: none;">menu</a>
 					</li>
 					<li class="">
-						<a href="/accounting/" style="text-decoration: none;">accounting</a>
+						<a ui-sref="accountingApp" style="text-decoration: none;">accounting</a>
 					</li>
 					<li class="">
 						<a href="/newUserAccount/" style="text-decoration: none;">newUserAccount</a>
@@ -74,30 +67,26 @@
 			</div>
 		</nav>
 
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="{% static 'jquery.min.js' %}"></script>
-		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'bower_components/vue/dist/vue.min.js' %}"></script>
-		<script src="{% static 'bower_components/vue-resource/dist/vue-resource.min.js' %}"></script>
-
-
-
 		<div id="content" style="">
-			{% block pageContainer %}
-
-			{% endblock %}
+			<div ui-view></div>
 		</div>
 
 		<div id="footer">
 			{% include 'html_templates/footer.html'%}
 		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="{% static 'jquery.min.js' %}"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+		<script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script>
 
-		<script src="{% static 'js/user/login.js' %}"></script>
-		<script src="{% static 'js/user/registration.js' %}"></script>
-		<script src="{% static 'js/user/myAccMaster.js' %}"></script>
-		<script src="{% static 'js/user/newUserAccount.js' %}"></script>
-		<script src="{% static 'js/user/accounting.js' %}"></script>
+		<script src="{% static 'js/user/userApp.js' %}"></script>
+		<script src="{% static 'js/user/userServices.js' %}"></script>
+		<script src="{% static 'js/user/userCtrl.js' %}"></script>
+		<script src="{% static 'js/user/controller/myAccMasterCtrl.js' %}"></script>
+		<script src="{% static 'js/user/controller/accountingAppCtrl.js' %}"></script>
 
 		<script>
 			$(function(){
@@ -105,6 +94,10 @@
 				$('#content').css('padding-bottom', height+20);
 			});
 		</script>
+
+
+
+
 
 
 	</div>

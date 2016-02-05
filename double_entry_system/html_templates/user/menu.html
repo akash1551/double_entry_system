@@ -1,15 +1,10 @@
-{% extends 'html_templates/index.html' %}
-
-{% block pageContainer %}
-
-{% load staticfiles %}
 {% verbatim %}
 <div class="container menu_section">
 	<div class="row">
 
 		<div class=" col-sm-4 col-xs-8">
 
-			<a href="/myAcc/" style="text-decoration: none;">
+			<a ui-sref="myAccMaster" style="text-decoration: none;">
 				<!-- <div class="menu_wrapper"> -->
 				<div class="text-center" style="background-color: #aaa; padding: 50px;">
 					<p class="menu_name"> My Account</p>
@@ -37,4 +32,3 @@
 	</div>
 </div>
 {% endverbatim %}
-{% endblock %}
