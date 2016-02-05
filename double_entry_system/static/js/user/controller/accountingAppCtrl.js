@@ -119,7 +119,7 @@ angular.module('userApp.controllers')
 	$scope.saveTransactionEntry = function(){
 		var obj = {
 			Acc_list: $scope.tranList,
-			transaction_date: $scope.date,
+			transaction_date: new Date($scope.date).getTime(),
 			description: $scope.description,
 			transactiontype: $scope.transactionMode.id
 		};
