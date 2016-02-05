@@ -392,18 +392,22 @@ def search_Transaction(request):
 def show_account_names(request):
     if request.user.is_authenticated:
         print request.user
-        print request.body
         account_obj_list = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         bank_account_obj = userdetail_obj.bank_account
-        print bank_account_obj.account_name
+        date = bank_account_obj.created_at.strftime('%s')
+        obj1 = {"id":bank_account_obj.id,"account_name":bank_account_obj.account_name,"created_at":date}
+        account_obj_list.append(obj1)
         cash_account_obj = userdetail_obj.cash_account
+        date = cash_account_obj.created_at.strftime('%s')
+        obj2 = {"id":cash_account_obj.id,"account_name":cash_account_obj.account_name,"created_at":date}
+        account_obj_list.append(obj2)
         account_obj = userdetail_obj.account.all()
-        print account_obj
         for i in account_obj:
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
             account_obj_list.append(obj)
+        print account_obj_list
         return HttpResponse(json.dumps({"account_obj_list":account_obj_list,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
@@ -429,22 +433,24 @@ def search_account_names(request):
 def transaction_for_account(request):
     if request.user.is_authenticated():
         print request.user
+        print request.body
         json_obj = json.loads(request.body)
         Acc_list = json_obj['Acc_list']
+        transaction_date = json_obj['transaction_date']
+        print type(transaction_date)
+        transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
+        description = json_obj['description']
         print Acc_list
         for i in Acc_list:
             amount = i['amount']
             account_id = i['account_id']
             transactiontype = i['transactiontype']
-            description = i['description']
-            transaction_date = i['transaction_date']
             is_debit = i['is_debit']
             print is_debit.capitalize()
             if is_debit == "D":
                 is_debit = True
             else:
                 is_debit = False
-            transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
             account_obj = Account.objects.get(id=account_id)
             transactiontype_obj = TransactionType(optionType=transactiontype)
             user_obj = User.objects.get(id=request.user.id)
