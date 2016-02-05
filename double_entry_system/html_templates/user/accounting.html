@@ -1,8 +1,3 @@
-{% extends 'html_templates/index.html' %}
-
-{% block pageContainer %}
-
-{% load staticfiles %}
 {% verbatim %}
 <style>
 	input[type=number]::-webkit-inner-spin-button,
@@ -20,14 +15,25 @@
 </style>
 <div class="container" id="accounting">
 	<div class="row">
-		<div class="col-sm-6 col-sm-offset-3" style="background-color: #bebebe; padding: 15px;">
-			<pre>{{ $data | json }}</pre>
-			<h4>datepicker</h4>
-			<input type="date" class="form-control">
+		<div class="col-sm-8 col-sm-offset-2" style="background-color: #bebebe; padding: 15px;">
+			<!-- <pre>{{ $data | json }}</pre> -->
+			<div class="row" style="margin-top: 15px;">
+				<div class="col-xs-6">
+					<h4>Date</h4>
+					<input type="date" class="form-control" ng-model="date">
+				</div>
+				<div class="col-xs-6">
+					<h4>Account Name</h4>
+					<select class="form-control" ng-model="accountList">
+						<option value="">Select</option>
+					</select>
+				</div>
+			</div>
+
 			<div class="row" style="margin-top: 15px;">
 				<div class="col-xs-12">
 					<ul class="list-group">
-						<li class="list-group-item" v-for="item in tranList">
+						<li class="list-group-item" ng-repeat="item in tranList track by $index">
 							<div class="row">
 
 								<div class="col-xs-3">
@@ -37,7 +43,7 @@
 									<span>{{item.amount}}</span>
 								</div>
 								<div class="col-xs-1">
-									<i class="fa fa-minus-circle fa-lg hand" @click="removeEntry(item)"></i>
+									<i class="fa fa-minus-circle fa-lg hand" ng-click="removeEntry($index);"></i>
 								</div>
 
 							</div>
@@ -46,31 +52,36 @@
 					</ul>
 				</div>
 			</div>
-			<div class="row" style="margin-top: 20px;">
 
-				<div class="col-xs-3">
-					<label></label>
-					<input class="form-control" type="text" v-model="tranType | tranTypeFilter" v-change="tranType == tranTypeFilter" style="margin-top: 5px;" id='tranType'>
-				</div>
-				<div class="col-xs-4">
-					<label for="">Credit</label>
-					<input type="number" v-model="credit" class="form-control" :disabled="inputTabs" @keyup.enter="addEntry" id="credit">
-				</div>
-				<div class="col-xs-4">
-					<label for="">Debit</label>
-					<input type="number" v-model="debit" class="form-control" :disabled="!inputTabs" @keyup.enter="addEntry" id="debit">
-				</div>
-				<div class="col-xs-1">
+			<form ng-submit="addEntry();">
+				<div class="row" style="margin-top: 20px;">
 
-					<div class="row" style="margin-top: 30px;">
-						<div class="col-xs-6" style="padding: 0px;">
-							<i class="fa fa-plus-circle fa-lg hand" @click="addEntry"></i>
-						</div>
+					<div class="col-xs-3">
+						<label></label>
+						 <!-- ng-change="tranType == tranTypeFilter"  -->
+						<input class="form-control" type="text" ng-model="tranType" style="margin-top: 5px;" ng-change="tranType = tranTypeFilter(tranType);">
 					</div>
+					<div class="col-xs-4">
+						<label for="">Credit</label>
+						<input type="number" ng-model="credit" class="form-control" ng-disabled="inputTabs">
+					</div>
+					<div class="col-xs-4">
+						<label for="">Debit</label>
+						<input type="number" ng-model="debit" class="form-control" ng-disabled="!inputTabs">
+					</div>
+					<div class="col-xs-1">
 
+						<div class="row" style="margin-top: 30px;">
+							<div class="col-xs-6" style="padding: 0px;">
+								<i class="fa fa-plus-circle fa-lg hand" ng-click="addEntry();"></i>
+								<button style="display: none;"></button>
+							</div>
+						</div>
+
+					</div>
 				</div>
-			</div>
-			<div class="row" style="margin-top: 20px;" v-show="tranList.length">
+			</form>
+			<div class="row" style="margin-top: 20px;" ng-show="tranList.length">
 				<div class="col-xs-12 text-center">
 					<button class="btn btn-info">Save</button>
 				</div>
@@ -79,4 +90,3 @@
 	</div>
 </div>
 {% endverbatim %}
-{% endblock %}
