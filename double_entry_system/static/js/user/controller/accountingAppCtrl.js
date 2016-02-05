@@ -1,9 +1,16 @@
 angular.module('userApp.controllers')
-.controller('accountingAppController', function($scope, $timeout, networkService){
+.controller('accountingAppController', function($scope, $timeout, networkService, Notification){
 	console.log('accountingAppController is loaded');
 
 	$scope.date = null;
+	var change = false;
+
 	$scope.accountList = [];
+	$scope.account = {};
+
+	$scope.transactionModeList = [];
+	$scope.transactionMode = {};
+
 	$scope.tranList = [];
 	$scope.tranType = 'C';
 	$scope.inputTabs = false;
@@ -12,6 +19,8 @@ angular.module('userApp.controllers')
 
 	$scope.init = function(){
 		getAccountList();
+		getTransactionModeList();
+		$('#tranType').focus();
 	};
 	$timeout($scope.init);
 
@@ -19,30 +28,85 @@ angular.module('userApp.controllers')
 		var dataPromis = networkService.getAccountListRequest();
 		dataPromis.then(function(result){
 			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				$scope.accountList = result.account_obj_list;
+			}
+		});
+	};
+
+	var getTransactionModeList = function(){
+		var dataPromis = networkService.getTransactionModeListRequest();
+		dataPromis.then(function(result){
+			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				$scope.transactionModeList = result.TransactionTypeList;
+			}
 		});
 	};
 
 	$scope.tranTypeFilter = function(val){
-		if(val == 'c' || val == 'C'){
-			$scope.inputTabs = false;
-			return 'C';
-		}else if(val == 'd' || val == 'D'){
-			$scope.inputTabs = true;
-			return 'D';
-		}else{
-			//
+		// if(tranTypeValidation(val)){
+			if(val == 'c' || val == 'C'){
+				$scope.inputTabs = false;
+				return 'C';
+			}else if(val == 'd' || val == 'D'){
+				$scope.inputTabs = true;
+				return 'D';
+			}else{
+				//
+			}
+		// }else{
+		// 	Notification.error({message: "Sorry you can't add random entries"});
+		// }
+	};
+
+	var tranTypeValidation = function(val){
+		// console.log('In tranTypeValidation func');
+		if($scope.tranList.length == 0){
+			console.log('In tranTypeValidation func first length 0');
+			return true;
 		}
+
+		if(!change && $scope.tranList.length != 0){
+			console.log($scope.tranList.length);
+			if($scope.tranList[$scope.tranList.length-1].is_debit == val ){
+			console.log('In tranTypeValidation func mid true');
+				return true;
+			}else{
+				console.log('In tranTypeValidation func mid change true');
+				change = true;
+				return true;
+			}
+		}
+
+		if(change && $scope.tranList[$scope.tranList.length-1].is_debit == val){
+			return true;
+			console.log('In tranTypeValidation func last true');
+		}else{
+			console.log('In tranTypeValidation func last false');
+			return false;
+		}
+
 	};
 
 	$scope.addEntry = function(){
-		if($scope.tranType == 'C' && $scope.credit != null){
-			$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.credit});
-			$scope.credit = null;
-		}else if($scope.tranType == 'D' && $scope.debit != null){
-			$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.debit});
-			$scope.debit = null;
+		if(tranTypeValidation($scope.tranType)){
+			if($scope.tranType == 'C' && $scope.credit != null){
+				$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.credit, account: $scope.account});
+				$scope.credit = null;
+			}else if($scope.tranType == 'D' && $scope.debit != null){
+				$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.debit, account: $scope.account});
+				$scope.debit = null;
+			}
+			$('#tranType').focus();
+			console.log($scope.tranList);
+		}else{
+			Notification.error({message: "Sorry you can't add random entries"});
 		}
-		console.log($scope.tranList);
 	};
 
 	$scope.removeEntry = function(index){
