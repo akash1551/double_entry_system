@@ -87,7 +87,7 @@ def accountDetailBasedOnYear(request):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponse(json.dumps({"validation":"You are now logged out..!!","status":True}))
+    return HttpResponse(json.dumps({"validation":"You are now logged out..!!","status":True,"redirecturl":"/#/login"}))
 
 def register_new_user(request):
     print request.body
@@ -394,6 +394,7 @@ def show_account_names(request):
         print request.user
         account_obj_list = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        print userdetail_obj
         bank_account_obj = userdetail_obj.bank_account
         date = bank_account_obj.created_at.strftime('%s')
         obj1 = {"id":bank_account_obj.id,"account_name":bank_account_obj.account_name,"created_at":date}
