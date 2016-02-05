@@ -24,16 +24,11 @@
 				</div>
 				<div class="col-xs-6">
 					<h4>Transaction Mode</h4>
-					<select class="form-control" ng-model="account" ng-options="mode.choice_name for mode in transactionModeList">
+					<select class="form-control" ng-model="transactionMode" ng-options="mode.choice_name for mode in transactionModeList">
 						<option value="">Select</option>
 					</select>
 				</div>
-				<div class="col-xs-6">
-					<h4>Account Name</h4>
-					<select class="form-control" ng-model="account" ng-options="account.account_name for account in accountList">
-						<option value="">Select</option>
-					</select>
-				</div>
+
 			</div>
 
 			<div class="row" style="margin-top: 15px;">
@@ -65,16 +60,22 @@
 			<form ng-submit="addEntry();">
 				<div class="row" style="margin-top: 20px;">
 
-					<div class="col-xs-3">
+					<div class="col-xs-2">
 						<label></label>
 						 <!-- ng-change="tranType == tranTypeFilter"  -->
-						<input class="form-control" type="text" ng-model="tranType" style="margin-top: 5px;" ng-change="tranType = tranTypeFilter(tranType);">
+						<input class="form-control" type="text" ng-model="tranType" style="margin-top: 5px;" ng-change="tranType = tranTypeFilter(tranType);" id="tranType">
 					</div>
-					<div class="col-xs-4">
+					<div class="col-xs-3">
+						<label for="">Account Name</label>
+						<select class="form-control" ng-model="account" ng-options="account.account_name for account in accountList">
+							<option value="">Select</option>
+						</select>
+					</div>
+					<div class="col-xs-3">
 						<label for="">Credit</label>
 						<input type="number" ng-model="credit" class="form-control" ng-disabled="inputTabs">
 					</div>
-					<div class="col-xs-4">
+					<div class="col-xs-3">
 						<label for="">Debit</label>
 						<input type="number" ng-model="debit" class="form-control" ng-disabled="!inputTabs">
 					</div>
