@@ -44,7 +44,7 @@ urlpatterns = [
     url(r'^show_all_credit_transactions/$', 'double_entry_system.views.show_all_credit_transactions'),
     url(r'^show_all_transactions/$', 'double_entry_system.views.show_all_transactions'),
     url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
-    url(r'^show_all_debit_amount/$', 'double_entry_system.views.show_all_debit_amount'),
+    url(r'^show_all_debit_and_credit_amount/$', 'double_entry_system.views.show_all_debit_and_credit_amount'),
     url(r'^show_all_credit_amount/$', 'double_entry_system.views.show_all_credit_amount'),
     url(r'^show_account_details/$', 'double_entry_system.views.show_account_details'),
     url(r'^get_accounttype_from_db/$', 'double_entry_system.views.get_accounttype_from_db'),
