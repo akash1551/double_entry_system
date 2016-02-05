@@ -14,7 +14,7 @@ angular.module('userApp.services', [])
 	};
 
 	var saveTransactionEntryRequest = function(data){
-		return $http.post('/transaction_for_account/', {data}).then(function(result){
+		return $http.post('/transaction_for_account/', {data: data}).then(function(result){
 			return result.data;
 		});
 	};

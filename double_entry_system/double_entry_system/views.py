@@ -436,12 +436,13 @@ def transaction_for_account(request):
         print request.user
         print request.body
         json_obj = json.loads(request.body)
-        Acc_list = json_obj['Acc_list']
-        transaction_date = json_obj['transaction_date']
-        transactiontype = ['transactiontype']
+        data = json_obj['data']
+        Acc_list = data.get("Acc_list")
+        transaction_date = data.get("transaction_date")
+        transactiontype = data.get("transactiontype")
         print type(transactiontype)
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
-        description = json_obj['description']
+        description = data.get("description")
         print Acc_list
         for i in Acc_list:
             amount = i['amount']
