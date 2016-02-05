@@ -13,10 +13,17 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var saveTransactionEntryRequest = function(data){
+		return $http.post('/transaction_for_account/', {data}).then(function(result){
+			return result.data;
+		});
+	};
+
 
 	return {
 		getAccountListRequest : getAccountListRequest,
-		getTransactionModeListRequest : getTransactionModeListRequest
+		getTransactionModeListRequest : getTransactionModeListRequest,
+		saveTransactionEntryRequest : saveTransactionEntryRequest
 	};
 
 });
