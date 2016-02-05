@@ -3,7 +3,13 @@ angular.module('userApp.controllers')
 	console.log('accountingAppController is loaded');
 
 	$scope.date = null;
+
 	$scope.accountList = [];
+	$scope.account = {};
+
+	$scope.transactionModeList = [];
+	$scope.transactionMode = {};
+
 	$scope.tranList = [];
 	$scope.tranType = 'C';
 	$scope.inputTabs = false;
@@ -12,6 +18,7 @@ angular.module('userApp.controllers')
 
 	$scope.init = function(){
 		getAccountList();
+		getTransactionModeList();
 	};
 	$timeout($scope.init);
 
@@ -19,6 +26,23 @@ angular.module('userApp.controllers')
 		var dataPromis = networkService.getAccountListRequest();
 		dataPromis.then(function(result){
 			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				$scope.accountList = result.account_obj_list;
+			}
+		});
+	};
+
+	var getTransactionModeList = function(){
+		var dataPromis = networkService.getTransactionModeListRequest();
+		dataPromis.then(function(result){
+			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				$scope.transactionModeList = result.TransactionTypeList;
+			}
 		});
 	};
 
@@ -36,10 +60,10 @@ angular.module('userApp.controllers')
 
 	$scope.addEntry = function(){
 		if($scope.tranType == 'C' && $scope.credit != null){
-			$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.credit});
+			$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.credit, account: $scope.account});
 			$scope.credit = null;
 		}else if($scope.tranType == 'D' && $scope.debit != null){
-			$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.debit});
+			$scope.tranList.push({is_debit: $scope.tranType, amount: $scope.debit, account: $scope.account});
 			$scope.debit = null;
 		}
 		console.log($scope.tranList);

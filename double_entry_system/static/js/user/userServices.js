@@ -7,9 +7,16 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var getTransactionModeListRequest = function(){
+		return $http.get('/get_transactiontype_from_db/').then(function(result){
+			return result.data;
+		});
+	};
+
 
 	return {
-		getAccountListRequest : getAccountListRequest
+		getAccountListRequest : getAccountListRequest,
+		getTransactionModeListRequest : getTransactionModeListRequest
 	};
 
 });
