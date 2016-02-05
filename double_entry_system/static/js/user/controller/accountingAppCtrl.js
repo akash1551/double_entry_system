@@ -129,6 +129,11 @@ angular.module('userApp.controllers')
 				var dataPromis = networkService.saveTransactionEntryRequest(obj);
 				dataPromis.then(function(result){
 					console.log(result);
+					if(!result.status){
+						Notification.error({message: result.validation});
+					}else{
+						Notification.success(result.validation);
+					}
 				});
 			}else{
 				Notification.error({message: "You credit and Debit entries amount doesn't match"});
