@@ -19,11 +19,18 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var logoutRequest = function(data){
+		return $http.post('/logout/', {data: data}).then(function(result){
+			return result.data;
+		});
+	};
+
 
 	return {
 		getAccountListRequest : getAccountListRequest,
 		getTransactionModeListRequest : getTransactionModeListRequest,
-		saveTransactionEntryRequest : saveTransactionEntryRequest
+		saveTransactionEntryRequest : saveTransactionEntryRequest,
+		logoutRequest : logoutRequest
 	};
 
 });
