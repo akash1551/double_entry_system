@@ -437,7 +437,6 @@ def transaction_for_account(request):
         json_obj = json.loads(request.body)
         Acc_list = json_obj['Acc_list']
         transaction_date = json_obj['transaction_date']
-        print type(transaction_date)
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
         description = json_obj['description']
         print Acc_list
@@ -564,12 +563,13 @@ def show_all_transactions(request):
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
         end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
         transactionList = []
-        print account_obj
         transaction_obj = Transaction.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
-        for j in transaction_obj:
+        for i in transaction_obj:
             transaction_record_obj = i.transaction_record.all()
-            for i in transaction_record_obj:
-                obj = {"amount":j.amount,"is_debit":j.is_debit}
+            
+            for j in transaction_record_obj:
+                date = i.transaction_date.strftime('%s')
+                obj = {"id":i.id,"transaction_date":date,"description":i.description,"amount":j.amount,"is_debit":j.is_debit,}
                 transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
@@ -602,26 +602,23 @@ def show_all_credit_transactions(request):
             ####### Show Total Of Debit And Credit Amount Of All Accounts #######
             #####################################################################
 
-def show_all_debit_amount(request):
+def show_all_debit_and_credit_amount(request):
     if request.user.is_authenticated():
-        all_debit = 0
         json_obj = json.loads(request.body)
-        start_date = json_obj['start_date']
-        end_date = json_obj['end_date']
-        print start_date
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
-        print end_date
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
+        account_id = json_obj['account_id']
+        all_debit = 0
+        all_credit = 0
         transactionList = []
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
-        for i in account_obj:
-            transaction_obj = i.transaction.all()
-            for j in transaction_obj:
-                all_debit = all_debit + j.debit_amount
-        return HttpResponse(json.dumps({"all_debit":all_debit}), content_type="application/json")
+        transaction_record_obj = TransactionRecord.objects.filter(account__id=account_id)
+        for i in transaction_record_obj:
+            if i.is_debit == True:
+                print i.amount
+                all_debit = all_debit + i.amount
+            if i.is_debit == False:
+                all_credit = all_credit + i.amount
+        return HttpResponse(json.dumps({"all_debit":all_debit,"all_credit":all_credit,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
 def show_all_credit_amount(request):
     if request.user.is_authenticated():
