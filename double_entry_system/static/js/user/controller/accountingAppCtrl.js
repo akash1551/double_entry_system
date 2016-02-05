@@ -1,5 +1,5 @@
 angular.module('userApp.controllers')
-.controller('accountingAppController', function($scope){
+.controller('accountingAppController', function($scope, $timeout, networkService){
 	console.log('accountingAppController is loaded');
 
 	$scope.date = null;
@@ -10,6 +10,17 @@ angular.module('userApp.controllers')
 	$scope.credit = null;
 	$scope.debit = null;
 
+	$scope.init = function(){
+		getAccountList();
+	};
+	$timeout($scope.init);
+
+	var getAccountList = function(){
+		var dataPromis = networkService.getAccountListRequest();
+		dataPromis.then(function(result){
+			console.log(result);
+		});
+	};
 
 	$scope.tranTypeFilter = function(val){
 		if(val == 'c' || val == 'C'){
