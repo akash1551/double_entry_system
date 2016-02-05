@@ -2,11 +2,14 @@ angular.module('userApp.controllers')
 .controller('accountingAppController', function($scope){
 	console.log('accountingAppController is loaded');
 
+	$scope.date = null;
+	$scope.accountList = [];
 	$scope.tranList = [];
 	$scope.tranType = 'C';
 	$scope.inputTabs = false;
 	$scope.credit = null;
 	$scope.debit = null;
+
 
 	$scope.tranTypeFilter = function(val){
 		if(val == 'c' || val == 'C'){
