@@ -31,6 +31,11 @@
 		box-shadow: 2px 2px 2px solid #FFF;
 	}
 
+	.hand {
+		cursor: hand;
+		cursor: pointer;
+	}
+
 </style>
 {% verbatim %}
 <div class="container section_myAcc" id="container_slider">
@@ -44,11 +49,9 @@
 				 			<h6>Validity</h6>
 				 		</div>
 				 		<div class="col-xs-5" style="padding-top: 15px;">
-				 			<a href="/newUserAccount/" style="text-decoration: none;">
-					 			<p class="menu_circular">A+</p>
-				 			</a>
-				 			<p class="menu_circular">G+</p>
-				 			<p class="menu_circular" data-toggle="modal" data-target="#modal_newUserAcc">Y+</p>
+				 			<p class="menu_circular hand" ui-sref="newUserAccount" >A+</p>
+				 			<p class="menu_circular hand" data-toggle="modal" data-target="#addGroupModal">G+</p>
+				 			<p class="menu_circular hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</p>
 
 				 			<!-- Modal -->
 				 			<div id="modal_newUserAcc" class="modal fade" role="dialog">
@@ -100,6 +103,25 @@
 						</p>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add Group</h4>
+			</div>
+			<div class="modal-body">
+				<label for="">Group Name</label>
+				<input type="text" class="form-control" ng-modal="newGroup">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="addNewGroup(false);">Cancel</button>
+				<button type="button" class="btn btn-primary" ng-click="addNewGroup(true);">Add Group</button>
 			</div>
 		</div>
 	</div>
