@@ -1,6 +1,7 @@
 angular.module('userApp.services', [])
 .factory('networkService', function($http){
 
+	// accountingApp
 	var getAccountListRequest = function(){
 		return $http.get('/show_account_names/').then(function(result){
 			return result.data;
@@ -18,6 +19,9 @@ angular.module('userApp.services', [])
 			return result.data;
 		});
 	};
+	// accountingApp end
+
+	// index
 
 	var logoutRequest = function(data){
 		return $http.post('/logout/', {data: data}).then(function(result){
@@ -25,12 +29,27 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	// index end
+
+	// myAccMaster
+
+	var getYearListRequest = function(data){
+		return $http.get('/list_of_accounting_years/').then(function(result){
+			return result.data;
+		});
+	};
+
+	// myAccMaster end
+
+
+
 
 	return {
 		getAccountListRequest : getAccountListRequest,
 		getTransactionModeListRequest : getTransactionModeListRequest,
 		saveTransactionEntryRequest : saveTransactionEntryRequest,
-		logoutRequest : logoutRequest
+		logoutRequest : logoutRequest,
+		getYearListRequest : getYearListRequest
 	};
 
 });
