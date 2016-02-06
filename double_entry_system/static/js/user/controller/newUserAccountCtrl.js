@@ -2,6 +2,9 @@ angular.module('userApp.controllers')
 .controller('newUserAccountController', function($scope, $timeout, networkService, Notification){
 	console.log('newUserAccountController is loaded');
 
+	$scope.startDate = null;
+	$scope.endDate = null;
+
 	$scope.userInfo = {
 		account_name : '',
 		alias : '',
@@ -58,6 +61,8 @@ angular.module('userApp.controllers')
 	};
 
 	$scope.createNewUser = function(){
+		$scope.userInfo.start_date = new Date($scope.startDate).getTime();
+		$scope.userInfo.end_date = new Date($scope.endDate).getTime();
 		var dataPromis = networkService.createNewUserRequest($scope.userInfo);
 		dataPromis.then(function(result){
 			console.log(result);
