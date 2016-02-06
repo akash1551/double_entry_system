@@ -3,7 +3,7 @@ angular.module('userApp.controllers')
 	console.log('newUserAccountController is loaded');
 
 	$scope.userInfo = {
-		accountName : '',
+		account_name : '',
 		alias : '',
 		group : '',
 		firstName : '',
@@ -18,9 +18,9 @@ angular.module('userApp.controllers')
 		mobileNo0 : '',
 		mobileNo1 : '',
 		openingBalance : '',
-		accountType : '',
-		startDate : '',
-		endDate : '',
+		accounttype : '',
+		start_date : '',
+		end_date : '',
 		duration : 1
 	};
 
