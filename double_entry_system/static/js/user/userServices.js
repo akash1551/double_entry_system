@@ -24,7 +24,7 @@ angular.module('userApp.services', [])
 	// index
 
 	var logoutRequest = function(data){
-		return $http.post('/logout/', {data: data}).then(function(result){
+		return $http.get('/logout/').then(function(result){
 			return result.data;
 		});
 	};
@@ -33,8 +33,14 @@ angular.module('userApp.services', [])
 
 	// myAccMaster
 
-	var getYearListRequest = function(data){
+	var getYearListRequest = function(){
 		return $http.get('/list_of_accounting_years/').then(function(result){
+			return result.data;
+		});
+	};
+
+	var addNewGroupRequest = function(groupName){
+		return $http.post('/add_group/', {group_name : groupName}).then(function(result){
 			return result.data;
 		});
 	};
@@ -73,7 +79,8 @@ angular.module('userApp.services', [])
 		getYearListRequest : getYearListRequest,
 		createNewUserRequest : createNewUserRequest,
 		getGroupListRequest : getGroupListRequest,
-		getAccountTypeListRequest : getAccountTypeListRequest
+		getAccountTypeListRequest : getAccountTypeListRequest,
+		addNewGroupRequest : addNewGroupRequest
 	};
 
 });

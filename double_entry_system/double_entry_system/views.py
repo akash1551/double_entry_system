@@ -573,18 +573,13 @@ def show_all_transactions(request):
             date = i.transaction_date.strftime('%s')
             transactiontype_obj = i.transactiontype.optionType
             obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":transactiontype_obj}
-            obj_new = {"obj":obj}
             transaction_record_obj = i.transaction_record.all()
-            print transaction_record_obj
-            print obj
+            
             for j in transaction_record_obj:
                 account_obj = j.account
                 obj1 = {"account_name":account_obj.account_name,"amount":j.amount,"is_debit":j.is_debit}
                 obj2 = {"obj1"+str(j.id):obj1}
-                sample_list=[]
-                sample_list.append("obj1"+str(j.id))
-
-            obj.update(sample_list["obj1"+str(j.id)])    
+                
             transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
