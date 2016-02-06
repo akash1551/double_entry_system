@@ -41,6 +41,27 @@ angular.module('userApp.services', [])
 
 	// myAccMaster end
 
+	// newUserAccount
+
+	var createNewUserRequest = function(userInfo){
+		return $http.post('/create_new_user_account/', {accountInfo : userInfo}).then(function(result){
+			return result.data;
+		});
+	};
+
+	var getGroupListRequest = function(){
+		return $http.get('/get_groups_from_db/').then(function(result){
+			return result.data;
+		});
+	};
+
+	var getAccountTypeListRequest = function(){
+		return $http.get('/get_accounttype_from_db/').then(function(result){
+			return result.data;
+		});
+	};
+
+	// newUserAccount end
 
 
 
@@ -49,7 +70,10 @@ angular.module('userApp.services', [])
 		getTransactionModeListRequest : getTransactionModeListRequest,
 		saveTransactionEntryRequest : saveTransactionEntryRequest,
 		logoutRequest : logoutRequest,
-		getYearListRequest : getYearListRequest
+		getYearListRequest : getYearListRequest,
+		createNewUserRequest : createNewUserRequest,
+		getGroupListRequest : getGroupListRequest,
+		getAccountTypeListRequest : getAccountTypeListRequest
 	};
 
 });
