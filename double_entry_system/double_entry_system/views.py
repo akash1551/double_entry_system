@@ -187,6 +187,7 @@ def create_new_user_account(request):
         print request.body
         print request.user
         json_obj = json.loads(request.body)
+        accountInfo = json_obj['accountInfo']
         account_name = json_obj['account_name']
         alias = json_obj['alias']
         group = json_obj['group']
@@ -566,20 +567,23 @@ def credit_transaction_for_bank_account(request):
 def show_all_transactions(request):
     if request.user.is_authenticated():
         print request.user
-        json_obj = json.loads(request.body)
-        start_date = json_obj['start_date']
-        end_date = json_obj['end_date']
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
         transactionList = []
-        transaction_obj = Transaction.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
         for i in transaction_obj:
+            date = i.transaction_date.strftime('%s')
+            transactiontype_obj = i.transactiontype.optionType
+            obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":transactiontype_obj}
             transaction_record_obj = i.transaction_record.all()
-            
+            print transaction_record_obj
+            print obj
             for j in transaction_record_obj:
-                date = i.transaction_date.strftime('%s')
-                obj = {"id":i.id,"transaction_date":date,"description":i.description,"amount":j.amount,"is_debit":j.is_debit,}
-                transactionList.append(obj)
+                account_obj = j.account
+                for x in range(0,10):
+                    obj1 = {"account_name":account_obj.account_name,"amount":j.amount,"is_debit":j.is_debit}
+                    obj2 = {"obj1"+str(j.id):obj1}
+                transactionList.append(obj2.copy())    
+        
+            transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
