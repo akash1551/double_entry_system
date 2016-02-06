@@ -1,29 +1,21 @@
-{% extends 'html_templates/index.html' %}
-
-{% block pageContainer %}
-
-{% load staticfiles %}
 {% verbatim %}
 <div class="container" id="newUserAccount">
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2" style="background-color: #bebebe">
 
-			<form @submit.prevent="createNewUser" novalidate>
+			<form ng-submit="createNewUser();" novalidate>
 			<div style="">
 
 				<h5>New Account Name*</h5>
-				<input type="text" name= "name" v-model="accountName" class="form-control" placeholder="Name" required>
+				<input type="text" name= "name" ng-model="userInfo.accountName" class="form-control" placeholder="Name" required>
 
 				<h5>Alias for Account</h5>
-				<input type="text"  v-model="alias" class="form-control" placeholder="Alias Name">
+				<input type="text"  ng-model="userInfo.alias" class="form-control" placeholder="Alias Name">
 
 
 				<h5>Group Name*</h5>
-				<select v-model="group" class="form-control">
+				<select ng-model="userInfo.group" class="form-control" ng-options="option.choice_name for option in accountGroupList">
 					<option value="">Select</option>
-					<option v-for="option in groupList" v-bind:value="option.id">
-						{{ option.choice_name }}
-					</option>
 				</select>
 
 				<hr>
@@ -32,63 +24,60 @@
 				<h5>Name</h5>
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" v-model="firstName"class="form-control" placeholder="First Name">
+						<input type="text" ng-model="userInfo.firstName"class="form-control" placeholder="First Name">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" v-model="lastName" class="form-control" placeholder="Last Name">
+						<input type="text" ng-model="userInfo.lastName" class="form-control" placeholder="Last Name">
 					</div>
 				</div>
 				<h5>Address</h5>
-				<input type="text" v-model="addressLine1" class="form-control" placeholder="Address Line 1">
-				<input type="text" v-model="addressLine2" class="form-control" placeholder="Address Line 2">
+				<input type="text" ng-model="userInfo.addressLine1" class="form-control" placeholder="Address Line 1">
+				<input type="text" ng-model="userInfo.addressLine2" class="form-control" placeholder="Address Line 2">
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" v-model="city" class="form-control" placeholder="City">
+						<input type="text" ng-model="userInfo.city" class="form-control" placeholder="City">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" v-model="state" class="form-control" placeholder="State">
+						<input type="text" ng-model="userInfo.state" class="form-control" placeholder="State">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6">
-						<input type="text" v-model="country"class="form-control" placeholder="Country">
+						<input type="text" ng-model="userInfo.country"class="form-control" placeholder="Country">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" v-model="pincode"class="form-control" placeholder="Pin">
+						<input type="text" ng-model="userInfo.pincode"class="form-control" placeholder="Pin">
 					</div>
 				</div>
 
 				 <h5>Email</h5>
-				<input type="text" v-model="email" class="form-control" placeholder="Email">
+				<input type="text" ng-model="userInfo.email" class="form-control" placeholder="Email">
 				<h5>Mobile Number</h5>
-				<input type="text" v-model="mobileNo0" class="form-control" placeholder="Mobile Number">
+				<input type="text" ng-model="userInfo.mobileNo0" class="form-control" placeholder="Mobile Number">
 				<h5>Alternate Mobile Number</h5>
-				<input type="text" v-model="mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
+				<input type="text" ng-model="userInfo.mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
 				<hr>
 				<h5>Opening Balance</h5>
-				<input type="text" v-model="openingBalance" class="form-control" placeholder="Opening Balance">
+				<input type="text" ng-model="userInfo.openingBalance" class="form-control" placeholder="Opening Balance">
 
 				<h5>Account Type</h5>
-				<select v-model="accountType" class="form-control">
+				<select ng-model="userInfo.accountType" class="form-control" ng-options="account.choice_name for account in accountTypeList">
 					<option value="">Select</option>
-					<option v-for="option in accountTypeList" v-bind:value="option.id">
-						{{ option.choice_name }}
-					</option>
 				</select>
 
 				<div class="row">
 					<div class="col-xs-6">
 						<h5>Start Date</h5>
-						<input type="date" class="form-control" v-model="startDate">
+						<input type="date" class="form-control" ng-model="userInfo.startDate">
 					</div>
 					<div class="col-xs-6">
 						<h5>End Date</h5>
-						<input type="date" class="form-control" v-model="endDate">
+						<input type="date" class="form-control" ng-model="userInfo.endDate">
 					</div>
 				</div>
 
 				<h5>Period</h5>
-				<input type="text" class="form-control" v-model="duration" disabled>
+				<input type="text" class="form-control" ng-model="userInfo.duration" disabled>
 
 				<!-- <span>Selected: {{ selected }}</span> -->
 
@@ -103,4 +92,3 @@
 	</div>
 </div>
 {% endverbatim %}
-{% endblock %}

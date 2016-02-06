@@ -573,21 +573,28 @@ def show_all_transactions(request):
             date = i.transaction_date.strftime('%s')
             transactiontype_obj = i.transactiontype.optionType
             obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":transactiontype_obj}
+            obj_new = {"obj":obj}
             transaction_record_obj = i.transaction_record.all()
             print transaction_record_obj
             print obj
             for j in transaction_record_obj:
                 account_obj = j.account
-                for x in range(0,10):
-                    obj1 = {"account_name":account_obj.account_name,"amount":j.amount,"is_debit":j.is_debit}
-                    obj2 = {"obj1"+str(j.id):obj1}
-                transactionList.append(obj2.copy())    
-        
+                obj1 = {"account_name":account_obj.account_name,"amount":j.amount,"is_debit":j.is_debit}
+                obj2 = {"obj1"+str(j.id):obj1}
+                sample_list=[]
+                sample_list.append("obj1"+str(j.id))
+
+            obj.update(sample_list["obj1"+str(j.id)])    
             transactionList.append(obj)
         print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+{"data":{"Acc_list":[{"is_debit":"C","amount":1000,"account":{"created_at":"1454676041","id":51,
+        "account_name":"My Bank Account"}},{"is_debit":"D","amount":1000,
+        "account":{"created_at":"1454676041","id":52,"account_name":"My Cash Account"}}],
+        "transaction_date":1454697000000,"description":"safadsadsd","transactiontype":1}}
 
 def show_all_credit_transactions(request):
     if request.user.is_authenticated():
@@ -666,3 +673,8 @@ def show_current_balance(request):
         return HttpResponse(json.dumps({"current_balance":Account_obj.current_balance}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+def add_group(request):
+    if request.user.is_authenticated():
+        json_obj = json.loads(request.body)
+        group_name = json_obj['group_name']
