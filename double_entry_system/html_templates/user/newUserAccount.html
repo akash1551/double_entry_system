@@ -7,7 +7,7 @@
 			<div style="">
 
 				<h5>New Account Name*</h5>
-				<input type="text" name= "name" ng-model="userInfo.accountName" class="form-control" placeholder="Name" required>
+				<input type="text" name= "name" ng-model="userInfo.account_name" class="form-control" placeholder="Name" required>
 
 				<h5>Alias for Account</h5>
 				<input type="text"  ng-model="userInfo.alias" class="form-control" placeholder="Alias Name">
@@ -61,18 +61,18 @@
 				<input type="text" ng-model="userInfo.openingBalance" class="form-control" placeholder="Opening Balance">
 
 				<h5>Account Type</h5>
-				<select ng-model="userInfo.accountType" class="form-control" ng-options="account.choice_name for account in accountTypeList">
+				<select ng-model="userInfo.accounttype" class="form-control" ng-options="account.choice_name for account in accountTypeList">
 					<option value="">Select</option>
 				</select>
 
 				<div class="row">
 					<div class="col-xs-6">
 						<h5>Start Date</h5>
-						<input type="date" class="form-control" ng-model="userInfo.startDate">
+						<input type="date" class="form-control" ng-model="userInfo.start_date">
 					</div>
 					<div class="col-xs-6">
 						<h5>End Date</h5>
-						<input type="date" class="form-control" ng-model="userInfo.endDate">
+						<input type="date" class="form-control" ng-model="userInfo.end_date">
 					</div>
 				</div>
 
