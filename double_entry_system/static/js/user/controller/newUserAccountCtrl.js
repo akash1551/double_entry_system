@@ -58,7 +58,7 @@ angular.module('userApp.controllers')
 	};
 
 	$scope.createNewUser = function(){
-		var dataPromis = networkService.createNewUserRequest();
+		var dataPromis = networkService.createNewUserRequest($scope.userInfo);
 		dataPromis.then(function(result){
 			console.log(result);
 		});
