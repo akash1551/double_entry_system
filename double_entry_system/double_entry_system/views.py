@@ -188,25 +188,27 @@ def create_new_user_account(request):
         print request.user
         json_obj = json.loads(request.body)
         accountInfo = json_obj['accountInfo']
-        account_name = json_obj['account_name']
-        alias = json_obj['alias']
-        group = json_obj['group']
-        first_name = json_obj['firstName']
-        last_name = json_obj['lastName']
-        email = json_obj['email']
-        address_line1 = json_obj['addressLine1']
-        address_line2 = json_obj['addressLine2']
-        city = json_obj['city']
-        state = json_obj['state']
-        country = json_obj['country']
-        pin_code = json_obj['pincode']
-        contact_no = json_obj['mobileNo0']
-        contact_no1 = json_obj['mobileNo1']
-        opening_balance = json_obj['openingBalance']
-        accounttype = json_obj['accounttype']
-        start_date = json_obj['start_date']
-        end_date = json_obj['end_date']
-        duration = json_obj['duration']
+        account_name = accountInfo.get("account_name")
+        alias = accountInfo.get("alias")
+        group = accountInfo.get("group")
+        grouptype = group.get("id") 
+        first_name = accountInfo.get("first_name")
+        last_name = accountInfo.get("last_name")
+        email = accountInfo.get("email")
+        address_line1 = accountInfo.get("address_line1")
+        address_line2 = accountInfo.get("address_line2")
+        city = accountInfo.get("city")
+        state = accountInfo.get("state")
+        country = accountInfo.get("country")
+        pin_code = accountInfo.get("pin_code")
+        contact_no = accountInfo.get("contact_no")
+        contact_no1 = accountInfo.get("contact_no1")
+        opening_balance = accountInfo.get("opening_balance")
+        accounttype = accountInfo.get("accounttype")
+        accounttype = accounttype.get("id")
+        start_date = accountInfo.get("start_date")
+        end_date = accountInfo.get("end_date")
+        duration = accountInfo.get("duration")
 
         start_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
         print start_date_as_datetime
@@ -217,7 +219,7 @@ def create_new_user_account(request):
         accounttype_obj = AccountType(optionType=accounttype)
         accounttype_obj.save()
 
-        group_obj = Group(optionType=group)
+        group_obj = Group(optionType=grouptype)
         group_obj.save()
 
         account_obj = Account(first_name=first_name,last_name=last_name,email=email,address_line1=address_line1,
