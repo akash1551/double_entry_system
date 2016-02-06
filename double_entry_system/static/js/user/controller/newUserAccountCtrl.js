@@ -21,7 +21,7 @@ angular.module('userApp.controllers')
 		accountType : '',
 		startDate : '',
 		endDate : '',
-		duration : ''
+		duration : 1
 	};
 
 	$scope.accountTypeList = [];
