@@ -1,0 +1,20 @@
+<style>
+	.hand {
+		cursor: pointer;
+		cursor: hand;
+	}
+</style>
+{% verbatim %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2" style="background-color: #bebebe; padding: 15px;">
+			<ul class="list-group text-center hand" style="margin-bottom: 0px;">
+				<li class="list-group-item" ui-sref="accountingApp">Add New Transaction</li>
+				<li class="list-group-item" ui-sref="account({edit:false})">Show Account List</li>
+				<li class="list-group-item" ui-sref="account({edit:true})">Edit Account List</li>
+				<li class="list-group-item">Reports</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endverbatim %}

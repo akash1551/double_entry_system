@@ -36,6 +36,16 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 		url: '/newUserAccount',
 		templateUrl: '/newUserAccount',
 		controller: 'newUserAccountController'
+	})
+	.state('accountMenu', {
+		url: '/accountMenu',
+		templateUrl: '/accountMenu',
+		controller: 'accountMenuController'
+	})
+	.state('account', {
+		url: '/account/:edit',
+		templateUrl: '/account',
+		controller: 'accountController'
 	});
 
 });

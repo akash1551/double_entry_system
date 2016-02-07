@@ -81,6 +81,12 @@ def footer(request):
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 
+def accountMenu(request):
+    return render_to_response('html_templates/user/myAccMaster/accountMenu.html')
+
+def account(request):
+    return render_to_response('html_templates/user/myAccMaster/account.html')
+
 
 def accountDetailBasedOnYear(request):
     return render_to_response('html_templates/user/accountDetailBasedOnYear.html')
@@ -336,7 +342,7 @@ def show_account_details(request):
         print end_date_as_string
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        
+
         bank_account_obj = userdetail_obj.bank_account.current_balance
         print bank_account_obj
                         ##### For Bank Account Balance #########
@@ -358,7 +364,7 @@ def show_account_details(request):
             for j in transaction_record_obj:
                 if j.is_debit == True:
                     all_debit = all_debit + j.amount
-        print all_debit       
+        print all_debit
                    ############## Show Credit Amount ############
         all_credit = 0
         transaction_obj = Transaction.objects.filter(user__id=request.user.id)
@@ -575,7 +581,7 @@ def show_all_transactions(request):
         transaction_obj = Transaction.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
         for i in transaction_obj:
             transaction_record_obj = i.transaction_record.all()
-            
+
             for j in transaction_record_obj:
                 date = i.transaction_date.strftime('%s')
                 obj = {"id":i.id,"transaction_date":date,"description":i.description,"amount":j.amount,"is_debit":j.is_debit,}
