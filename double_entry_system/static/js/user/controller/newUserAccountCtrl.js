@@ -1,6 +1,8 @@
 angular.module('userApp.controllers')
-.controller('newUserAccountController', function($scope, $timeout, networkService, Notification){
+.controller('newUserAccountController', function($scope, $timeout, networkService, Notification, $stateParams){
 	console.log('newUserAccountController is loaded');
+
+	console.log($stateParams);
 
 	$scope.startDate = null;
 	$scope.endDate = null;
@@ -31,8 +33,12 @@ angular.module('userApp.controllers')
 	$scope.accountGroupList = [];
 
 	$scope.init = function(){
-		getGroupList();
-		getAccountTypeList();
+		if($stateParams.id != ''){
+			getUserInfoToEdit();
+		}else{
+			getGroupList();
+			getAccountTypeList();
+		}
 	};
 	$timeout($scope.init);
 
@@ -64,6 +70,13 @@ angular.module('userApp.controllers')
 		$scope.userInfo.start_date = new Date($scope.startDate).getTime();
 		$scope.userInfo.end_date = new Date($scope.endDate).getTime();
 		var dataPromis = networkService.createNewUserRequest($scope.userInfo);
+		dataPromis.then(function(result){
+			console.log(result);
+		});
+	};
+
+	var getUserInfoToEdit = function(){
+		var dataPromis = networkService.getUserInfoToEditRequest();
 		dataPromis.then(function(result){
 			console.log(result);
 		});

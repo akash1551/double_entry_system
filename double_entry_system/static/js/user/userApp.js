@@ -33,7 +33,7 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 		controller: 'accountingAppController'
 	})
 	.state('newUserAccount', {
-		url: '/newUserAccount',
+		url: '/newUserAccount/:id',
 		templateUrl: '/newUserAccount',
 		controller: 'newUserAccountController'
 	})
