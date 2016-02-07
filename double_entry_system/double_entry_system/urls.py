@@ -38,18 +38,14 @@ urlpatterns = [
     url(r'^get_groups_from_db/$', 'double_entry_system.views.get_groups_from_db'),
     url(r'^get_transactiontype_from_db/$', 'double_entry_system.views.get_transactiontype_from_db'),
     url(r'^transaction_for_account/$', 'double_entry_system.views.transaction_for_account'),
-    url(r'^credit_transaction_for_cash_account/$', 'double_entry_system.views.credit_transaction_for_cash_account'),
-    url(r'^debit_transaction_for_bank_account/$', 'double_entry_system.views.debit_transaction_for_bank_account'),
-    url(r'^credit_transaction_for_bank_account/$', 'double_entry_system.views.credit_transaction_for_bank_account'),
-    url(r'^show_all_credit_transactions/$', 'double_entry_system.views.show_all_credit_transactions'),
     url(r'^show_all_transactions/$', 'double_entry_system.views.show_all_transactions'),
     url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
     url(r'^show_all_debit_and_credit_amount/$', 'double_entry_system.views.show_all_debit_and_credit_amount'),
-    url(r'^show_all_credit_amount/$', 'double_entry_system.views.show_all_credit_amount'),
     url(r'^show_account_details/$', 'double_entry_system.views.show_account_details'),
     url(r'^get_accounttype_from_db/$', 'double_entry_system.views.get_accounttype_from_db'),
     url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
     url(r'^add_group/$', 'double_entry_system.views.add_group'),
+    url(r'^get_account_details/$', 'double_entry_system.views.get_account_details'),
 
 
     # akshay
