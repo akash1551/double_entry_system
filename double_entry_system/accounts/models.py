@@ -114,7 +114,6 @@ class TransactionType(models.Model):
 	
    	optionType = models.IntegerField(choices=PAYMENTCHOICES)
 
-
 class Group(models.Model):
 	BANK_ACCOUNT = 0
 	BANK_OCC_AC = 1
