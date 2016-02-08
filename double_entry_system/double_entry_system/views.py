@@ -143,7 +143,7 @@ def register_new_user(request):
     bank_account_obj.save()
     cash_account_obj = Account(account_name=cash_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     cash_account_obj.save()
-    user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
+    user_obj = show_accouUser(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
     user_obj.save()
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
@@ -646,9 +646,9 @@ def get_account_details(request):
         accountList = []
         print accounttype_obj
         print group_obj
-        accounttype_obj = {"id":accounttype_obj.id,"accounttype":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
+        accounttype_obj = {"id":accounttype_obj.id,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
         group_obj = {"id":group_obj.id,"is_selected":True,
-        "group":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
+        "choice_name":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
         accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
         "lastName":account_obj.last_name,"email":account_obj.email,"addressLine1":account_obj.address_line1,
         "addressLine2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
