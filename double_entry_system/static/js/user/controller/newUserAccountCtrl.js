@@ -72,6 +72,11 @@ angular.module('userApp.controllers')
 		var dataPromis = networkService.createNewUserRequest($scope.userInfo);
 		dataPromis.then(function(result){
 			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				Notification.success(result.validation);
+			}
 		});
 	};
 
