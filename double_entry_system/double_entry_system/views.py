@@ -19,6 +19,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 import calendar
+import arrow
 
 def home(request):
     return render_to_response('loginIndex.html')
@@ -138,17 +139,30 @@ def register_new_user(request):
     pin_code = int(pin_code)
     bank_account_name = "My Bank Account"
     cash_account_name = "My Cash Account"
-
-    bank_account_obj = Account(account_name=bank_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
+    duration = 1
+    bank_account_obj = Account(account_name=bank_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     bank_account_obj.save()
-    cash_account_obj = Account(account_name=cash_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
+    cash_account_obj = Account(account_name=cash_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     cash_account_obj.save()
-    user_obj = show_accouUser(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
+    user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
     user_obj.save()
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
     userdetail_obj.save()
+    today = int(datetime.datetime.today().strftime("%s")) * 1000
+    accountingyear_obj = AccountingYear.objects.all()
+    for i in accountingyear_obj:
+        start_date = int(i.start_date.strftime("%s")) * 1000
+        end_date = int(i.end_date.strftime("%s")) * 1000
+        if today > start_date:
+            if today < end_date:
+                start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
+                end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
+                new_acc_year_obj_for_bank_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=bank_account_obj)
+                new_acc_year_obj_for_bank_acc.save()
+                new_acc_year_obj_for_cash_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=cash_account_obj)
+                new_acc_year_obj_for_cash_acc.save()
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
@@ -646,8 +660,8 @@ def get_account_details(request):
         accountList = []
         print accounttype_obj
         print group_obj
-        accounttype_obj = {"id":accounttype_obj.id,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
-        group_obj = {"id":group_obj.id,"is_selected":True,
+        accounttype_obj = {"id":accounttype_obj.optionType,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
+        group_obj = {"id":group_obj.optionType,"is_selected":True,
         "choice_name":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
         accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
         "lastName":account_obj.last_name,"email":account_obj.email,"addressLine1":account_obj.address_line1,
