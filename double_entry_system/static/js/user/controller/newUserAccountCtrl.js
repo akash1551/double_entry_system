@@ -76,7 +76,7 @@ angular.module('userApp.controllers')
 	};
 
 	var getUserInfoToEdit = function(){
-		var dataPromis = networkService.getUserInfoToEditRequest();
+		var dataPromis = networkService.getUserInfoToEditRequest($stateParams.id);
 		dataPromis.then(function(result){
 			console.log(result);
 		});
