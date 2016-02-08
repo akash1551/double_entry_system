@@ -19,7 +19,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 import calendar
-import arrow
+
 
 def home(request):
     return render_to_response('loginIndex.html')
@@ -660,8 +660,8 @@ def get_account_details(request):
         accountList = []
         print accounttype_obj
         print group_obj
-        accounttype_obj = {"id":accounttype_obj.optionType,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
-        group_obj = {"id":group_obj.optionType,"is_selected":True,
+        accounttype_obj = {"id":accounttype_obj.optionType,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":False}
+        group_obj = {"id":group_obj.optionType,"is_selected":False,
         "choice_name":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
         accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
         "lastName":account_obj.last_name,"email":account_obj.email,"addressLine1":account_obj.address_line1,
