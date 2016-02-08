@@ -67,6 +67,12 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var getUserInfoToEditRequest = function(id){
+		return $http.post('/get_account_details/', {account_id: id}).then(function(result){
+			return result.data;
+		});
+	};
+
 	// newUserAccount end
 
 
@@ -80,7 +86,8 @@ angular.module('userApp.services', [])
 		createNewUserRequest : createNewUserRequest,
 		getGroupListRequest : getGroupListRequest,
 		getAccountTypeListRequest : getAccountTypeListRequest,
-		addNewGroupRequest : addNewGroupRequest
+		addNewGroupRequest : addNewGroupRequest,
+		getUserInfoToEditRequest : getUserInfoToEditRequest
 	};
 
 });
