@@ -90,6 +90,11 @@ angular.module('userApp.controllers')
 			var dataPromis = networkService.saveEditDetailsRequest($scope.userInfo, $stateParams.id);
 			dataPromis.then(function(result){
 				console.log(result);
+				if(!result.status){
+					Notification.error({message: result.validation});
+				}else{
+					Notification.success(result.status);
+				}
 			});
 		}
 	};
