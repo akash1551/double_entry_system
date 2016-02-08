@@ -646,7 +646,6 @@ def get_account_details(request):
         accountList = []
         print accounttype_obj
         print group_obj
-        accountingyear_obj = {"start_date":start_date,"end_date":end_date}
         accounttype_obj = {"id":accounttype_obj.id,"accounttype":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
         group_obj = {"id":group_obj.id,"is_selected":True,
         "group":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
@@ -655,7 +654,7 @@ def get_account_details(request):
         "addressLine2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
         "country":account_obj.country,"pincode":account_obj.pin_code,"mobileNo0":account_obj.contact_no,
         "mobileNo1":account_obj.contact_no1,"openingBalance":account_obj.opening_balance,"group":group_obj,
-        "accounttype":accounttype_obj,"accountingyear":accountingyear_obj}
+        "accounttype":accounttype_obj,"start_date":start_date,"end_date":end_date,"duration":accountingyear_obj.duration}
         
         return HttpResponse(json.dumps({"accountInfo":accountInfo,"status":True}), content_type="application/json")
     else:
