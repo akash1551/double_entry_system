@@ -138,6 +138,7 @@ def register_new_user(request):
     pin_code = int(pin_code)
     bank_account_name = "My Bank Account"
     cash_account_name = "My Cash Account"
+
     bank_account_obj = Account(account_name=bank_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     bank_account_obj.save()
     cash_account_obj = Account(account_name=cash_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
@@ -649,14 +650,14 @@ def get_account_details(request):
         accounttype_obj = {"id":accounttype_obj.id,"accounttype":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
         group_obj = {"id":group_obj.id,"is_selected":True,
         "group":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
-        obj = {"account_name":account_obj.account_name,"alias":account_obj.alias,"first_name":account_obj.first_name,
-        "last_name":account_obj.last_name,"email":account_obj.email,"address_line1":account_obj.address_line1,
-        "address_line2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
-        "country":account_obj.country,"pin_code":account_obj.pin_code,"contact_no":account_obj.contact_no,
-        "contact_no1":account_obj.contact_no1,"opening_balance":account_obj.opening_balance,"group":group_obj,
+        accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
+        "lastName":account_obj.last_name,"email":account_obj.email,"addressLine1":account_obj.address_line1,
+        "addressLine2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
+        "country":account_obj.country,"pincode":account_obj.pin_code,"mobileNo0":account_obj.contact_no,
+        "mobileNo1":account_obj.contact_no1,"openingBalance":account_obj.opening_balance,"group":group_obj,
         "accounttype":accounttype_obj,"accountingyear":accountingyear_obj}
         
-        return HttpResponse(json.dumps({"obj":obj,"status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"accountInfo":accountInfo,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
