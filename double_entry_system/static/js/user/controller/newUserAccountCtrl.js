@@ -3,6 +3,13 @@ angular.module('userApp.controllers')
 	console.log('newUserAccountController is loaded');
 
 	console.log($stateParams);
+	$scope.editMode = null;
+	if($stateParams.id == ''){
+		$scope.editMode = false;
+	}else{
+		$scope.editMode = true;
+	}
+
 
 	$scope.startDate = null;
 	$scope.endDate = null;
@@ -10,7 +17,7 @@ angular.module('userApp.controllers')
 	$scope.userInfo = {
 		account_name : '',
 		alias : '',
-		group : '',
+		group : {},
 		firstName : '',
 		lastName : '',
 		addressLine1 : '',
@@ -33,11 +40,11 @@ angular.module('userApp.controllers')
 	$scope.accountGroupList = [];
 
 	$scope.init = function(){
-		if($stateParams.id != ''){
-			getUserInfoToEdit();
-		}else{
+		// }else{
 			getGroupList();
 			getAccountTypeList();
+		if($stateParams.id != ''){
+			getUserInfoToEdit();
 		}
 	};
 	$timeout($scope.init);
@@ -69,16 +76,58 @@ angular.module('userApp.controllers')
 	$scope.createNewUser = function(){
 		$scope.userInfo.start_date = new Date($scope.startDate).getTime();
 		$scope.userInfo.end_date = new Date($scope.endDate).getTime();
-		var dataPromis = networkService.createNewUserRequest($scope.userInfo);
-		dataPromis.then(function(result){
-			console.log(result);
-		});
+		if(!$scope.editMode){
+			var dataPromis = networkService.createNewUserRequest($scope.userInfo);
+			dataPromis.then(function(result){
+				console.log(result);
+				if(!result.status){
+					Notification.error({message: result.validation});
+				}else{
+					Notification.success(result.validation);
+				}
+			});
+		}else{
+			var dataPromis = networkService.saveEditDetailsRequest($scope.userInfo, $stateParams.id);
+			dataPromis.then(function(result){
+				console.log(result);
+				if(!result.status){
+					Notification.error({message: result.validation});
+				}else{
+					Notification.success(result.status);
+				}
+			});
+		}
 	};
 
 	var getUserInfoToEdit = function(){
 		var dataPromis = networkService.getUserInfoToEditRequest($stateParams.id);
 		dataPromis.then(function(result){
 			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				$scope.userInfo.account_name = result.accountInfo.account_name;
+				$scope.userInfo.firstName = result.accountInfo.firstName;
+				$scope.userInfo.lastName = result.accountInfo.lastName;
+				$scope.userInfo.accounttype = result.accountInfo.accounttype;
+				$scope.userInfo.addressLine1 = result.accountInfo.addressLine1;
+				$scope.userInfo.addressLine2 = result.accountInfo.addressLine2;
+				$scope.userInfo.alias = result.accountInfo.alias;
+				$scope.userInfo.mobileNo0 = result.accountInfo.mobileNo0;
+				$scope.userInfo.mobileNo1 = result.accountInfo.mobileNo1;
+				$scope.userInfo.city = result.accountInfo.city;
+				$scope.userInfo.country = result.accountInfo.country;
+				$scope.userInfo.state = result.accountInfo.state;
+				$scope.userInfo.pincode = result.accountInfo.pincode;
+				$scope.userInfo.email = result.accountInfo.email;
+				$scope.userInfo.group = result.accountInfo.group;
+				$scope.userInfo.openingBalance = result.accountInfo.openingBalance;
+				$scope.userInfo.start_date = result.accountInfo.start_date;
+				$scope.startDate = new Date(parseInt($scope.userInfo.start_date));
+				$scope.userInfo.end_date = result.accountInfo.end_date;
+				$scope.endDate = new Date(parseInt($scope.userInfo.end_date));
+				$scope.userInfo.duration = result.accountInfo.duration;
+			}
 		});
 	};
 });

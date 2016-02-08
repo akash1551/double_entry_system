@@ -27,7 +27,7 @@ angular.module('userApp.controllers')
 	};
 
 	$scope.redirectTo = function(info){
-		if($stateParams.edit){
+		if($stateParams.edit == 'true'){
 			$state.go('newUserAccount', {'id': info.id});
 		}
 	};

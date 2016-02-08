@@ -347,40 +347,58 @@ def show_account_details(request):
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         
-        bank_account_obj = userdetail_obj.bank_account.current_balance
+        all_debit = 0
+        all_credit = 0
+        bank_account_obj = userdetail_obj.bank_account
         print bank_account_obj
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        for a in transaction_obj:
+            transaction_record_obj = a.transaction_record.filter(account__id=bank_account_obj.id)
+            for b in transaction_record_obj:
+                if b.is_debit == True:
+                    all_debit = all_debit + b.amount
+                if b.is_debit == False:
+                    all_credit = all_credit + b.amount
+        if all_credit > all_debit:
+            bank_account_obj.current_balance = all_credit - all_debit
+        elif all_debit > all_credit:
+            bank_account_obj.current_balance = all_debit - all_credit
+
                         ##### For Bank Account Balance #########
-        cash_account_obj = userdetail_obj.cash_account.current_balance
+        cash_account_obj = userdetail_obj.cash_account
         print cash_account_obj
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        for a in transaction_obj:
+            transaction_record_obj = a.transaction_record.filter(account__id=cash_account_obj.id)
+            for b in transaction_record_obj:
+                if b.is_debit == True:
+                    all_debit = all_debit + b.amount
+                if b.is_debit == False:
+                    all_credit = all_credit + b.amount
+        if all_credit > all_debit:
+            cash_account_obj.current_balance = all_credit - all_debit
+        elif all_debit > all_credit:
+            cash_account_obj.current_balance = all_debit - all_credit
+                        
                         ######### Show Account Names ###########
         account_obj_list = []
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
+        
+        account_obj = userdetail_obj.account.all()
+        date = bank_account_obj.created_at.strftime('%s')
+        obj1 = {"id":bank_account_obj.id,"account_name":bank_account_obj.account_name,"created_at":date}
+        date = bank_account_obj.created_at.strftime('%s')
+        obj2 = {"id":bank_account_obj.id,"account_name":bank_account_obj.account_name,"created_at":date}
+
         for i in account_obj:
             date = i.created_at.strftime('%s')
             obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
             account_obj_list.append(obj)
+        account_obj_list.append(obj1)
+        account_obj_list.append(obj2)
         print account_obj_list
-                        ######### Show Debit Amount ###########
-        all_debit = 0
-        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        for i in transaction_obj:
-            transaction_record_obj = i.transaction_record.all()
-            for j in transaction_record_obj:
-                if j.is_debit == True:
-                    all_debit = all_debit + j.amount
-        print all_debit       
-                   ############## Show Credit Amount ############
-        all_credit = 0
-        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        for i in transaction_obj:
-            transaction_record_obj = i.transaction_record.all()
-            for j in transaction_record_obj:
-                if j.is_debit == False:
-                    all_credit = all_debit + j.amount
-        print all_credit
-        return HttpResponse(json.dumps({"bank_balance":bank_account_obj,"cash_balance":cash_account_obj,"all_debit":all_debit,"all_credit":all_credit,"account_obj_list":account_obj_list}), content_type="application/json")
+        return HttpResponse(json.dumps({"bank_account_balance":bank_account_obj.current_balance,"cash_account_balance":cash_account_obj.current_balance,"account_obj_list":account_obj_list,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
                 ####################################################
                 ############## Search Transactions #################

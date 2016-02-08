@@ -73,6 +73,12 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var saveEditDetailsRequest = function(userInfo, accountid){
+		return $http.post('/save_edit_account/', {accountInfo: userInfo, account_id: accountid}).then(function(result){
+			return result.data;
+		});
+	};
+
 	// newUserAccount end
 
 
@@ -87,7 +93,8 @@ angular.module('userApp.services', [])
 		getGroupListRequest : getGroupListRequest,
 		getAccountTypeListRequest : getAccountTypeListRequest,
 		addNewGroupRequest : addNewGroupRequest,
-		getUserInfoToEditRequest : getUserInfoToEditRequest
+		getUserInfoToEditRequest : getUserInfoToEditRequest,
+		saveEditDetailsRequest : saveEditDetailsRequest
 	};
 
 });
