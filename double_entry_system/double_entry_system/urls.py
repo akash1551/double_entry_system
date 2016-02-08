@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^show_current_balance/$', 'double_entry_system.views.show_current_balance'),
     url(r'^add_group/$', 'double_entry_system.views.add_group'),
     url(r'^get_account_details/$', 'double_entry_system.views.get_account_details'),
+    url(r'^save_edit_account/$', 'double_entry_system.views.save_edit_account'),
 
 
     # akshay

@@ -94,8 +94,8 @@ class AccountingYear(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	account = models.ForeignKey('Account',null=True)
 	user = models.ForeignKey(User,null=True)
-	start_date = models.DateField()
-	end_date = models.DateField()
+	start_date = models.DateField(null=True)
+	end_date = models.DateField(null=True)
 	duration = models.IntegerField()
 
 class TransactionType(models.Model):

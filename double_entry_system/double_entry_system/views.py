@@ -138,6 +138,7 @@ def register_new_user(request):
     pin_code = int(pin_code)
     bank_account_name = "My Bank Account"
     cash_account_name = "My Cash Account"
+
     bank_account_obj = Account(account_name=bank_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
     bank_account_obj.save()
     cash_account_obj = Account(account_name=cash_account_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
@@ -199,8 +200,8 @@ def create_new_user_account(request):
         alias = accountInfo.get("alias")
         group = accountInfo.get("group")
         grouptype = group.get("id") 
-        first_name = accountInfo.get("first_name")
-        last_name = accountInfo.get("last_name")
+        first_name = accountInfo.get("firstName")
+        last_name = accountInfo.get("lastName")
         email = accountInfo.get("email")
         address_line1 = accountInfo.get("addressLine1")
         address_line2 = accountInfo.get("addressLine2")
@@ -559,18 +560,19 @@ def add_group(request):
         json_obj = json.loads(request.body)
         group_name = json_obj['group_name']
 
-def edit_account(request):
+def save_edit_account(request):
     if request.user.is_authenticated():
         print request.body
         print request.user
         json_obj = json.loads(request.body)
         accountInfo = json_obj['accountInfo']
+        account_id = json_obj["account_id"]
         account_name = accountInfo.get("account_name")
         alias = accountInfo.get("alias")
         group = accountInfo.get("group")
         grouptype = group.get("id") 
-        first_name = accountInfo.get("first_name")
-        last_name = accountInfo.get("last_name")
+        first_name = accountInfo.get("firstName")
+        last_name = accountInfo.get("lastName")
         email = accountInfo.get("email")
         address_line1 = accountInfo.get("addressLine1")
         address_line2 = accountInfo.get("addressLine2")
@@ -597,19 +599,37 @@ def edit_account(request):
 
         group_obj = Group(optionType=grouptype)
         group_obj.save()
+        account_obj = Account.objects.get(id=account_id)
 
-        account_obj = Account(first_name=first_name,last_name=last_name,email=email,address_line1=address_line1,
-            city=city,state=state,country=country,pin_code=pin_code,contact_no=contact_no
-            ,contact_no1=contact_no1,account_name=account_name,opening_balance=opening_balance,group=group_obj,accounttype=accounttype_obj)
-        account_obj.save()
+        account_obj.account_name = account_name
+        account_obj.first_name = first_name
+        account_obj.last_name = last_name
+        account_obj.alias = alias  
+        account_obj.email = email
+        account_obj.address_line1 = address_line1
+        account_obj.address_line2 = address_line2
+        account_obj.contact_no = contact_no
+        account_obj.contact_no1 = contact_no1
+        account_obj.city = city
+        account_obj.state = state
+        account_obj.country = country
+        account_obj.pin_code = pin_code
+        account_obj.opening_balance = opening_balance
+        account_obj.group = group_obj
+        account_obj.accounttype = accounttype_obj
+        account_obj.save()         
 
-        accountingyear_obj = AccountingYear(account=account_obj,duration=duration,user=request.user,start_date=start_date_as_datetime,end_date=end_date_as_datetime)
+        accountingyear_obj = AccountingYear.objects.get(account__id=account_id)
+        accountingyear_obj.start_date = start_date_as_datetime
+        accountingyear_obj.end_date = end_date_as_datetime
+        accountingyear_obj.duration = duration
+        accountingyear_obj.account = account_obj
         accountingyear_obj.save()
 
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         userdetail_obj.account.add(account_obj)
         userdetail_obj.save()
-        return HttpResponse(json.dumps({"validation":"New Account created Successfully","status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Account details updated Successfully","status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
@@ -620,19 +640,23 @@ def get_account_details(request):
         account_obj = Account.objects.get(id=account_id)
         group_obj = account_obj.group
         accounttype_obj = account_obj.accounttype
+        accountingyear_obj = AccountingYear.objects.get(account__id=account_id)
+        start_date = accountingyear_obj.start_date.strftime('%s')
+        end_date = accountingyear_obj.end_date.strftime('%s')
         accountList = []
         print accounttype_obj
         print group_obj
         accounttype_obj = {"id":accounttype_obj.id,"accounttype":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":True}
         group_obj = {"id":group_obj.id,"is_selected":True,
         "group":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
-        obj = {"account_name":account_obj.account_name,"alias":account_obj.alias,"first_name":account_obj.first_name,
-        "last_name":account_obj.last_name,"email":account_obj.email,"address_line1":account_obj.address_line1,
-        "address_line2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
-        "country":account_obj.country,"pin_code":account_obj.pin_code,"contact_no":account_obj.contact_no,
-        "contact_no1":account_obj.contact_no1,"opening_balance":account_obj.opening_balance,"group":group_obj,
-        "accounttype":accounttype_obj}
+        accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
+        "lastName":account_obj.last_name,"email":account_obj.email,"addressLine1":account_obj.address_line1,
+        "addressLine2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
+        "country":account_obj.country,"pincode":account_obj.pin_code,"mobileNo0":account_obj.contact_no,
+        "mobileNo1":account_obj.contact_no1,"openingBalance":account_obj.opening_balance,"group":group_obj,
+        "accounttype":accounttype_obj,"start_date":start_date,"end_date":end_date,"duration":accountingyear_obj.duration}
         
-        return HttpResponse(json.dumps({"obj":obj,"status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"accountInfo":accountInfo,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
