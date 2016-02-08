@@ -81,6 +81,12 @@ def footer(request):
 def menu(request):
     return render_to_response('html_templates/user/menu.html')
 
+def accountMenu(request):
+    return render_to_response('html_templates/user/myAccMaster/accountMenu.html')
+
+def account(request):
+    return render_to_response('html_templates/user/myAccMaster/account.html')
+
 
 def accountDetailBasedOnYear(request):
     return render_to_response('html_templates/user/accountDetailBasedOnYear.html')
