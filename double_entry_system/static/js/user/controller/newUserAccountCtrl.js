@@ -3,6 +3,13 @@ angular.module('userApp.controllers')
 	console.log('newUserAccountController is loaded');
 
 	console.log($stateParams);
+	$scope.editMode = null;
+	if($stateParams.id == ''){
+		$scope.editMode = false;
+	}else{
+		$scope.editMode = true;
+	}
+
 
 	$scope.startDate = null;
 	$scope.endDate = null;
@@ -33,12 +40,12 @@ angular.module('userApp.controllers')
 	$scope.accountGroupList = [];
 
 	$scope.init = function(){
-		// if($stateParams.id != ''){
 		// }else{
 			getGroupList();
 			getAccountTypeList();
+		if($stateParams.id != ''){
 			getUserInfoToEdit();
-		// }
+		}
 	};
 	$timeout($scope.init);
 
@@ -69,15 +76,22 @@ angular.module('userApp.controllers')
 	$scope.createNewUser = function(){
 		$scope.userInfo.start_date = new Date($scope.startDate).getTime();
 		$scope.userInfo.end_date = new Date($scope.endDate).getTime();
-		var dataPromis = networkService.createNewUserRequest($scope.userInfo);
-		dataPromis.then(function(result){
-			console.log(result);
-			if(!result.status){
-				Notification.error({message: result.validation});
-			}else{
-				Notification.success(result.validation);
-			}
-		});
+		if(!$scope.editMode){
+			var dataPromis = networkService.createNewUserRequest($scope.userInfo);
+			dataPromis.then(function(result){
+				console.log(result);
+				if(!result.status){
+					Notification.error({message: result.validation});
+				}else{
+					Notification.success(result.validation);
+				}
+			});
+		}else{
+			var dataPromis = networkService.saveEditDetailsRequest($scope.userInfo, $stateParams.id);
+			dataPromis.then(function(result){
+				console.log(result);
+			});
+		}
 	};
 
 	var getUserInfoToEdit = function(){

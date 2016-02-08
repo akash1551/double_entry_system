@@ -88,7 +88,9 @@
 
 			<hr>
 
-			<button ng-disabled="userNewAccForm.$invalid" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;"> Add User </button>
+			<button ng-show='!editMode' class="btn btn-primary" style="width: 100%; margin-bottom: 10px;"> Add User </button>
+
+			<button ng-show='editMode' class="btn btn-primary" style="width: 100%; margin-bottom: 10px;"> Save </button>
 			</form>
 
 		</div>
