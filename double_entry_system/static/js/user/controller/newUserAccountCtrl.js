@@ -11,38 +11,40 @@ angular.module('userApp.controllers')
 	}
 
 
-	$scope.startDate = null;
-	$scope.endDate = null;
+	var clearData = function(){
+		$scope.startDate = null;
+		$scope.endDate = null;
 
-	$scope.userInfo = {
-		account_name : '',
-		alias : '',
-		group : {},
-		firstName : '',
-		lastName : '',
-		addressLine1 : '',
-		addressLine2 : '',
-		city : '',
-		state : '',
-		country : '',
-		pincode : '',
-		email : '',
-		mobileNo0 : '',
-		mobileNo1 : '',
-		openingBalance : '',
-		accounttype : '',
-		start_date : '',
-		end_date : '',
-		duration : 1
+		$scope.userInfo = {
+			account_name : '',
+			alias : '',
+			group : {},
+			firstName : '',
+			lastName : '',
+			addressLine1 : '',
+			addressLine2 : '',
+			city : '',
+			state : '',
+			country : '',
+			pincode : '',
+			email : '',
+			mobileNo0 : '',
+			mobileNo1 : '',
+			openingBalance : '',
+			accounttype : '',
+			start_date : '',
+			end_date : '',
+			duration : 1
+		};
+
+		$scope.accountTypeList = [];
+		$scope.accountGroupList = [];
 	};
 
-	$scope.accountTypeList = [];
-	$scope.accountGroupList = [];
-
 	$scope.init = function(){
-		// }else{
-			getGroupList();
-			getAccountTypeList();
+		clearData();
+		getGroupList();
+		getAccountTypeList();
 		if($stateParams.id != ''){
 			getUserInfoToEdit();
 		}
@@ -93,7 +95,7 @@ angular.module('userApp.controllers')
 				if(!result.status){
 					Notification.error({message: result.validation});
 				}else{
-					Notification.success(result.status);
+					Notification.success(result.validation);
 				}
 			});
 		}
