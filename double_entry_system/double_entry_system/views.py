@@ -159,9 +159,9 @@ def register_new_user(request):
             if today < end_date:
                 start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
                 end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
-                new_acc_year_obj_for_bank_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=bank_account_obj)
+                new_acc_year_obj_for_bank_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=bank_account_obj,user=user_obj)
                 new_acc_year_obj_for_bank_acc.save()
-                new_acc_year_obj_for_cash_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=cash_account_obj)
+                new_acc_year_obj_for_cash_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=cash_account_obj,user=user_obj)
                 new_acc_year_obj_for_cash_acc.save()
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
@@ -370,8 +370,7 @@ def show_account_details(request):
             value = bank_account_obj.current_balance
             bankObj = {"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
         else:
-            value = 0
-            bankObj = {"amount":str(value),"account_name":bank_account_obj.account_name}
+            bankObj = {"amount":"Nil","account_name":bank_account_obj.account_name}
         transactionList.append(bankObj)
                     ####### For Cash Account Balance ########
         all_debit_for_cash = 0
@@ -394,8 +393,7 @@ def show_account_details(request):
             value1 = cash_account_obj.current_balance        
             cashObj = {"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
         else:
-            value1 = 0
-            cashObj = {"amount":str(value1),"account_name":cash_account_obj.account_name}
+            cashObj = {"amount":"Nil","account_name":cash_account_obj.account_name}
         transactionList.append(cashObj)
                         ######### Show Account Names ###########
         
@@ -426,8 +424,7 @@ def show_account_details(request):
                 all_credit1 = all_credit - all_debit
                 obj = {"amount":str(all_credit1)+"Cr","account_name":i.account_name}
             else:
-                all_amount = 0
-                obj = {"amount":str(all_amount)+"Cr","account_name":i.account_name}
+                obj = {"amount":"Nil","account_name":i.account_name}
 
             transactionList.append(obj)
         return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
