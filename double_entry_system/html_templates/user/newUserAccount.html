@@ -14,7 +14,7 @@
 
 
 				<h5>Group Name*</h5>
-				<select class='form-control' ng-model="userInfo.group" ng-options="option as option.choice_name for option in accountGroupList track by option.id">
+				<select class='form-control' ng-model="userInfo.group" ng-options="option.choice_name for option in accountGroupList track by option.id">
 					<option value=''>Select</option>
 				</select>
 
@@ -61,7 +61,7 @@
 				<input type="text" ng-model="userInfo.openingBalance" class="form-control" placeholder="Opening Balance">
 
 				<h5>Account Type</h5>
-				<select ng-model="userInfo.accounttype" class="form-control" ng-options="account as account.choice_name for account in accountTypeList track by account.id">
+				<select ng-model="userInfo.accounttype" class="form-control" ng-options="account.choice_name for account in accountTypeList track by account.id">
 					<option value="">Select</option>
 				</select>
 
