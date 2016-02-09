@@ -151,12 +151,13 @@
 							<div ui-view></div>
 						</div>
 						<div class="col-xs-4">
-							<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
+			<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
 				<li class="active"><a href="#"><span class="glyphicon glyphicon-off"></span>  Navigation</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span>  Add Transaction</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-lock"></span>  Accounts</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Edit Accounts</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-signal"></span>  Reports</a></li>
+				<li><a ui-sref="accountingApp"><span class="glyphicon glyphicon-user"></span>  Add Transaction</a></li>
+				<li><a><span class="glyphicon glyphicon-comment"></span>  Transactions</a></li>
+				<li><a ui-sref="account({edit:false})"><span class="glyphicon glyphicon-lock"></span>  Accounts</a></li>
+				<li><a ui-sref="account({edit:true})"><span class="glyphicon glyphicon-envelope"></span>  Edit Accounts</a></li>
+				<li><a><span class="glyphicon glyphicon-signal"></span>  Reports</a></li>
 				<!-- <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Schedule</a></li> -->
 				<!-- <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  Chat</a></li> -->
 				<!-- <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a></li> -->
