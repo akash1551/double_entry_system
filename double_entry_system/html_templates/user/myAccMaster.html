@@ -12,9 +12,9 @@
 			<h6>Validity</h6> -->
 		<!-- </div> -->
 		<div class="col-xs-12">
-			<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
+			<!-- <button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
 			<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
-			<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button>
+			<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button> -->
 		</div>
 		<!-- <div class="col-xs-1"> -->
 			<!-- <i class="fa fa-2x fa-ellipsis-v ellipsis_nav" id="menu"></i>
@@ -30,11 +30,7 @@
 		<!-- </div> -->
 
 	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<hr>
-		</div>
-	</div>
+
 	<div class="row">
 		<div class="col-xs-12" ng-repeat="date in yearList">
 			<!-- <p style="background-color: #aaa; padding: 20px; margin: 15px;" ui-sref="accountMenu">
@@ -51,51 +47,6 @@
 	</div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Add Group</h4>
-			</div>
-			<div class="modal-body">
-				<label for="">Group Name</label>
-				<input type="text" class="form-control" ng-modal="newGroup">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" ng-click="addNewGroup(false);">Cancel</button>
-				<button type="button" class="btn btn-primary" ng-click="addNewGroup(true);">Add Group</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<!-- Modal -->
-<div id="modal_newUserAcc" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-
-		<!-- Modal content-->
-		<div class="modal-content" style="z-index: 3000">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Modal Header</h4>
-			</div>
-			<div class="modal-body">
-				<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-				<div style=" width: 310px; margin: auto;">
-					<div style="display:inline-block; min-height:290px;">
-						<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAccYear();">save</button>
-			</div>
-		</div>
-
-	</div>
-{% endverbatim %}
 
 <script>
 	// $('document').ready(function(){

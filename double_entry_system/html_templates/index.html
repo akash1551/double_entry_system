@@ -33,63 +33,15 @@
 	</head>
 	<body class="" ng-app="userApp" ng-controller="userCtrl" style="min-width: 1000px;">
 
-	<!-- <div id="bodyWrapper"> -->
-
-		<!-- <nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 40px;">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" ui-sref="dashboard">
-					<i class="fa fa-database fa-fw"></i>
-					Mudra
-				</a>
-			</div>
-
-			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				<ul class="nav navbar-nav">
-					<li class="">
-						<a ui-sref="myAccMaster" style="text-decoration: none;">MyAcc</a>
-					</li>
-					<li class="">
-						<a ui-sref="dashboard" style="text-decoration: none;">menu</a>
-					</li>
-					<li class="">
-						<a ui-sref="accountingApp" style="text-decoration: none;">accounting</a>
-					</li>
-					<li class="">
-						<a ui-sref="newUserAccount" style="text-decoration: none;">newUserAccount</a>
-					</li>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="hand"><a ng-click="logout();">Log Out</a></li>
-				</ul>
-			</div>
-		</nav>
-
-		<div id="content" style="">
-			<div ui-view></div>
-		</div>
-
-		<div id="footer">
-			{% include 'html_templates/footer.html'%}
-		</div> -->
-
-
-		<nav class="navbar navbar-inverse no-margin">
-			<!-- Brand and toggle get grouped for better mobile display -->
+		<nav class="navbar navbar-default no-margin">
 			<div class="navbar-header fixed-brand">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
 					<span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 				</button>
-				<a class="navbar-brand" href="#"><i class="fa fa-database fa-fw"></i>
+				<a class="navbar-brand"><i class="fa fa-database fa-fw"></i>
 					Mudra
 				</a>
-			</div><!-- navbar-header-->
+			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
@@ -102,11 +54,9 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li class="hand"><a ng-click="logout();">Log Out</a></li>
 				</ul>
-			</div><!-- bs-example-navbar-collapse-1 -->
+			</div>
 		</nav>
-	<!-- <div class="container-fluid" style="min-width: 1000px;"> -->
 		<div id="wrapper">
-			<!-- Sidebar -->
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
@@ -119,56 +69,73 @@
 					</li>
 					<li ui-sref-active="active">
 						<a ui-sref="accountingApp"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Event Accounting</a>
-
-						<!-- <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-							<li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link1</a></li>
-							<li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link2</a></li>
-
-						</ul> -->
 					</li>
 					<li ui-sref-active="active">
 						<a><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Other Accounts</a>
 					</li>
-					<!-- <li>
-						<a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Events</a>
-					</li>
-					<li>
-						<a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>About</a>
-					</li>
-					<li>
-						<a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
-					</li>
-					<li>
-						<a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
-					</li> -->
 				</ul>
-			</div><!-- /#sidebar-wrapper -->
-			<!-- Page Content -->
+			</div>
+
 			<div id="page-content-wrapper">
 				<div class="container-fluid xyz">
 					<div class="row">
 						<div class="col-xs-8">
-							<select class="form-control" style="width: 200px; margin-bottom: 20px;"></select>
+							<div class="row" style="margin-bottom: 20px;">
+								<div class="col-xs-4">
+									<select class="form-control"></select>
+								</div>
+								<div class="col-xs-8 text-right">
+									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
+									<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
+									<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button>
+								</div>
+							</div>
 							<hr>
 							<div ui-view></div>
 						</div>
 						<div class="col-xs-4">
-			<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
-				<li class="active"><a href="#"><span class="glyphicon glyphicon-off"></span>  Navigation</a></li>
-				<li><a ui-sref="accountingApp"><span class="glyphicon glyphicon-user"></span>  Add Transaction</a></li>
-				<li><a><span class="glyphicon glyphicon-comment"></span>  Transactions</a></li>
-				<li><a ui-sref="account({edit:false})"><span class="glyphicon glyphicon-lock"></span>  Accounts</a></li>
-				<li><a ui-sref="account({edit:true})"><span class="glyphicon glyphicon-envelope"></span>  Edit Accounts</a></li>
-				<li><a><span class="glyphicon glyphicon-signal"></span>  Reports</a></li>
-				<!-- <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Schedule</a></li> -->
-				<!-- <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  Chat</a></li> -->
-				<!-- <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a></li> -->
-			</ul>
+							<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
+								<li class="active">
+									<a href="#">
+										<span class="glyphicon glyphicon-off"></span>
+										Navigation
+									</a>
+								</li>
+								<li>
+									<a ui-sref="accountingApp">
+										<span class="glyphicon glyphicon-user"></span>
+										Add Transaction
+									</a>
+								</li>
+								<li>
+									<a>
+										<span class="glyphicon glyphicon-comment"></span>
+										Transactions
+									</a>
+								</li>
+								<li>
+									<a ui-sref="account({edit:false})">
+										<span class="glyphicon glyphicon-lock"></span>
+										Accounts
+									</a>
+								</li>
+								<li>
+									<a ui-sref="account({edit:true})">
+										<span class="glyphicon glyphicon-envelope"></span>
+										Edit Accounts
+									</a>
+								</li>
+								<li>
+									<a>
+										<span class="glyphicon glyphicon-signal"></span>
+										Reports
+									</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- /#page-content-wrapper -->
 		</div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
@@ -187,13 +154,53 @@
 		<script src="{% static 'js/user/controller/newUserAccountCtrl.js' %}"></script>
 		<script src="{% static 'js/user/controller/myAccMaster/accountMenuCtrl.js' %}"></script>
 
-		<!-- <script>
-			$(function(){
-				var height = $('#footer').height();
-				$('#content').css('padding-bottom', height+20);
-			});
-		</script>
- -->
-	<!-- </div> -->
+{% verbatim %}
+<div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add Group</h4>
+			</div>
+			<div class="modal-body">
+				<label for="">Group Name</label>
+				<input type="text" class="form-control" ng-modal="newGroup">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="addNewGroup(false);">Cancel</button>
+				<button type="button" class="btn btn-primary" ng-click="addNewGroup(true);">Add Group</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal -->
+<div id="modal_newUserAcc" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content" style="z-index: 3000">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+				<div style=" width: 310px; margin: auto;">
+					<div style="display:inline-block; min-height:290px;">
+						<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAccYear();">save</button>
+			</div>
+		</div>
+
+	</div>
+{% endverbatim %}
+
+
 	</body>
 </html>
