@@ -15,21 +15,8 @@
 </style>
 <!-- <div class="container" id="accounting"> -->
 	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2" style="background-color: #bebebe; padding: 15px;">
+		<div class="col-sm-12">
 			<!-- <pre>{{ $data | json }}</pre> -->
-			<div class="row" style="margin-top: 15px;">
-				<div class="col-xs-6">
-					<h4>Date</h4>
-					<input type="date" class="form-control" ng-model="date" autofocus>
-				</div>
-				<div class="col-xs-6">
-					<h4>Transaction Mode</h4>
-					<select class="form-control" ng-model="transactionMode" ng-options="mode.choice_name for mode in transactionModeList">
-						<option value="">Select</option>
-					</select>
-				</div>
-
-			</div>
 
 			<div class="row" style="margin-top: 15px;">
 				<div class="col-xs-12">
@@ -55,6 +42,20 @@
 						</li>
 					</ul>
 				</div>
+			</div>
+
+			<div class="row" style="margin-top: 15px;">
+				<div class="col-xs-6">
+					<h4>Date</h4>
+					<input type="date" class="form-control" ng-model="date" autofocus>
+				</div>
+				<div class="col-xs-6">
+					<h4>Transaction Mode</h4>
+					<select class="form-control" ng-model="transactionMode" ng-options="mode.choice_name for mode in transactionModeList">
+						<option value="">Select</option>
+					</select>
+				</div>
+
 			</div>
 
 			<form ng-submit="addEntry();">
