@@ -1,36 +1,4 @@
 <style>
-	.icon_acc{
-		width: 40px; height: 40px; border-radius: 30px; background-color: #bebebe; display: inline; padding: 10px; font-weight: bold; cursor: pointer; cursor: hand;
-	}
-	.hide_menu{
-		-webkit-transition: 0.51s ease-in-out;
-	    -moz-transition: 0.51s ease-in-out;
-	    -o-transition: 0.51s ease-in-out;
-	    transition: 0.51s ease-in-out;
-		height: 400px; padding: 10px;
-		z-index: 2000;
-		width: 400px; background-color: #bebebe; position: absolute; right: -410px;
-		top: 0;
-	}
-	.show_menu{
-		-webkit-transition: 0.51s ease-in-out;
-	    -moz-transition: 0.51s ease-in-out;
-	    -o-transition: 0.51s ease-in-out;
-	    transition: 0.51s ease-in-out;
-		padding: 5px;
-		height: 450px;
-		width: 200px;
-		background-color: #249C93;
-		position:
-		absolute;
-		right: -6px; top: -5px;
-		/*right: 0px;*/
-		z-index: 2000;
-		opacity: 0.9;
-		border: 2px solid #888;
-		box-shadow: 2px 2px 2px solid #FFF;
-	}
-
 	.hand {
 		cursor: hand;
 		cursor: pointer;
@@ -38,95 +6,47 @@
 
 </style>
 {% verbatim %}
-<div class="container section_myAcc" id="container_slider">
 	<div class="row" id='myAccMaster'>
-		<div class="col-sm-12">
-			<div class="clearfix holder_myAcc" style="height: auto; min-height: 300px;">
-				 <div class="header_myAcc">
-				 	<div class="row">
-				 		<div class="col-xs-6">
-				 			<h5>My Account</h5>
-				 			<h6>Validity</h6>
-				 		</div>
-				 		<div class="col-xs-5" style="padding-top: 15px;">
-				 			<p class="menu_circular hand" ui-sref="newUserAccount" >A+</p>
-				 			<p class="menu_circular hand" data-toggle="modal" data-target="#addGroupModal">G+</p>
-				 			<p class="menu_circular hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</p>
+		<!-- <div class="col-xs-6"> -->
+			<!-- <h5>My Account</h5>
+			<h6>Validity</h6> -->
+		<!-- </div> -->
+		<div class="col-xs-12">
+			<!-- <button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
+			<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
+			<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button> -->
+		</div>
+		<!-- <div class="col-xs-1"> -->
+			<!-- <i class="fa fa-2x fa-ellipsis-v ellipsis_nav" id="menu"></i>
+		 	<div id="slider_cust" class="hide_menu">
+		 		<p class="menu_slider" ui-sref="myAcc.myAccHomePage">lorem</p>
+		 		<p class="menu_slider" >Add Acc</p>
+		 		<p class="menu_slider" >Add Group</p>
+		 		<p class="menu_slider" >Add Year</p>
+		 		<p class="menu_slider"  ui-sref="myAcc.credit">Credit</p>
+		 		<p class="menu_slider"  ui-sref="myAcc.debit">Debit</p>
+		 		<p class="menu_slider"  ui-sref="myAcc.summary">Summary</p>
+		 	</div> -->
+		<!-- </div> -->
 
-				 			<!-- Modal -->
-				 			<div id="modal_newUserAcc" class="modal fade" role="dialog">
-				 				<div class="modal-dialog">
+	</div>
 
-				 					<!-- Modal content-->
-				 					<div class="modal-content" style="z-index: 3000">
-				 						<div class="modal-header">
-				 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-				 							<h4 class="modal-title">Modal Header</h4>
-				 						</div>
-				 						<div class="modal-body">
-				 							<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-				 							<div style=" width: 310px; margin: auto;">
-					 							<div style="display:inline-block; min-height:290px;">
-					 								<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
-					 							</div>
-				 							</div>
-				 						</div>
-				 						<div class="modal-footer">
-				 							<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAccYear();">save</button>
-				 						</div>
-				 					</div>
-
-				 				</div>
-				 			</div>
-
-				 		</div>
-				 		<!-- <div class="col-xs-1">
-				 			<i class="fa fa-2x fa-ellipsis-v ellipsis_nav" id="menu"></i>
-						 	<div id="slider_cust" class="hide_menu">
-						 		<p class="menu_slider" ui-sref="myAcc.myAccHomePage">lorem</p>
-						 		<p class="menu_slider" >Add Acc</p>
-						 		<p class="menu_slider" >Add Group</p>
-						 		<p class="menu_slider" >Add Year</p>
-						 		<p class="menu_slider"  ui-sref="myAcc.credit">Credit</p>
-						 		<p class="menu_slider"  ui-sref="myAcc.debit">Debit</p>
-						 		<p class="menu_slider"  ui-sref="myAcc.summary">Summary</p>
-						 	</div>
-				 		</div> -->
-				 	</div>
-				 </div>
-
-				<div class="row text-center">
-					<div class="col-sm-6" ng-repeat="date in yearList" style="cursor: hand; cursor: pointer;">
-						<p style="background-color: #aaa; padding: 20px; margin: 15px;" ui-sref="accountMenu">
-							<span>{{date.start_date | date: 'dd/MMM/yyyy a'}}</span><br>
-							<span>{{date.end_date | date: 'dd/MMM/yyyy a'}}</span>
-						</p>
-					</div>
-				</div>
-			</div>
+	<div class="row">
+		<div class="col-xs-12" ng-repeat="date in yearList">
+			<!-- <p style="background-color: #aaa; padding: 20px; margin: 15px;" ui-sref="accountMenu">
+				<span>{{date.start_date | date: 'dd/MMM/yyyy a'}}</span><br>
+				<span>{{date.end_date | date: 'dd/MMM/yyyy a'}}</span>
+			</p> -->
+			<ul class="list-group">
+				<li class="list-group-item" ui-sref="accountMenu">
+					<span>{{date.start_date | date: 'dd/MMM/yyyy'}}</span>
+					<span class="pull-right">{{date.end_date | date: 'dd/MMM/yyyy'}}</span>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Add Group</h4>
-			</div>
-			<div class="modal-body">
-				<label for="">Group Name</label>
-				<input type="text" class="form-control" ng-modal="newGroup">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" ng-click="addNewGroup(false);">Cancel</button>
-				<button type="button" class="btn btn-primary" ng-click="addNewGroup(true);">Add Group</button>
-			</div>
-		</div>
-	</div>
-</div>
-{% endverbatim %}
 
 <script>
 	// $('document').ready(function(){
@@ -140,3 +60,4 @@
 	// 	});
 	// });
 </script>
+{% endverbatim %}

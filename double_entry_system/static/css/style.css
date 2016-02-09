@@ -12,7 +12,7 @@ body {
 	padding:0;
 	height:100%;
 }
-#wrapper {
+#bodyWrapper {
 	min-height:100%;
 	position:relative;
 }

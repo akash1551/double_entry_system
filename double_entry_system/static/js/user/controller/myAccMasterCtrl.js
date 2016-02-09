@@ -23,28 +23,6 @@ angular.module('userApp.controllers')
 		});
 	};
 
-	$scope.addNewGroup = function(key){
-		console.log(key);
-		if(!key){
-			$scope.newGroup = '';
-			$('#addGroupModal').modal('hide');
-		}else{
-			if($scope.newGroup != ''){
-				var dataPromis = networkService.addNewGroupRequest($scope.newGroup);
-				dataPromis.then(function(result){
-					console.log(result);
-					if(!result.status){
-						Notification.error({message: result.validation});
-					}else{
-						Notification.success(result.validation);
-						$scope.newGroup = '';
-					}
-				});
-				$('#addGroupModal').modal('hide');
-			}else{
-				Notification.error({message: "Please Add Name"});
-			}
-		}
-	};
+
 
 });

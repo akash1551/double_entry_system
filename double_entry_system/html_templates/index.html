@@ -11,9 +11,10 @@
 		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/expensesManager.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+		<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
 		<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css' %}">
 		<link href="{% static 'bower_components/font-awesome-less/css/font-awesome.css' %}" rel="stylesheet">
+		<link href="{% static 'bower_components/sideBar/css/simple-sidebar.css' %}" rel="stylesheet">
 
 		<style>
 			.cover_bg {
@@ -30,54 +31,111 @@
 			}
 		</style>
 	</head>
-	<body class="cover_bg" ng-app="userApp" ng-controller="userCtrl">
+	<body class="" ng-app="userApp" ng-controller="userCtrl" style="min-width: 1000px;">
 
-	<div id="wrapper">
-
-		<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 40px;">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+		<nav class="navbar navbar-default no-margin">
+			<div class="navbar-header fixed-brand">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
+					<span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 				</button>
-				<a class="navbar-brand" ui-sref="dashboard">
-					<i class="fa fa-database fa-fw"></i>
+				<a class="navbar-brand"><i class="fa fa-database fa-fw"></i>
 					Mudra
 				</a>
 			</div>
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="">
-						<a ui-sref="myAccMaster" style="text-decoration: none;">MyAcc</a>
-					</li>
-					<li class="">
-						<a ui-sref="dashboard" style="text-decoration: none;">menu</a>
-					</li>
-					<li class="">
-						<a ui-sref="accountingApp" style="text-decoration: none;">accounting</a>
-					</li>
-					<li class="">
-						<a ui-sref="newUserAccount" style="text-decoration: none;">newUserAccount</a>
+					<li class="active" >
+						<button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" style="background-color: #337ab7;">
+							<span class="glyphicon glyphicon-th-large" aria-hidden="true" style="color: #fff;"></span>
+						</button>
 					</li>
 				</ul>
-
 				<ul class="nav navbar-nav navbar-right">
 					<li class="hand"><a ng-click="logout();">Log Out</a></li>
 				</ul>
 			</div>
 		</nav>
+		<div id="wrapper">
+			<div id="sidebar-wrapper">
+				<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
-		<div id="content" style="">
-			<div ui-view></div>
-		</div>
+					<li  ui-sref-active="active">
+						<a ui-sref="myAccMaster"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> My Account</a>
+						<!-- <ul class="nav-pills nav-stacked" style="list-style-type:none;">
+							<li><a href="#">link1</a></li>
+							<li><a href="#">link2</a></li>
+						</ul> -->
+					</li>
+					<li ui-sref-active="active">
+						<a ui-sref="accountingApp"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Event Accounting</a>
+					</li>
+					<li ui-sref-active="active">
+						<a><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Other Accounts</a>
+					</li>
+				</ul>
+			</div>
 
-		<div id="footer">
-			{% include 'html_templates/footer.html'%}
+			<div id="page-content-wrapper">
+				<div class="container-fluid xyz">
+					<div class="row">
+						<div class="col-xs-8">
+							<div class="row" style="margin-bottom: 20px;">
+								<div class="col-xs-4">
+									<select class="form-control"></select>
+								</div>
+								<div class="col-xs-8 text-right">
+									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
+									<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
+									<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button>
+								</div>
+							</div>
+							<hr>
+							<div ui-view></div>
+						</div>
+						<div class="col-xs-4">
+							<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
+								<li class="active">
+									<a href="#">
+										<span class="glyphicon glyphicon-off"></span>
+										Navigation
+									</a>
+								</li>
+								<li>
+									<a ui-sref="accountingApp">
+										<span class="glyphicon glyphicon-user"></span>
+										Add Transaction
+									</a>
+								</li>
+								<li>
+									<a>
+										<span class="glyphicon glyphicon-comment"></span>
+										Transactions
+									</a>
+								</li>
+								<li>
+									<a ui-sref="account({edit:false})">
+										<span class="glyphicon glyphicon-lock"></span>
+										Accounts
+									</a>
+								</li>
+								<li>
+									<a ui-sref="account({edit:true})">
+										<span class="glyphicon glyphicon-envelope"></span>
+										Edit Accounts
+									</a>
+								</li>
+								<li>
+									<a>
+										<span class="glyphicon glyphicon-signal"></span>
+										Reports
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
@@ -86,6 +144,7 @@
 		<script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
 		<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'bower_components/angular-ui-notification/dist/angular-ui-notification.min.js' %}"></script>
+		<script src="{% static 'bower_components/sideBar/js/simple-sidebar.js' %}"></script>
 
 		<script src="{% static 'js/user/userApp.js' %}"></script>
 		<script src="{% static 'js/user/userServices.js' %}"></script>
@@ -95,18 +154,53 @@
 		<script src="{% static 'js/user/controller/newUserAccountCtrl.js' %}"></script>
 		<script src="{% static 'js/user/controller/myAccMaster/accountMenuCtrl.js' %}"></script>
 
-		<script>
-			$(function(){
-				var height = $('#footer').height();
-				$('#content').css('padding-bottom', height+20);
-			});
-		</script>
+{% verbatim %}
+<div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add Group</h4>
+			</div>
+			<div class="modal-body">
+				<label for="">Group Name</label>
+				<input type="text" class="form-control" ng-modal="newGroup">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="addNewGroup(false);">Cancel</button>
+				<button type="button" class="btn btn-primary" ng-click="addNewGroup(true);">Add Group</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
+<!-- Modal -->
+<div id="modal_newUserAcc" class="modal fade" role="dialog">
+	<div class="modal-dialog">
 
-
-
+		<!-- Modal content-->
+		<div class="modal-content" style="z-index: 3000">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+				<div style=" width: 310px; margin: auto;">
+					<div style="display:inline-block; min-height:290px;">
+						<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAccYear();">save</button>
+			</div>
+		</div>
 
 	</div>
+{% endverbatim %}
+
+
 	</body>
 </html>

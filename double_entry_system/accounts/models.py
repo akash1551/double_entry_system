@@ -77,6 +77,14 @@ class Company(models.Model):
 	def __unicode__(self):
 		return self.company_name
 
+class AccountingYear(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True,null=True)
+	transaction = models.ForeignKey('Transaction',null=True)
+	user = models.ForeignKey(User,null=True)
+	start_date = models.DateField(null=True)
+	end_date = models.DateField(null=True)
+	duration = models.IntegerField()
+
 class AccountType(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 
@@ -90,13 +98,6 @@ class AccountType(models.Model):
 	def __unicode__(self):
 		return str(self.optionType)
 
-class AccountingYear(models.Model):
-	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	account = models.ForeignKey('Account',null=True)
-	user = models.ForeignKey(User,null=True)
-	start_date = models.DateField(null=True)
-	end_date = models.DateField(null=True)
-	duration = models.IntegerField()
 
 class TransactionType(models.Model):
 	RECIEPT = 0
