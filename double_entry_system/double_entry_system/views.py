@@ -213,7 +213,7 @@ def create_new_user_account(request):
         account_name = accountInfo.get("account_name")
         alias = accountInfo.get("alias")
         group = accountInfo.get("group")
-        #grouptype = group.get("id") 
+        grouptype = group.get("id") 
         first_name = accountInfo.get("firstName")
         last_name = accountInfo.get("lastName")
         email = accountInfo.get("email")
@@ -347,24 +347,25 @@ def show_account_details(request):
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         
-                        ##### For Bank Account Balance #########
+                        ######## For Bank Account Balance #########
         all_debit = 0
         all_credit = 0
         bank_account_obj = userdetail_obj.bank_account
-        print bank_account_obj
+        print bank_account_obj.current_balance
         transaction_obj = Transaction.objects.filter(user__id=request.user.id)
         for a in transaction_obj:
-            transaction_record_obj = a.transaction_record.filter(account__id=bank_account_obj.id)
+            transaction_record_obj = a.transaction_record.filter(account=bank_account_obj)
             for b in transaction_record_obj:
                 if b.is_debit == True:
                     all_debit = all_debit + b.amount
                 if b.is_debit == False:
                     all_credit = all_credit + b.amount
-            if all_credit > all_debit:
-                bank_account_obj.current_balance = all_credit - all_debit
-            elif all_debit > all_credit:
-                bank_account_obj.current_balance = all_debit - all_credit
-        
+        if all_credit > all_debit:
+            bank_account_obj.current_balance = all_credit - all_debit
+            value = bank_account_obj.current_balance
+        else:
+            bank_account_obj.current_balance = all_debit - all_credit
+            value = bank_account_obj.current_balance
                     ####### For Cash Account Balance ########
 
         cash_account_obj = userdetail_obj.cash_account
@@ -377,11 +378,12 @@ def show_account_details(request):
                     all_debit = all_debit + b.amount
                 if b.is_debit == False:
                     all_credit = all_credit + b.amount
-            if all_credit > all_debit:
-                cash_account_obj.current_balance = all_credit - all_debit
-            elif all_debit > all_credit:
-                cash_account_obj.current_balance = all_debit - all_credit
-                        
+        if all_credit > all_debit:
+            cash_account_obj.current_balance = all_credit - all_debit
+            value1 = cash_account_obj.current_balance
+        else:
+            cash_account_obj.current_balance = all_debit - all_credit
+            value1 = cash_account_obj.current_balance        
                         ######### Show Account Names ###########
         
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
@@ -391,6 +393,7 @@ def show_account_details(request):
         bank_account_obj = userdetail_obj.bank_account.id
         cash_account_obj = userdetail_obj.cash_account.id
         transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        
         account_obj = userdetail_obj.account.all()
         for i in account_obj:
             transaction_record_obj = TransactionRecord.objects.filter(account=i).exclude(account__id__in=[bank_account_obj,cash_account_obj])
@@ -404,7 +407,7 @@ def show_account_details(request):
             else:
                 obj = {"amount":str(all_credit)+"Cr","account_name":i.account_name}
             transactionList.append(obj)
-        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"cash_account":value1,"bank_account":value,"transactionList":transactionList,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
 
