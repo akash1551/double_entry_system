@@ -159,9 +159,9 @@ def register_new_user(request):
             if today < end_date:
                 start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
                 end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
-                new_acc_year_obj_for_bank_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=bank_account_obj)
+                new_acc_year_obj_for_bank_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=bank_account_obj,user=user_obj)
                 new_acc_year_obj_for_bank_acc.save()
-                new_acc_year_obj_for_cash_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=cash_account_obj)
+                new_acc_year_obj_for_cash_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=cash_account_obj,user=user_obj)
                 new_acc_year_obj_for_cash_acc.save()
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
@@ -346,57 +346,120 @@ def show_account_details(request):
         print end_date_as_string
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        transactionList = []
         
-        bank_account_obj = userdetail_obj.bank_account.current_balance
-        print bank_account_obj
-                        ##### For Bank Account Balance #########
-        cash_account_obj = userdetail_obj.cash_account.current_balance
-        print cash_account_obj
+                        ######## For Bank Account Balance #########
+
+        all_debit_for_bank = 0
+        all_credit_for_bank = 0
+        bank_account_obj = userdetail_obj.bank_account
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        for a in transaction_obj:
+            transaction_record_obj = a.transaction_record.filter(account=bank_account_obj)
+            for b in transaction_record_obj:
+                if b.is_debit == True:
+                    all_debit_for_bank = all_debit_for_bank + b.amount
+                if b.is_debit == False:
+                    all_credit_for_bank = all_credit_for_bank + b.amount
+        if all_credit_for_bank > all_debit_for_bank:
+            bank_account_obj.current_balance = all_credit_for_bank - all_debit_for_bank
+            value = bank_account_obj.current_balance
+            bankObj = {"amount":str(value)+"Cr","account_name":bank_account_obj.account_name}
+        elif all_debit_for_bank > all_credit_for_bank:
+            bank_account_obj.current_balance = all_debit_for_bank - all_credit_for_bank
+            value = bank_account_obj.current_balance
+            bankObj = {"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
+        else:
+            bankObj = {"amount":"Nil","account_name":bank_account_obj.account_name}
+        transactionList.append(bankObj)
+                    ####### For Cash Account Balance ########
+        all_debit_for_cash = 0
+        all_credit_for_cash = 0
+        cash_account_obj = userdetail_obj.cash_account
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        for a in transaction_obj:
+            transaction_record_obj = a.transaction_record.filter(account__id=cash_account_obj.id)
+            for b in transaction_record_obj:
+                if b.is_debit == True:
+                    all_debit_for_cash = all_debit_for_cash + b.amount
+                if b.is_debit == False:
+                    all_credit_for_cash = all_credit_for_cash + b.amount
+        if all_credit_for_cash > all_debit_for_cash:
+            cash_account_obj.current_balance = all_credit_for_cash - all_debit_for_cash
+            value1 = cash_account_obj.current_balance
+            cashObj = {"amount":str(value1)+"Cr","account_name":cash_account_obj.account_name}
+        elif all_debit_for_cash > all_credit_for_cash:
+            cash_account_obj.current_balance = all_debit_for_cash - all_credit_for_cash
+            value1 = cash_account_obj.current_balance        
+            cashObj = {"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
+        else:
+            cashObj = {"amount":"Nil","account_name":cash_account_obj.account_name}
+        transactionList.append(cashObj)
                         ######### Show Account Names ###########
-        account_obj_list = []
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date_as_string,created_at__lte=end_date_as_string)
+        
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        bank_account_obj = userdetail_obj.bank_account.id
+        cash_account_obj = userdetail_obj.cash_account.id
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        
+        account_obj = userdetail_obj.account.all()
         for i in account_obj:
-            date = i.created_at.strftime('%s')
-            obj = {"id":i.id,"account_name":i.account_name,"created_at":date}
-            account_obj_list.append(obj)
-        print account_obj_list
-                        ######### Show Debit Amount ###########
-        all_debit = 0
-        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        for i in transaction_obj:
-            transaction_record_obj = i.transaction_record.all()
+            all_debit = 0
+            all_credit = 0
+            all_debit1 = 0
+            all_credit1 = 0
+            transaction_record_obj = TransactionRecord.objects.filter(account=i).exclude(account__id__in=[bank_account_obj,cash_account_obj])
+            print transaction_record_obj.count()
             for j in transaction_record_obj:
-                if j.is_debit == True:
+                if j.is_debit==True:
+                    print "if1"
                     all_debit = all_debit + j.amount
-        print all_debit       
-                   ############## Show Credit Amount ############
-        all_credit = 0
-        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        for i in transaction_obj:
-            transaction_record_obj = i.transaction_record.all()
-            for j in transaction_record_obj:
-                if j.is_debit == False:
-                    all_credit = all_debit + j.amount
-        print all_credit
-        return HttpResponse(json.dumps({"bank_balance":bank_account_obj,"cash_balance":cash_account_obj,"all_debit":all_debit,"all_credit":all_credit,"account_obj_list":account_obj_list}), content_type="application/json")
+                else:
+                    print "else1"
+                    all_credit = all_credit + j.amount
+            if all_debit > all_credit:
+                all_debit1 = all_debit - all_credit
+                obj = {"amount":str(all_debit1)+"Dr","account_name":i.account_name}
+            elif all_credit > all_debit:
+                all_credit1 = all_credit - all_debit
+                obj = {"amount":str(all_credit1)+"Cr","account_name":i.account_name}
+            else:
+                obj = {"amount":"Nil","account_name":i.account_name}
+
+            transactionList.append(obj)
+        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
 
                 ####################################################
-                ############## Search Transactions #################
+                ############## SHOW Transactions #################
                 ####################################################
-
-def search_Transaction(request):
+def show_account_data(request):
     if request.user.is_authenticated():
         print request.user
-        transactiontype_obj = TransactionType.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
+        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
+        all_debit = 0
+        all_credit = 0
         transactionList = []
-        for i in transactiontype_obj:
-            [transactionList.append({'choice_name':dict(TransactionType.PAYMENTCHOICES)[i], 'id': i, 'is_selected': False}) for i in dict(TransactionType.PAYMENTCHOICES)]
-        print transactionList
-        return HttpResponse(json.dumps({"transactionList": transactionList,"status": True}), content_type="application/json")
+        bank_account_obj = userdetail_obj.bank_account.id
+        cash_account_obj = userdetail_obj.cash_account.id
+        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        account_obj = userdetail_obj.account.all()
+        for i in account_obj:
+            transaction_record_obj = TransactionRecord.objects.filter(account=i).exclude(account__id__in=[bank_account_obj,cash_account_obj])
+            for j in transaction_record_obj:
+                if j.is_debit==True:
+                    all_debit = all_debit + j.amount
+                else:
+                    all_credit = all_credit + j.amount
+            if all_debit > all_credit:
+                obj = {"amount":str(all_debit)+"Dr","account_name":i.account_name}
+            else:
+                obj = {"amount":str(all_credit)+"Cr","account_name":i.account_name}
+            transactionList.append(obj)
+        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
 
                 ##############################################################
                 #################### Send Account Names ######################
@@ -573,7 +636,12 @@ def add_group(request):
     if request.user.is_authenticated():
         json_obj = json.loads(request.body)
         group_name = json_obj['group_name']
-
+        group_obj = Group(group_name=group_name)
+        group_obj.save()
+        return HttpResponse(json.dumps({"validation":"New Group created Successfully...","status":True}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+    
 def save_edit_account(request):
     if request.user.is_authenticated():
         print request.body
