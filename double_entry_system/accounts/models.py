@@ -158,3 +158,5 @@ class Group(models.Model):
 		(STOCK_IN_HAND,"Stock in Hand"))
 
 	optionType=models.IntegerField(choices=ACCOUNTCHOICES)
+
+	group_name = models.CharField(max_length=50)
