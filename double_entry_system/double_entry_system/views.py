@@ -163,6 +163,7 @@ def register_new_user(request):
                 new_acc_year_obj_for_bank_acc.save()
                 new_acc_year_obj_for_cash_acc = AccountingYear(start_date=start_date,end_date=end_date,duration=duration,account=cash_account_obj,user=user_obj)
                 new_acc_year_obj_for_cash_acc.save()
+                break
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
