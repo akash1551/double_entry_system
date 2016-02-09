@@ -11,17 +11,17 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 		positionY: 'top'
 	});
 
-	$urlRouterProvider.otherwise('/dashboard');
+	$urlRouterProvider.otherwise('/myAccMaster');
 
 	$stateProvider
 	.state('userHome', {
 		url: '/'
 	})
-	.state('dashboard', {
-		url: '/dashboard',
-		templateUrl: '/menu',
-		controller: 'dashboardController'
-	})
+	// .state('dashboard', {
+	// 	url: '/dashboard',
+	// 	templateUrl: '/menu',
+	// 	controller: 'dashboardController'
+	// })
 	.state('myAccMaster', {
 		url: '/myAccMaster',
 		templateUrl: '/myAcc',
@@ -37,11 +37,11 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 		templateUrl: '/newUserAccount',
 		controller: 'newUserAccountController'
 	})
-	.state('accountMenu', {
-		url: '/accountMenu',
-		templateUrl: '/accountMenu',
-		controller: 'accountMenuController'
-	})
+	// .state('accountMenu', {
+	// 	url: '/accountMenu',
+	// 	templateUrl: '/accountMenu',
+	// 	controller: 'accountMenuController'
+	// })
 	.state('account', {
 		url: '/account/:edit',
 		templateUrl: '/account',
