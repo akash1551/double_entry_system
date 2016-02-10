@@ -241,14 +241,12 @@ def list_of_accounting_years(request):
         acc_years_list = AccountingYear.objects.filter(user__id=request.user.id)
         AccYearsList = []
         for i in acc_years_list:
-            #start_date = str(i.start_date)
             print i.start_date
             start_date = int(i.start_date.strftime("%s")) * 1000
             print start_date
             print i.end_date
             end_date = int(i.end_date.strftime("%s")) * 1000
             print end_date
-
             obj = {"start_date":start_date,"end_date":end_date}
             AccYearsList.append(obj)
         return HttpResponse(json.dumps({"AccYearsList":AccYearsList,"status":True}), content_type="application/json")
@@ -497,9 +495,11 @@ def transaction_for_account(request):
         print type(transactiontype)
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
         description = data.get("description")
+        accountingyear_obj = AccountingYear.objects.get(start_date__lte=transaction_date,end_date__gte=transaction_date)
         transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
         transaction_obj.save()
-
+        accountingyear_obj.transaction.add(transaction_obj)
+        accountingyear_obj.save()
         print Acc_list
         for i in Acc_list:
             amount = i['amount']
@@ -555,8 +555,6 @@ def show_all_transactions_of_current_year(request):
                 transactionRecordList.append(obj1)
             obj.update({"transaction_record_list":transactionRecordList})
             transactionList.append(obj)
-            
-
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
@@ -583,7 +581,7 @@ def show_all_transactions(request):
             obj.update({"transaction_record_list":transactionRecordList})
             transactionList.append(obj)
             
-
+        print transactionList
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
@@ -679,13 +677,6 @@ def save_edit_account(request):
         opening_balance = accountInfo.get("openingBalance")
         accounttype = accountInfo.get("accounttype")
         accounttype = accounttype.get("id")
-        start_date = accountInfo.get("start_date")
-        end_date = accountInfo.get("end_date")
-        duration = accountInfo.get("duration")
-        start_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        print start_date_as_datetime
-        end_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
-        print end_date_as_datetime
         user_obj = User.objects.get(id=request.user.id)
 
         accounttype_obj = AccountType(optionType=accounttype)
@@ -713,13 +704,6 @@ def save_edit_account(request):
         account_obj.accounttype = accounttype_obj
         account_obj.save()         
 
-        accountingyear_obj = AccountingYear.objects.get(account__id=account_id)
-        accountingyear_obj.start_date = start_date_as_datetime
-        accountingyear_obj.end_date = end_date_as_datetime
-        accountingyear_obj.duration = duration
-        accountingyear_obj.account = account_obj
-        accountingyear_obj.save()
-
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         userdetail_obj.account.add(account_obj)
         userdetail_obj.save()
@@ -734,9 +718,6 @@ def get_account_details(request):
         account_obj = Account.objects.get(id=account_id)
         group_obj = account_obj.group
         accounttype_obj = account_obj.accounttype
-        accountingyear_obj = AccountingYear.objects.get(account__id=account_id)
-        start_date = accountingyear_obj.start_date.strftime('%s')
-        end_date = accountingyear_obj.end_date.strftime('%s')
         accountList = []
         print accounttype_obj
         print group_obj
@@ -748,7 +729,7 @@ def get_account_details(request):
         "addressLine2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
         "country":account_obj.country,"pincode":account_obj.pin_code,"mobileNo0":account_obj.contact_no,
         "mobileNo1":account_obj.contact_no1,"openingBalance":account_obj.opening_balance,"group":group_obj,
-        "accounttype":accounttype_obj,"start_date":start_date,"end_date":end_date,"duration":accountingyear_obj.duration}
+        "accounttype":accounttype_obj}
         
         return HttpResponse(json.dumps({"accountInfo":accountInfo,"status":True}), content_type="application/json")
     else:
