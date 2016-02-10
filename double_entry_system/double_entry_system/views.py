@@ -158,7 +158,6 @@ def register_new_user(request):
         user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
         user_obj.set_password(password)
         user_obj.save()
-        user_id = user_obj.id
         userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
             state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
         userdetail_obj.save()
@@ -510,7 +509,7 @@ def transaction_for_account(request):
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
         description = data.get("description")
         try:
-            accountingyear_obj = AccountingYear.objects.get(start_date__gte=transaction_date,end_date__lte=transaction_date,user__id=request.user.id)
+            accountingyear_obj = AccountingYear.objects.get(start_date__lte=transaction_date,end_date__gte=transaction_date,user__id=request.user.id)
         except AccountingYear.DoesNotExist:
             return HttpResponse(json.dumps({'validation':"Please create New Financial Year for this Transaction.","status":False}), content_type="application/json")
         transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
