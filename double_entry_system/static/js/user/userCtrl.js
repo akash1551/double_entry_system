@@ -1,6 +1,20 @@
 angular.module('userApp.controllers', [])
-.controller('userCtrl', function($scope, networkService, Notification){
+.controller('userCtrl', function($scope, $timeout, networkService, Notification){
 	console.log('userCtrl is loaded');
+
+	$scope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+		setTimeout(function(){ getBodyHeight(); }, 1000);
+	});
+
+	var getBodyHeight = function(){
+		var height = $('#page-content-wrapper').height();
+		console.log(height);
+		$('#sidebar-wrapper').height(height+60);
+	};
+
+	$scope.init = function(){
+	};
+	$timeout($scope.init);
 
 	$scope.logout = function(){
 		var dataPromis = networkService.logoutRequest();
