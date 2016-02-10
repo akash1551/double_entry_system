@@ -155,6 +155,7 @@ def register_new_user(request):
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
     userdetail_obj.save()
+    accounting
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
@@ -741,3 +742,28 @@ def get_account_details(request):
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
+def show_transactions_of_single_account(request):
+    if request.user.is_authenticated():
+        print request.user
+        json_obj = json.loads(request.body)
+        account_id = json_obj['account_id']
+        transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)
+        print transaction_obj.count()
+        transactionList = []
+        for i in transaction_obj:
+            date = i.transaction_date.strftime('%s')
+            transactiontype_obj = i.transactiontype.optionType
+            obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
+            transaction_record_obj = i.transaction_record.all()
+            print transaction_record_obj.count()
+            transactionRecordList = []
+            print transaction_record_obj
+            for j in transaction_record_obj:
+                account_obj = j.account
+                obj1 = {"account_name":j.account.account_name,"amount":j.amount,"is_debit":j.is_debit}
+                transactionRecordList.append(obj1)
+            obj.update({"transaction_record_list":transactionRecordList})
+        transactionList.append(obj)
+        return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
