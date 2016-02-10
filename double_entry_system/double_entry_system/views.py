@@ -511,7 +511,7 @@ def transaction_for_account(request):
         description = data.get("description")
         try:
             accountingyear_obj = AccountingYear.objects.get(start_date__gte=transaction_date,end_date__lte=transaction_date,user__id=request.user.id)
-        except AccountingYear.ObjectDoesNotExist:
+        except AccountingYear.DoesNotExist:
             return HttpResponse(json.dumps({'validation':"Please create New Financial Year for this Transaction.","status":False}), content_type="application/json")
         transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
         transaction_obj.save()
