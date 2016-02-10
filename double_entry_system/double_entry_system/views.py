@@ -293,21 +293,19 @@ def add_acc_validity_date(request):
         print request.body
         print request.user
         json_obj = json.loads(request.body)
-        start_date = json_obj['start_date']
+        start_year = json_obj['start_year']
+        print start_year
+        end_year = start_year + 1
+        print end_year
+        start_date = datetime.datetime(start_year, 04, 01, 00, 00, 00)
         print start_date
-        start_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        print start_date_as_string
-        date = datetime.datetime.strptime(start_date_as_string, '%Y-%m-%d')
-        end_date = date + timedelta(days=365)
-        end_date_as_string = datetime.datetime.strftime(end_date,'%Y-%m-%d')
-        print end_date_as_string
+        end_date = datetime.datetime(end_year, 03, 31, 23, 59, 59)
+        
+        #print end_date_as_string
         user_obj = User.objects.get(id=request.user.id)
-        accountingyear_obj = AccountingYear(start_date=start_date_as_string,end_date=end_date_as_string,duration=1,user=user_obj)
+        accountingyear_obj = AccountingYear(start_date=start_date,end_date=end_date,duration=1,user=user_obj)
         accountingyear_obj.save()
-        end_date_in_epoch = int(time.mktime(time.strptime(end_date_as_string,'%Y-%m-%d')))
-        print accountingyear_obj.start_date, accountingyear_obj.end_date, accountingyear_obj.duration
-        print end_date_in_epoch
-        return HttpResponse(json.dumps({'exp_date':end_date_in_epoch}), content_type="application/json")
+        return HttpResponse(json.dumps({'validation':"New Financial Year created for your transactions..."}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
