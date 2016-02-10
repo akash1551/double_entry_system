@@ -755,8 +755,14 @@ def show_transactions_of_single_account(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
+        start_date = json_obj['start_date']
+        end_date = json_obj['end_date']
         account_id = json_obj['account_id']
-        transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)
+        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
+        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
+
+        accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date)
+        transaction_obj = accountingyear_obj.transaction.filter(transaction_record__account__id=account_id)
         print transaction_obj.count()
         transactionList = []
         for i in transaction_obj:
