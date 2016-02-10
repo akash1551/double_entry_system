@@ -9,7 +9,7 @@
 				<p>Please <a ng-click="openYearModal();" style="text-decoration: none;">click here</a> to add financial accounting year</p>
 			</div>
 			<ul class="list-group" ng-if='yearList.length != 0'>
-				<li class="list-group-item hand clearfix" ui-sref="account({edit: false})" ng-repeat="date in yearList">
+				<li class="list-group-item hand clearfix" ui-sref="account({edit: false, date: date.start_date})" ng-repeat="date in yearList">
 					<span>{{date.start_date | date: 'dd/MMM/yyyy'}}</span>
 					<span class="pull-right">{{date.end_date | date: 'dd/MMM/yyyy'}}</span>
 				</li>

@@ -89,8 +89,8 @@ angular.module('userApp.services', [])
 
 	// account
 
-	var getTransactionRecordRequest = function(id){
-		return $http.post('/show_transactions_of_single_account/', {account_id: id}).then(function(result){
+	var getTransactionRecordRequest = function(id, date){
+		return $http.post('/show_transactions_of_single_account/', {account_id: id, start_date: date}).then(function(result){
 			return result.data;
 		});
 	};
