@@ -19,6 +19,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 import calendar
+from dateutil.relativedelta import relativedelta
 
 
 def home(request):
@@ -152,10 +153,10 @@ def register_new_user(request):
     user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
     user_obj.save()
+    user_id = user_obj.id
     userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
         state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
     userdetail_obj.save()
-    accounting
     print "Registration Successful"
     return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
@@ -294,13 +295,14 @@ def add_acc_validity_date(request):
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         print start_date
-        start_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(start_date))
+        start_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
         print start_date_as_string
         date = datetime.datetime.strptime(start_date_as_string, '%Y-%m-%d')
         end_date = date + timedelta(days=365)
         end_date_as_string = datetime.datetime.strftime(end_date,'%Y-%m-%d')
         print end_date_as_string
-        accountingyear_obj = AccountingYear(start_date=start_date_as_string,end_date=end_date_as_string,duration=1)
+        user_obj = User.objects.get(id=request.user.id)
+        accountingyear_obj = AccountingYear(start_date=start_date_as_string,end_date=end_date_as_string,duration=1,user=user_obj)
         accountingyear_obj.save()
         end_date_in_epoch = int(time.mktime(time.strptime(end_date_as_string,'%Y-%m-%d')))
         print accountingyear_obj.start_date, accountingyear_obj.end_date, accountingyear_obj.duration
