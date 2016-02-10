@@ -1,67 +1,20 @@
 <style>
-	.hand {
-		cursor: hand;
-		cursor: pointer;
-	}
-
 </style>
 {% verbatim %}
-	<div class="row" id='myAccMaster'>
-		<!-- <div class="col-xs-6"> -->
-			<!-- <h5>My Account</h5>
-			<h6>Validity</h6> -->
-		<!-- </div> -->
-		<div class="col-xs-12">
-			<!-- <button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
-			<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
-			<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button> -->
-		</div>
-		<!-- <div class="col-xs-1"> -->
-			<!-- <i class="fa fa-2x fa-ellipsis-v ellipsis_nav" id="menu"></i>
-		 	<div id="slider_cust" class="hide_menu">
-		 		<p class="menu_slider" ui-sref="myAcc.myAccHomePage">lorem</p>
-		 		<p class="menu_slider" >Add Acc</p>
-		 		<p class="menu_slider" >Add Group</p>
-		 		<p class="menu_slider" >Add Year</p>
-		 		<p class="menu_slider"  ui-sref="myAcc.credit">Credit</p>
-		 		<p class="menu_slider"  ui-sref="myAcc.debit">Debit</p>
-		 		<p class="menu_slider"  ui-sref="myAcc.summary">Summary</p>
-		 	</div> -->
-		<!-- </div> -->
-
-	</div>
 
 	<div class="row">
 		<div class="col-xs-12">
-			<!-- <p style="background-color: #aaa; padding: 20px; margin: 15px;" ui-sref="accountMenu">
-				<span>{{date.start_date | date: 'dd/MMM/yyyy a'}}</span><br>
-				<span>{{date.end_date | date: 'dd/MMM/yyyy a'}}</span>
-			</p> -->
 			<div class="" ng-if='yearList.length == 0'>
 				<h3>It seems you don't have any financial accounting year</h3>
-				<p>Please <a ng-click="openYearModal();">click here</a> to add financial accounting year</p>
+				<p>Please <a ng-click="openYearModal();" style="text-decoration: none;">click here</a> to add financial accounting year</p>
 			</div>
 			<ul class="list-group" ng-if='yearList.length != 0'>
-				<li class="list-group-item" ui-sref="account({edit: false})" ng-repeat="date in yearList">
+				<li class="list-group-item hand clearfix" ui-sref="account({edit: false})" ng-repeat="date in yearList">
 					<span>{{date.start_date | date: 'dd/MMM/yyyy'}}</span>
 					<span class="pull-right">{{date.end_date | date: 'dd/MMM/yyyy'}}</span>
 				</li>
 			</ul>
 		</div>
 	</div>
-</div>
 
-
-<script>
-	// $('document').ready(function(){
-	// 	$('#menu').on( "click", function() {
-	// 		var className = $('#slider_cust').attr('class');
-	// 		if(className == 'hide_menu'){
-	// 			$('#slider_cust').removeClass('hide_menu').addClass("show_menu");
-	// 		}else{
-	// 			$('#slider_cust').removeClass('show_menu').addClass("hide_menu");
-	// 		}
-	// 	});
-	// });
-</script>
 {% endverbatim %}

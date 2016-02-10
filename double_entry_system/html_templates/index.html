@@ -31,7 +31,9 @@
 			}
 		</style>
 	</head>
-	<body class="" ng-app="userApp" ng-controller="userCtrl" style="min-width: 1000px;">
+	<body class="" ng-app="userApp" ng-controller="userCtrl">
+
+		<div class="" style="min-width: 1000px;">
 
 		<nav class="navbar navbar-default no-margin">
 			<div class="navbar-header fixed-brand">
@@ -81,9 +83,6 @@
 					<div class="row">
 						<div class="col-xs-8">
 							<div class="row" style="margin-bottom: 20px;">
-								<!-- <div class="col-xs-4">
-									<select class="form-control"></select>
-								</div> -->
 								<div class="col-xs-12">
 									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
 									<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
@@ -146,7 +145,7 @@
 		<script src="{% static 'js/user/controller/myAccMasterCtrl.js' %}"></script>
 		<script src="{% static 'js/user/controller/accountingAppCtrl.js' %}"></script>
 		<script src="{% static 'js/user/controller/newUserAccountCtrl.js' %}"></script>
-		<script src="{% static 'js/user/controller/myAccMaster/accountMenuCtrl.js' %}"></script>
+		<script src="{% static 'js/user/controller/myAccMaster/accountController.js' %}"></script>
 
 {% verbatim %}
 <div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">
@@ -180,12 +179,6 @@
 				<h4 class="modal-title">Modal Header</h4>
 			</div>
 			<div class="modal-body">
-				<!-- <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-				<div style=" width: 310px; margin: auto;">
-					<div style="display:inline-block; min-height:290px;">
-						<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
-					</div>
-				</div> -->
 				<div class="row">
 					<div class="col-xs-4">
 						<select class="form-control" ng-options="year for year in years" ng-model="selectedYear" ng-change="nextYear = selectedYear + 1">
@@ -217,10 +210,10 @@
 				<button type="button" class="btn btn-primary" ng-click="addNewYear(true);">save</button>
 			</div>
 		</div>
-
 	</div>
+</div>
 {% endverbatim %}
 
-
+		</div>
 	</body>
 </html>

@@ -87,6 +87,15 @@ angular.module('userApp.services', [])
 
 	// newUserAccount end
 
+	// account
+
+	var getTransactionRecordRequest = function(id){
+		return $http.post('/show_transactions_of_single_account/', {account_id: id}).then(function(result){
+			return result.data;
+		});
+	};
+
+	// account end
 
 
 	return {
@@ -101,7 +110,8 @@ angular.module('userApp.services', [])
 		addNewGroupRequest : addNewGroupRequest,
 		getUserInfoToEditRequest : getUserInfoToEditRequest,
 		saveEditDetailsRequest : saveEditDetailsRequest,
-		addNewYearRequest : addNewYearRequest
+		addNewYearRequest : addNewYearRequest,
+		getTransactionRecordRequest : getTransactionRecordRequest
 	};
 
 });
