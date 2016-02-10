@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^get_account_details/$', 'double_entry_system.views.get_account_details'),
     url(r'^save_edit_account/$', 'double_entry_system.views.save_edit_account'),
     url(r'^show_account_data/$', 'double_entry_system.views.show_account_data'),
+    url(r'^show_transactions_of_single_account/$', 'double_entry_system.views.show_transactions_of_single_account'),
 
 
     # akshay
