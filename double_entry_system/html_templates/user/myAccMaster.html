@@ -38,7 +38,7 @@
 				<span>{{date.end_date | date: 'dd/MMM/yyyy a'}}</span>
 			</p> -->
 			<ul class="list-group">
-				<li class="list-group-item" ui-sref="accountMenu" ng-repeat="date in yearList">
+				<li class="list-group-item" ui-sref="account({edit: false})" ng-repeat="date in yearList">
 					<span>{{date.start_date | date: 'dd/MMM/yyyy'}}</span>
 					<span class="pull-right">{{date.end_date | date: 'dd/MMM/yyyy'}}</span>
 				</li>
