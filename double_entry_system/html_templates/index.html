@@ -87,7 +87,7 @@
 								<div class="col-xs-12">
 									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
 									<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
-									<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button>
+									<button class="btn btn-default hand" data-toggle="modal" data-target="#addYearModal">Y+</button>
 								</div>
 							</div>
 							<hr>
@@ -170,7 +170,7 @@
 
 
 <!-- Modal -->
-<div id="modal_newUserAcc" class="modal fade" role="dialog">
+<div id="addYearModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
 		<!-- Modal content-->
@@ -180,15 +180,17 @@
 				<h4 class="modal-title">Modal Header</h4>
 			</div>
 			<div class="modal-body">
-				<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+				<!-- <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 				<div style=" width: 310px; margin: auto;">
 					<div style="display:inline-block; min-height:290px;">
 						<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
 					</div>
-				</div>
+				</div> -->
+				<select></select>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAccYear();">save</button>
+				<button type="button" class="btn btn-primary" ng-click="addNewYear(false);">cancel</button>
+				<button type="button" class="btn btn-primary" ng-click="addNewYear(true);">save</button>
 			</div>
 		</div>
 

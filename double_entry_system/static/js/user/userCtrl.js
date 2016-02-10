@@ -15,7 +15,6 @@ angular.module('userApp.controllers', [])
 	};
 
 	$scope.addNewGroup = function(key){
-		console.log(key);
 		if(!key){
 			$scope.newGroup = '';
 			$('#addGroupModal').modal('hide');
@@ -37,6 +36,11 @@ angular.module('userApp.controllers', [])
 			}
 		}
 	};
+
+	$scope.addNewYear = function(key){
+
+	};
+
 })
 
 .controller('dashboardController', function($scope){
