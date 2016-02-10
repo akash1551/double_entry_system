@@ -1,8 +1,4 @@
 angular.module('userApp.controllers')
-.controller('accountMenuController', function($scope){
-	console.log('accountMenuController is loaded');
-
-})
 .controller('accountController', function($scope, $timeout, $stateParams, networkService, Notification, $state){
 	console.log('accountController is loaded');
 	console.log($stateParams.edit);
@@ -26,9 +22,18 @@ angular.module('userApp.controllers')
 		});
 	};
 
+	var getTransactionRecord = function(info){
+		var dataPromis = networkService.getTransactionRecordRequest(info.id);
+		dataPromis.then(function(result){
+			console.log(result);
+		});
+	};
+
 	$scope.redirectTo = function(info){
 		if($stateParams.edit == 'true'){
 			$state.go('newUserAccount', {'id': info.id});
+		}else{
+			getTransactionRecord(info);
 		}
 	};
 });

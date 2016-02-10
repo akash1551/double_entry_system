@@ -779,7 +779,7 @@ def show_transactions_of_single_account(request):
                 obj1 = {"account_name":j.account.account_name,"amount":j.amount,"is_debit":j.is_debit}
                 transactionRecordList.append(obj1)
             obj.update({"transaction_record_list":transactionRecordList})
-        transactionList.append(obj)
+            transactionList.append(obj)
         return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
