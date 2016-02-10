@@ -32,13 +32,13 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-12" ng-repeat="date in yearList">
+		<div class="col-xs-12">
 			<!-- <p style="background-color: #aaa; padding: 20px; margin: 15px;" ui-sref="accountMenu">
 				<span>{{date.start_date | date: 'dd/MMM/yyyy a'}}</span><br>
 				<span>{{date.end_date | date: 'dd/MMM/yyyy a'}}</span>
 			</p> -->
 			<ul class="list-group">
-				<li class="list-group-item" ui-sref="accountMenu">
+				<li class="list-group-item" ui-sref="account({edit: false})" ng-repeat="date in yearList">
 					<span>{{date.start_date | date: 'dd/MMM/yyyy'}}</span>
 					<span class="pull-right">{{date.end_date | date: 'dd/MMM/yyyy'}}</span>
 				</li>

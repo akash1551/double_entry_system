@@ -81,10 +81,10 @@
 					<div class="row">
 						<div class="col-xs-8">
 							<div class="row" style="margin-bottom: 20px;">
-								<div class="col-xs-4">
+								<!-- <div class="col-xs-4">
 									<select class="form-control"></select>
-								</div>
-								<div class="col-xs-8 text-right">
+								</div> -->
+								<div class="col-xs-12">
 									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
 									<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
 									<button class="btn btn-default hand" data-toggle="modal" data-target="#modal_newUserAcc">Y+</button>
@@ -95,37 +95,31 @@
 						</div>
 						<div class="col-xs-4">
 							<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
-								<li class="active">
-									<a href="#">
-										<span class="glyphicon glyphicon-off"></span>
-										Navigation
-									</a>
-								</li>
-								<li>
+								<li ui-sref-active="active">
 									<a ui-sref="accountingApp">
 										<span class="glyphicon glyphicon-user"></span>
 										Add Transaction
 									</a>
 								</li>
-								<li>
+								<li ui-sref-active="active">
 									<a>
 										<span class="glyphicon glyphicon-comment"></span>
 										Transactions
 									</a>
 								</li>
-								<li>
+								<li ui-sref-active="active">
 									<a ui-sref="account({edit:false})">
 										<span class="glyphicon glyphicon-lock"></span>
 										Accounts
 									</a>
 								</li>
-								<li>
+								<li ui-sref-active="active">
 									<a ui-sref="account({edit:true})">
 										<span class="glyphicon glyphicon-envelope"></span>
 										Edit Accounts
 									</a>
 								</li>
-								<li>
+								<li ui-sref-active="active">
 									<a>
 										<span class="glyphicon glyphicon-signal"></span>
 										Reports
