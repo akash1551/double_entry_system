@@ -12,9 +12,25 @@ angular.module('userApp.controllers', [])
 		$('#sidebar-wrapper').height(height+60);
 	};
 
+	$scope.years = [];
+	$scope.selectedYear = '';
+	$scope.nextYear = 'Select';
+
 	$scope.init = function(){
+		createYearList();
 	};
 	$timeout($scope.init);
+
+	var createYearList = function(){
+		var max = new Date().getFullYear(),
+		min = max - 10;
+		console.log(min);
+		console.log(max);
+		for(var i = min; i<=max; i++){
+			$scope.years.push(i);
+		}
+		console.log($scope.years);
+	};
 
 	$scope.logout = function(){
 		var dataPromis = networkService.logoutRequest();

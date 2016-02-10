@@ -186,10 +186,34 @@
 						<uib-datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
 					</div>
 				</div> -->
-				<select></select>
+				<div class="row">
+					<div class="col-xs-4">
+						<select class="form-control" ng-options="year for year in years" ng-model="selectedYear" ng-change="nextYear = selectedYear + 1">
+							<option value="">Select</option>
+						</select>
+					</div>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" value="April" disabled>
+					</div>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" value="1" disabled>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="nextYear" disabled>
+					</div>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" value="March" disabled>
+					</div>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" value="31" disabled>
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" ng-click="addNewYear(false);">cancel</button>
+				<button type="button" class="btn btn-default" ng-click="addNewYear(false);">cancel</button>
 				<button type="button" class="btn btn-primary" ng-click="addNewYear(true);">save</button>
 			</div>
 		</div>
