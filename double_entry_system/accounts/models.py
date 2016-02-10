@@ -158,6 +158,6 @@ class Group(models.Model):
 		(RETAINED_EARNING,"Retained Earning"),(SALES_ACCOUNTS,"Sales Accounts"),(SECURED_LOANS,"Secured Loans"),
 		(STOCK_IN_HAND,"Stock in Hand"))
 
-	optionType=models.IntegerField(choices=ACCOUNTCHOICES)
+	optionType=models.IntegerField(choices=ACCOUNTCHOICES,null=True)
 
-	group_name = models.CharField(max_length=50)
+	group_name = models.CharField(max_length=50,null=True)
