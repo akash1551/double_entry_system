@@ -3,7 +3,7 @@ angular.module('userApp.controllers', [])
 	console.log('userCtrl is loaded');
 
 	$scope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
-		setTimeout(function(){ getBodyHeight(); }, 1000);
+		setTimeout(function(){ getBodyHeight(); }, 200);
 	});
 
 	var getBodyHeight = function(){
@@ -13,11 +13,12 @@ angular.module('userApp.controllers', [])
 	};
 
 	$scope.years = [];
-	$scope.selectedYear = '';
+	$scope.selectedYear = null;
 	$scope.nextYear = 'Select';
+	$scope.newGroup = '';
 
 	$scope.init = function(){
-		createYearList();
+
 	};
 	$timeout($scope.init);
 
@@ -67,8 +68,19 @@ angular.module('userApp.controllers', [])
 		}
 	};
 
-	$scope.addNewYear = function(key){
+	$scope.openYearModal = function(){
+		createYearList();
+		$('#addYearModal').modal('show');
+	};
 
+	$scope.addNewYear = function(key){
+		if($scope.selectedYear != null && key){
+			var dataPromis = networkService.addNewYearRequest($scope.selectedYear);
+			dataPromis.then(function(result){
+				console.log(result);
+			});
+		}
+		$('#addYearModal').modal('hide');
 	};
 
 })

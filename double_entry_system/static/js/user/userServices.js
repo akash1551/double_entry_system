@@ -29,6 +29,12 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var addNewYearRequest = function(year){
+		return $http.post('/add_acc_validity_date/', {start_year: year}).then(function(result){
+			return result.data;
+		});
+	};
+
 	// index end
 
 	// myAccMaster
@@ -94,7 +100,8 @@ angular.module('userApp.services', [])
 		getAccountTypeListRequest : getAccountTypeListRequest,
 		addNewGroupRequest : addNewGroupRequest,
 		getUserInfoToEditRequest : getUserInfoToEditRequest,
-		saveEditDetailsRequest : saveEditDetailsRequest
+		saveEditDetailsRequest : saveEditDetailsRequest,
+		addNewYearRequest : addNewYearRequest
 	};
 
 });
