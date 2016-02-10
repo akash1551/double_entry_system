@@ -78,8 +78,16 @@ angular.module('userApp.controllers', [])
 			var dataPromis = networkService.addNewYearRequest($scope.selectedYear);
 			dataPromis.then(function(result){
 				console.log(result);
+				if(!result.status){
+					Notification.error({message: result.validation});
+				}else{
+					Notification.success(result.validation);
+					window.location.href = result.redirecturl;
+				}
 			});
 		}
+		$scope.selectedYear = null;
+		$scope.nextYear = 'Select';
 		$('#addYearModal').modal('hide');
 	};
 

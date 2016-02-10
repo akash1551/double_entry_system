@@ -4,8 +4,6 @@ angular.module('userApp.controllers')
 
 	$scope.yearList = [];
 
-	$scope.newGroup = '';
-
 	$scope.init = function(){
 		getYearList();
 	};
