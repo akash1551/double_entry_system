@@ -137,11 +137,17 @@ def register_new_user(request):
     country = json_obj['country']
     pin_code = json_obj['pincode']
     pin_code = int(pin_code)
+    accounttype_obj = AccountType(optionType=1)
+    accounttype_obj.save()
+    group_obj_for_bank_acc = Group(optionType=0)
+    group_obj_for_bank_acc.save()
+    group_obj_for_cash_acc = Group(optionType=4)
+    group_obj_for_cash_acc.save()
     bank_account_name = "My Bank Account"
     cash_account_name = "My Cash Account"
-    bank_account_obj = Account(account_name=bank_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
+    bank_account_obj = Account(account_name=bank_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code,accounttype=accounttype_obj,group=group_obj_for_bank_acc)
     bank_account_obj.save()
-    cash_account_obj = Account(account_name=cash_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code)
+    cash_account_obj = Account(account_name=cash_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code,accounttype=accounttype_obj,group=group_obj_for_cash_acc)
     cash_account_obj.save()
     user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
     user_obj.set_password(password)
@@ -721,7 +727,7 @@ def get_account_details(request):
         accountList = []
         print accounttype_obj
         print group_obj
-        accounttype_obj = {"id":accounttype_obj.optionType,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":False}
+        accounttype_obj_new = {"id":accounttype_obj.optionType,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":False}
         group_obj = {"id":group_obj.optionType,"is_selected":False,
         "choice_name":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
         accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
@@ -729,7 +735,7 @@ def get_account_details(request):
         "addressLine2":account_obj.address_line2,"city":account_obj.city,"state":account_obj.state,
         "country":account_obj.country,"pincode":account_obj.pin_code,"mobileNo0":account_obj.contact_no,
         "mobileNo1":account_obj.contact_no1,"openingBalance":account_obj.opening_balance,"group":group_obj,
-        "accounttype":accounttype_obj}
+        "accounttype":accounttype_obj_new}
         
         return HttpResponse(json.dumps({"accountInfo":accountInfo,"status":True}), content_type="application/json")
     else:
