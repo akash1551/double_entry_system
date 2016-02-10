@@ -61,6 +61,7 @@ class Transaction(models.Model):
 	transaction_record = models.ManyToManyField('TransactionRecord')
 	description = models.TextField()
 	user = models.ForeignKey(User)
+
 	def __unicode__(self):
 		return self.description
 
