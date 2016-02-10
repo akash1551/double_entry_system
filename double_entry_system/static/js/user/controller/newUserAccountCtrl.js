@@ -31,10 +31,10 @@ angular.module('userApp.controllers')
 			mobileNo0 : '',
 			mobileNo1 : '',
 			openingBalance : '',
-			accounttype : '',
-			start_date : '',
-			end_date : '',
-			duration : 1
+			accounttype : ''
+			// start_date : '',
+			// end_date : '',
+			// duration : 1
 		};
 
 		$scope.accountTypeList = [];
