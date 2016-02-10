@@ -332,15 +332,6 @@ def add_acc_validity_date(request):
 def show_account_details(request):
     if request.user.is_authenticated():
         print request.user
-        json_obj = json.loads(request.body)
-        start_date = json_obj['start_date']
-        end_date = json_obj['end_date']
-        print type(start_date)
-        print type(end_date)
-        start_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        print start_date_as_string
-        end_date_as_string = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
-        print end_date_as_string
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         transactionList = []
@@ -518,7 +509,10 @@ def transaction_for_account(request):
         print type(transactiontype)
         transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
         description = data.get("description")
-        accountingyear_obj = AccountingYear.objects.get(start_date__lte=transaction_date,end_date__gte=transaction_date)
+        try:
+            accountingyear_obj = AccountingYear.objects.get(start_date__gte=transaction_date,end_date__lte=transaction_date,user__id=request.user.id)
+        except AccountingYear.ObjectDoesNotExist:
+            return HttpResponse(json.dumps({'validation':"Please create New Financial Year for this Transaction.","status":False}), content_type="application/json")
         transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
         transaction_obj.save()
         accountingyear_obj.transaction.add(transaction_obj)
