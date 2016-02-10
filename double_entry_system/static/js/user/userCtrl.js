@@ -1,6 +1,37 @@
 angular.module('userApp.controllers', [])
-.controller('userCtrl', function($scope, networkService, Notification){
+.controller('userCtrl', function($scope, $timeout, networkService, Notification){
 	console.log('userCtrl is loaded');
+
+	$scope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+		setTimeout(function(){ getBodyHeight(); }, 200);
+	});
+
+	var getBodyHeight = function(){
+		var height = $('#page-content-wrapper').height();
+		console.log(height);
+		$('#sidebar-wrapper').height(height+60);
+	};
+
+	$scope.years = [];
+	$scope.selectedYear = null;
+	$scope.nextYear = 'Select';
+	$scope.newGroup = '';
+
+	$scope.init = function(){
+
+	};
+	$timeout($scope.init);
+
+	var createYearList = function(){
+		var max = new Date().getFullYear(),
+		min = max - 10;
+		console.log(min);
+		console.log(max);
+		for(var i = min; i<=max; i++){
+			$scope.years.push(i);
+		}
+		console.log($scope.years);
+	};
 
 	$scope.logout = function(){
 		var dataPromis = networkService.logoutRequest();
@@ -15,7 +46,6 @@ angular.module('userApp.controllers', [])
 	};
 
 	$scope.addNewGroup = function(key){
-		console.log(key);
 		if(!key){
 			$scope.newGroup = '';
 			$('#addGroupModal').modal('hide');
@@ -37,6 +67,30 @@ angular.module('userApp.controllers', [])
 			}
 		}
 	};
+
+	$scope.openYearModal = function(){
+		createYearList();
+		$('#addYearModal').modal('show');
+	};
+
+	$scope.addNewYear = function(key){
+		if($scope.selectedYear != null && key){
+			var dataPromis = networkService.addNewYearRequest($scope.selectedYear);
+			dataPromis.then(function(result){
+				console.log(result);
+				if(!result.status){
+					Notification.error({message: result.validation});
+				}else{
+					Notification.success(result.validation);
+					window.location.href = result.redirecturl;
+				}
+			});
+		}
+		$scope.selectedYear = null;
+		$scope.nextYear = 'Select';
+		$('#addYearModal').modal('hide');
+	};
+
 })
 
 .controller('dashboardController', function($scope){

@@ -37,7 +37,11 @@
 				<span>{{date.start_date | date: 'dd/MMM/yyyy a'}}</span><br>
 				<span>{{date.end_date | date: 'dd/MMM/yyyy a'}}</span>
 			</p> -->
-			<ul class="list-group">
+			<div class="" ng-if='yearList.length == 0'>
+				<h3>It seems you don't have any financial accounting year</h3>
+				<p>Please <a ng-click="openYearModal();">click here</a> to add financial accounting year</p>
+			</div>
+			<ul class="list-group" ng-if='yearList.length != 0'>
 				<li class="list-group-item" ui-sref="account({edit: false})" ng-repeat="date in yearList">
 					<span>{{date.start_date | date: 'dd/MMM/yyyy'}}</span>
 					<span class="pull-right">{{date.end_date | date: 'dd/MMM/yyyy'}}</span>

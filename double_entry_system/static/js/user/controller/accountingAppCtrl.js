@@ -26,7 +26,7 @@ angular.module('userApp.controllers')
 		clearData();
 		getAccountList();
 		getTransactionModeList();
-		$('#tranType').focus();
+		$('#datePicker').focus();
 	};
 	$timeout($scope.init);
 
