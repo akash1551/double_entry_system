@@ -131,34 +131,39 @@ def register_new_user(request):
     contact_no = json_obj['mobileNo0']
     contact_no = int(contact_no)
     print contact_no
-    contact_no1 = json_obj['mobileNo1']
-    contact_no1 = int(contact_no1)
-    city = json_obj['city']
-    state = json_obj['state']
-    country = json_obj['country']
-    pin_code = json_obj['pincode']
-    pin_code = int(pin_code)
-    accounttype_obj = AccountType(optionType=1)
-    accounttype_obj.save()
-    group_obj_for_bank_acc = Group(optionType=0)
-    group_obj_for_bank_acc.save()
-    group_obj_for_cash_acc = Group(optionType=4)
-    group_obj_for_cash_acc.save()
-    bank_account_name = "My Bank Account"
-    cash_account_name = "My Cash Account"
-    bank_account_obj = Account(account_name=bank_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code,accounttype=accounttype_obj,group=group_obj_for_bank_acc)
-    bank_account_obj.save()
-    cash_account_obj = Account(account_name=cash_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code,accounttype=accounttype_obj,group=group_obj_for_cash_acc)
-    cash_account_obj.save()
-    user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
-    user_obj.set_password(password)
-    user_obj.save()
-    user_id = user_obj.id
-    userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
-        state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
-    userdetail_obj.save()
-    print "Registration Successful"
-    return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
+    contact_no = validate_mobile(contact_no)
+    print contact_no
+    if contact_no == False:
+        return HttpResponse(json.dumps([{"validation": "This mobile number is already used..please try with another one.", "status": False}]), content_type = "application/json")
+    else:
+        contact_no1 = json_obj['mobileNo1']
+        contact_no1 = int(contact_no1)
+        city = json_obj['city']
+        state = json_obj['state']
+        country = json_obj['country']
+        pin_code = json_obj['pincode']
+        pin_code = int(pin_code)
+        accounttype_obj = AccountType(optionType=1)
+        accounttype_obj.save()
+        group_obj_for_bank_acc = Group(optionType=0)
+        group_obj_for_bank_acc.save()
+        group_obj_for_cash_acc = Group(optionType=4)
+        group_obj_for_cash_acc.save()
+        bank_account_name = "My Bank Account"
+        cash_account_name = "My Cash Account"
+        bank_account_obj = Account(account_name=bank_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code,accounttype=accounttype_obj,group=group_obj_for_bank_acc)
+        bank_account_obj.save()
+        cash_account_obj = Account(account_name=cash_account_name,first_name=first_name,last_name=last_name,contact_no=contact_no,address_line1=address_line1,city=city,state=state,country=country,pin_code=pin_code,accounttype=accounttype_obj,group=group_obj_for_cash_acc)
+        cash_account_obj.save()
+        user_obj = User(first_name=first_name,last_name=last_name,username=username,email=email,password=password)
+        user_obj.set_password(password)
+        user_obj.save()
+        user_id = user_obj.id
+        userdetail_obj = UserDetail(user=user_obj,address_line1=address_line1,address_line2=address_line2,contact_no=contact_no,city=city,
+            state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
+        userdetail_obj.save()
+        print "Registration Successful"
+        return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
 def account_creation_page(request):
     return render_to_response('create_account.html')
@@ -191,6 +196,13 @@ def transactions(request):
         return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+
+def validate_mobile(value):
+    rule = re.compile(r'^(\+91[\-\s]?)?[0]?[1789]\d{9}$')
+    if not rule.search(value):
+        return False
+    else:
+        return value
 
 def date_conversion(request):
         start_date = 1454284800000/1000
