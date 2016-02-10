@@ -321,7 +321,7 @@ def add_acc_validity_date(request):
         user_obj = User.objects.get(id=request.user.id)
         accountingyear_obj = AccountingYear(start_date=start_date,end_date=end_date,duration=1,user=user_obj)
         accountingyear_obj.save()
-        return HttpResponse(json.dumps({'validation':"New Financial Year created for your transactions...","redirecturl":"list_of_accounting_years/","status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({'validation':"New Financial Year created for your transactions...","redirecturl":"myAccMaster","status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
