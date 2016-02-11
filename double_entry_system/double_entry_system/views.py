@@ -532,7 +532,6 @@ def show_all_transactions(request):
             transaction_obj = Transaction.objects.filter(user__id=request.user.id)
         except Transaction.DoesNotExist:
             return HttpResponse(json.dumps({"validation":"No Record Found."}), content_type="application/json")
-         print transaction_obj
         transactionList = []
         for i in transaction_obj:
             date = i.transaction_date.strftime('%s')
