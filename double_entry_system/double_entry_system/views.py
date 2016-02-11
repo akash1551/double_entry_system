@@ -373,10 +373,8 @@ def show_account_details(request):
             print transaction_record_obj.count()
             for j in transaction_record_obj:
                 if j.is_debit==True:
-                    print "if1"
                     all_debit = all_debit + j.amount
                 else:
-                    print "else1"
                     all_credit = all_credit + j.amount
             if all_debit > all_credit:
                 all_debit1 = all_debit - all_credit
@@ -496,8 +494,9 @@ def show_all_transactions_of_current_year(request):
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        end_date = json_obj['end_date']
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
+        print start_date
+        print start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
+        end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
         accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date)
         transaction_obj = accountingyear_obj.transaction.filter(user__id=request.user.id)
         print transaction_obj
@@ -703,9 +702,8 @@ def show_transactions_of_single_account(request):
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
         account_id = json_obj['account_id']
+        start_date =int(start_date)
         start_date = datetime.datetime.fromtimestamp(start_date/1000)
-        print start_date
-        print start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
         end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
         try:
             accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date,user__id=request.user.id)
@@ -728,6 +726,6 @@ def show_transactions_of_single_account(request):
                 transactionRecordList.append(obj1)
             obj.update({"transaction_record_list":transactionRecordList})
             transactionList.append(obj)
-        return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
+        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")

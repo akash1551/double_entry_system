@@ -85,6 +85,8 @@ class AccountingYear(models.Model):
 	duration = models.IntegerField()
 	transaction = models.ManyToManyField('Transaction')
 
+	def __unicode__(self):
+		return str(start_date.year)+str(self.user.username)
 class AccountType(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 
