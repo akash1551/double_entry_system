@@ -20,6 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 import calendar
 from dateutil.relativedelta import relativedelta
+from django.db import transaction
 
 
 def home(request):
@@ -89,7 +90,6 @@ def accountMenu(request):
 def account(request):
     return render_to_response('html_templates/user/myAccMaster/account.html')
 
-
 def accountDetailBasedOnYear(request):
     return render_to_response('html_templates/user/accountDetailBasedOnYear.html')
 
@@ -97,6 +97,7 @@ def logout(request):
     auth.logout(request)
     return HttpResponse(json.dumps({"validation":"You are now logged out..!!","status":True,"redirecturl":"/#/login"}))
 
+@transaction.atomic
 def register_new_user(request):
     print request.body
     print request.user
@@ -116,11 +117,10 @@ def register_new_user(request):
     if password != password1:
         print "Passwords Are not Matching"
         return HttpResponse(json.dumps({"validation":"Passwords are not Matched","status":False}), content_type="application/json")
-    else:
-        if User.objects.filter(email = json_obj['email']).exists():
-            print "Email is already Exist."
-            return HttpResponse(json.dumps({"validation":"Email is already exist.Try with another Email.","status":False}), content_type="application/json")
-        email = json_obj['email']
+    elif User.objects.filter(email = json_obj['email']).exists():
+        print "Email is already Exist."
+        return HttpResponse(json.dumps({"validation":"Email is already exist.Try with another Email.","status":False}), content_type="application/json")
+    email = json_obj['email']
 
     if json_obj['addressLine1'] is None:
         return HttpResponse(json.dumps({"validation":"Please Enter Your Address...!","status":False}), content_type="application/json")
@@ -131,7 +131,7 @@ def register_new_user(request):
     contact_no = json_obj['mobileNo0']
     contact_no = int(contact_no)
     print contact_no
-    contact_no = validate_mobile(contact_no)
+    contact_no = validate_mobile(str(contact_no))
     print contact_no
     if contact_no == False:
         return HttpResponse(json.dumps([{"validation": "This mobile number is already used..please try with another one.", "status": False}]), content_type = "application/json")
@@ -142,7 +142,10 @@ def register_new_user(request):
         state = json_obj['state']
         country = json_obj['country']
         pin_code = json_obj['pincode']
-        pin_code = int(pin_code)
+        try:
+            pin_code = int(pin_code)
+        except ValueError:
+            return HttpResponse(json.dumps([{"validation": "Please Enter Valid PinCode.", "status": False}]), content_type = "application/json")
         accounttype_obj = AccountType(optionType=1)
         accounttype_obj.save()
         group_obj_for_bank_acc = Group(optionType=0)
@@ -167,35 +170,6 @@ def register_new_user(request):
 def account_creation_page(request):
     return render_to_response('create_account.html')
 
-def transactions(request):
-    if request.user.is_authenticated():
-        print request.body
-        print request.user
-
-        user = User.objects.all()
-        user_list = []
-        for i in user:
-            user_obj = {"username":i.username,"email":i.email}
-            user_list.append(user_obj)
-
-        accounttype = AccountType.objects.all()
-        accounttype_list = []
-        for i in accounttype:
-            accounttype_obj = {"account_name":i.account_name}
-            accounttype_list.append(accounttype_obj)
-
-        accountingyear = AccountingYear.objects.all()
-        accountingyear_list = []
-        for i in accountingyear:
-            accountingyear_obj = {"start_date":i.start_date,"end_date":i.end_date,"duration":i.duration}
-            accountingyear_list.append(accountingyear_obj)
-
-        print user_list
-
-        return HttpResponse(json.dumps({"user_list":user_list,"accounttype_list":accounttype_list,"accountingyear_list":accountingyear_list}), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
-
 def validate_mobile(value):
     rule = re.compile(r'^(\+91[\-\s]?)?[0]?[1789]\d{9}$')
     if not rule.search(value):
@@ -203,12 +177,7 @@ def validate_mobile(value):
     else:
         return value
 
-def date_conversion(request):
-        start_date = 1454284800000/1000
-        start_date_as_datetime = time.strftime('%Y-%m-%d',time.gmtime(start_date))
-        print start_date_as_datetime
-        return  render_to_response('sample.html')
-
+@transaction.atomic
 def create_new_user_account(request):
     if request.user.is_authenticated():
         print request.body
@@ -227,7 +196,10 @@ def create_new_user_account(request):
         city = accountInfo.get("city")
         state = accountInfo.get("state")
         country = accountInfo.get("country")
-        pin_code = accountInfo.get("pincode")
+        try:
+            pin_code = accountInfo.get("pincode")
+        except ValueError:
+            return HttpResponse(json.dumps([{"validation": "Please Enter Valid PinCode.", "status": False}]), content_type = "application/json")
         contact_no = accountInfo.get("mobileNo0")
         contact_no1 = accountInfo.get("mobileNo1")
         opening_balance = accountInfo.get("openingBalance")
@@ -257,7 +229,10 @@ def list_of_accounting_years(request):
     print request.COOKIES
     print request.user
     if request.user.is_authenticated():
-        acc_years_list = AccountingYear.objects.filter(user__id=request.user.id)
+        try:
+            acc_years_list = AccountingYear.objects.filter(user__id=request.user.id)
+        except AccountingYear.DoesNotExist:
+            return HttpResponse(json.dumps({"validation":"Please create Financial year for your transactions."}), content_type="application/json")
         AccYearsList = []
         for i in acc_years_list:
             print i.start_date
@@ -306,6 +281,7 @@ def add_acc_validity_date(request):
         json_obj = json.loads(request.body)
         start_year = json_obj['start_year']
         accountingyears = AccountingYear.objects.filter(user__id=request.user.id)
+        print accountingyears.count()
         for i in accountingyears:
             if i.start_date.year == start_year:
                 return HttpResponse(json.dumps({'validation':"This year for Financial transactions is already used by you...Please select another year..","status":False}), content_type="application/json")
@@ -315,8 +291,6 @@ def add_acc_validity_date(request):
         start_date = datetime.datetime(start_year, 04, 01, 00, 00, 00)
         print start_date
         end_date = datetime.datetime(end_year, 03, 31, 23, 59, 59)
-        
-        #print end_date_as_string
         user_obj = User.objects.get(id=request.user.id)
         accountingyear_obj = AccountingYear(start_date=start_date,end_date=end_date,duration=1,user=user_obj)
         accountingyear_obj.save()
@@ -418,43 +392,13 @@ def show_account_details(request):
     else:
         return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
 
-                ####################################################
-                ############## SHOW Transactions #################
-                ####################################################
-
-def show_account_data(request):
-    if request.user.is_authenticated():
-        print request.user
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        all_debit = 0
-        all_credit = 0
-        transactionList = []
-        bank_account_obj = userdetail_obj.bank_account.id
-        cash_account_obj = userdetail_obj.cash_account.id
-        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        account_obj = userdetail_obj.account.all()
-        for i in account_obj:
-            transaction_record_obj = TransactionRecord.objects.filter(account=i).exclude(account__id__in=[bank_account_obj,cash_account_obj])
-            for j in transaction_record_obj:
-                if j.is_debit==True:
-                    all_debit = all_debit + j.amount
-                else:
-                    all_credit = all_credit + j.amount
-            if all_debit > all_credit:
-                obj = {"amount":str(all_debit)+"Dr","account_name":i.account_name}
-            else:
-                obj = {"amount":str(all_credit)+"Cr","account_name":i.account_name}
-            transactionList.append(obj)
-        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
-
                 ##############################################################
                 #################### Send Account Names ######################
                 ##############################################################
 
 def show_account_names(request):
     if request.user.is_authenticated:
+
         print request.user
         account_obj_list = []
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
@@ -493,6 +437,7 @@ def search_account_names(request):
             ################# Credit And Debit Transactions ##################
             ##################################################################
 
+@transaction.atomic
 def transaction_for_account(request):
     if request.user.is_authenticated():
         print request.user
@@ -667,7 +612,8 @@ def add_group(request):
         return HttpResponse(json.dumps({"validation":"New Group created Successfully...","status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
-    
+
+@transaction.atomic    
 def save_edit_account(request):
     if request.user.is_authenticated():
         print request.body
@@ -756,12 +702,15 @@ def show_transactions_of_single_account(request):
         print request.user
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
-        end_date = json_obj['end_date']
         account_id = json_obj['account_id']
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date/1000))
-
-        accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date)
+        start_date = datetime.datetime.fromtimestamp(start_date/1000)
+        print start_date
+        print start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
+        end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
+        try:
+            accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date,user__id=request.user.id)
+        except AccountingYear.DoesNotExist:
+            return HttpResponse(json.dumps({'validation':"You did not create Financial Year for " +str(start_date.year)+" to "+str(end_date.year)+" yet..Please create transaction year first...","status":False}), content_type="application/json")
         transaction_obj = accountingyear_obj.transaction.filter(transaction_record__account__id=account_id)
         print transaction_obj.count()
         transactionList = []
