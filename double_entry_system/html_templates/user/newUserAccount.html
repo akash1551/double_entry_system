@@ -1,3 +1,17 @@
+<style>
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
+
+	.hand {
+		cursor: hand;
+		cursor: pointer;
+	}
+</style>
 {% verbatim %}
 <!-- <div class="container" id="newUserAccount"> -->
 	<div class="row">
@@ -46,19 +60,19 @@
 						<input type="text" ng-model="userInfo.country"class="form-control" placeholder="Country">
 					</div>
 					<div class="col-xs-6">
-						<input type="text" ng-model="userInfo.pincode"class="form-control" placeholder="Pin">
+						<input type="number" ng-model="userInfo.pincode"class="form-control" placeholder="Pin">
 					</div>
 				</div>
 
 				 <h5>Email</h5>
 				<input type="text" ng-model="userInfo.email" class="form-control" placeholder="Email">
 				<h5>Mobile Number</h5>
-				<input type="text" ng-model="userInfo.mobileNo0" class="form-control" placeholder="Mobile Number">
+				<input type="number" ng-model="userInfo.mobileNo0" class="form-control" placeholder="Mobile Number">
 				<h5>Alternate Mobile Number</h5>
-				<input type="text" ng-model="userInfo.mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
+				<input type="number" ng-model="userInfo.mobileNo1" class="form-control" placeholder="Alternate Mobile Number">
 				<hr>
 				<h5>Opening Balance</h5>
-				<input type="text" ng-model="userInfo.openingBalance" class="form-control" placeholder="Opening Balance">
+				<input type="number" ng-model="userInfo.openingBalance" class="form-control" placeholder="Opening Balance">
 
 				<h5>Account Type</h5>
 				<select ng-model="userInfo.accounttype" class="form-control" ng-options="account.choice_name for account in accountTypeList track by account.id">
