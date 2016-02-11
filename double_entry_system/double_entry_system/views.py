@@ -495,9 +495,11 @@ def show_all_transactions_of_current_year(request):
         start_date = json_obj['start_date']
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
         print start_date
-        print start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
-        end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
-        accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date)
+        try:
+            accountingyear_obj = AccountingYear.objects.get(start_date=start_date,user__id=request.user.id)
+        except AccountingYear.DoesNotExist:
+            return HttpResponse(json.dumps({"validation":"You did not create current financial year."}), content_type="application/json")
+
         transaction_obj = accountingyear_obj.transaction.filter(user__id=request.user.id)
         print transaction_obj
         transactionList = []
@@ -722,15 +724,12 @@ def show_transactions_of_single_account(request):
             start_date = json_obj['start_date']
             account_id = json_obj['account_id']
             start_date = datetime.datetime.fromtimestamp(start_date/1000)
-            end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
-            accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date,user__id=request.user.id)
-            print accountingyear_obj.count()
+            print start_date
+            accountingyear_obj = AccountingYear.objects.get(start_date=start_date,user__id=request.user.id)
             try:
                 transaction_obj = accountingyear_obj.transaction.filter(transaction_record__account__id=account_id)
             except AccountingYear.DoesNotExist:
                 return HttpResponse(json.dumps({'validation':"There are no transactions for this account yet.","status":False}), content_type="application/json")
-            
-            print transaction_obj.count()
             transactionList = []
             for i in transaction_obj:
                 date = i.transaction_date.strftime('%s')
