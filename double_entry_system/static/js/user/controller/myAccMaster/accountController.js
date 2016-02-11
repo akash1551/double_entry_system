@@ -23,7 +23,7 @@ angular.module('userApp.controllers')
 	};
 
 	var getTransactionRecord = function(info){
-		var dataPromis = networkService.getTransactionRecordRequest(info.id, $stateParams.date);
+		var dataPromis = networkService.getTransactionRecordRequest(info.id, parseInt($stateParams.date));
 		dataPromis.then(function(result){
 			console.log(result);
 		});
