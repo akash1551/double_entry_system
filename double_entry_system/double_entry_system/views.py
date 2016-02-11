@@ -700,32 +700,52 @@ def show_transactions_of_single_account(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
-        start_date = json_obj['start_date']
-        account_id = json_obj['account_id']
-        start_date =int(start_date)
-        start_date = datetime.datetime.fromtimestamp(start_date/1000)
-        end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
-        try:
+        if json_obj['start_date'] == None:
+            account_id = json_obj['account_id']
+            transactionList = []
+            transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)
+            for i in transaction_obj:
+                date = i.transaction_date.strftime('%s')
+                transactiontype_obj = i.transactiontype.optionType
+                obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
+                transaction_record_obj = i.transaction_record.all()
+                print transaction_record_obj.count()
+                transactionRecordList = []
+                print transaction_record_obj
+                for j in transaction_record_obj:
+                    account_obj = j.account
+                    obj1 = {"account_name":j.account.account_name,"amount":j.amount,"is_debit":j.is_debit}
+                    transactionRecordList.append(obj1)
+                obj.update({"transaction_record_list":transactionRecordList})
+                transactionList.append(obj)
+        else:
+            start_date = json_obj['start_date']
+            account_id = json_obj['account_id']
+            start_date = datetime.datetime.fromtimestamp(start_date/1000)
+            end_date = start_date + timedelta(days=364, hours=23, minutes=59,seconds=59)
             accountingyear_obj = AccountingYear.objects.get(start_date=start_date,end_date=end_date,user__id=request.user.id)
-        except AccountingYear.DoesNotExist:
-            return HttpResponse(json.dumps({'validation':"You did not create Financial Year for " +str(start_date.year)+" to "+str(end_date.year)+" yet..Please create transaction year first...","status":False}), content_type="application/json")
-        transaction_obj = accountingyear_obj.transaction.filter(transaction_record__account__id=account_id)
-        print transaction_obj.count()
-        transactionList = []
-        for i in transaction_obj:
-            date = i.transaction_date.strftime('%s')
-            transactiontype_obj = i.transactiontype.optionType
-            obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
-            transaction_record_obj = i.transaction_record.all()
-            print transaction_record_obj.count()
-            transactionRecordList = []
-            print transaction_record_obj
-            for j in transaction_record_obj:
-                account_obj = j.account
-                obj1 = {"account_name":j.account.account_name,"amount":j.amount,"is_debit":j.is_debit}
-                transactionRecordList.append(obj1)
-            obj.update({"transaction_record_list":transactionRecordList})
-            transactionList.append(obj)
+            print accountingyear_obj.count()
+            try:
+                transaction_obj = accountingyear_obj.transaction.filter(transaction_record__account__id=account_id)
+            except AccountingYear.DoesNotExist:
+                return HttpResponse(json.dumps({'validation':"There are no transactions for this account yet.","status":False}), content_type="application/json")
+            
+            print transaction_obj.count()
+            transactionList = []
+            for i in transaction_obj:
+                date = i.transaction_date.strftime('%s')
+                transactiontype_obj = i.transactiontype.optionType
+                obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
+                transaction_record_obj = i.transaction_record.all()
+                print transaction_record_obj.count()
+                transactionRecordList = []
+                print transaction_record_obj
+                for j in transaction_record_obj:
+                    account_obj = j.account
+                    obj1 = {"account_name":j.account.account_name,"amount":j.amount,"is_debit":j.is_debit}
+                    transactionRecordList.append(obj1)
+                obj.update({"transaction_record_list":transactionRecordList})
+                transactionList.append(obj)
         return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
