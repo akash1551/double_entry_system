@@ -57,6 +57,7 @@ from .views import(
    account,
    activities,
    show_all_transactions_of_one_year,
+   show_user_details,
    )
 
 urlpatterns = [
@@ -86,6 +87,7 @@ urlpatterns = [
     url(r'^save_edit_account/$', save_edit_account),
     url(r'^show_transactions_of_single_account/$', show_transactions_of_single_account),
     url(r'^show_all_transactions_of_one_year/$', show_all_transactions_of_one_year),
+    url(r'^show_user_details/$', show_user_details),
 
 
     # akshay

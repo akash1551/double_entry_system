@@ -170,6 +170,15 @@ def register_new_user(request):
         print "Registration Successful"
         return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
 
+def show_user_details(request):
+    if request.user.is_authenticated():
+        user_obj = UserDetail.objects.get(user__id=request.user.id)
+        obj = {"username":user_obj.user.username,"firstName":user_obj.first_name,"lastName":user_obj.last_name,
+        "user_obj":user_obj.alias,"addressLine1":user_obj.address_line1}
+        return HttpResponse(json.dumps({"User":obj,"status":True}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
+
 def account_creation_page(request):
     return render_to_response('create_account.html')
 
@@ -296,7 +305,7 @@ def add_acc_validity_date(request):
         end_date = datetime.datetime(end_year, 03, 31, 23, 59, 59)
         user_obj = User.objects.get(id=request.user.id)
         accountingyear_obj = AccountingYear(start_date=start_date,end_date=end_date,duration=1,user=user_obj)
-        accountingyear_obj.save()
+        accountingyear_obj.save()  
         return HttpResponse(json.dumps({'validation':"New Financial Year created for your transactions...","redirecturl":"#/myAccMaster","status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
@@ -333,7 +342,7 @@ def show_account_details(request):
             bank_account_obj.current_balance = all_debit_for_bank - all_credit_for_bank
             value = bank_account_obj.current_balance
             bankObj = {"id":bank_account_obj.id,"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
-        else:
+        elif all_debit_for_bank == all_credit_for_bank:
             bankObj = {"id":bank_account_obj.id,"amount":"Nil","account_name":bank_account_obj.account_name}
         accountList.append(bankObj)
                     ####### For Cash Account Balance ########
@@ -356,7 +365,7 @@ def show_account_details(request):
             cash_account_obj.current_balance = all_debit_for_cash - all_credit_for_cash
             value1 = cash_account_obj.current_balance        
             cashObj = {"id":cash_account_obj.id,"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
-        else:
+        elif all_debit_for_cash == all_credit_for_cash:
             cashObj = {"id":cash_account_obj.id,"amount":"Nil","account_name":cash_account_obj.account_name}
         accountList.append(cashObj)
                         ######### Show Account Names ###########
@@ -389,6 +398,7 @@ def show_account_details(request):
                 obj = {"id":i.id,"amount":"Nil","account_name":i.account_name}
 
             accountList.append(obj)
+        print accountList
         return HttpResponse(json.dumps({"accountList":accountList,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
@@ -534,7 +544,8 @@ def show_all_transactions(request):
             return HttpResponse(json.dumps({"validation":"No Record Found."}), content_type="application/json")
         transactionList = []
         for i in transaction_obj:
-            date = i.transaction_date.strftime('%s')
+            date = int(i.transaction_date.strftime('%s'))*1000
+            print i.transaction_date
             transactiontype_obj = i.transactiontype.optionType
             obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
             transaction_record_obj = i.transaction_record.all()
