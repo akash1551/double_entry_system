@@ -310,7 +310,7 @@ def show_account_details(request):
         print request.user
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        transactionList = []
+        accountList = []
         
                         ######## For Bank Account Balance #########
 
@@ -335,7 +335,7 @@ def show_account_details(request):
             bankObj = {"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
         else:
             bankObj = {"amount":"Nil","account_name":bank_account_obj.account_name}
-        transactionList.append(bankObj)
+        accountList.append(bankObj)
                     ####### For Cash Account Balance ########
         all_debit_for_cash = 0
         all_credit_for_cash = 0
@@ -358,7 +358,7 @@ def show_account_details(request):
             cashObj = {"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
         else:
             cashObj = {"amount":"Nil","account_name":cash_account_obj.account_name}
-        transactionList.append(cashObj)
+        accountList.append(cashObj)
                         ######### Show Account Names ###########
         
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
@@ -388,8 +388,8 @@ def show_account_details(request):
             else:
                 obj = {"amount":"Nil","account_name":i.account_name}
 
-            transactionList.append(obj)
-        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
+            accountList.append(obj)
+        return HttpResponse(json.dumps({"accountList":accountList,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"Invalid User","status":False}), content_type="application/json")
 
