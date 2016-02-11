@@ -97,6 +97,17 @@ angular.module('userApp.services', [])
 
 	// account end
 
+	// activities
+
+	var getAllTransactionRecordsRequest = function(){
+		return $http.get('/show_all_transactions/').then(function(result){
+			return result.data;
+		});
+	};
+
+	// activities end
+
+
 
 	return {
 		getAccountListRequest : getAccountListRequest,
@@ -111,7 +122,8 @@ angular.module('userApp.services', [])
 		getUserInfoToEditRequest : getUserInfoToEditRequest,
 		saveEditDetailsRequest : saveEditDetailsRequest,
 		addNewYearRequest : addNewYearRequest,
-		getTransactionRecordRequest : getTransactionRecordRequest
+		getTransactionRecordRequest : getTransactionRecordRequest,
+		getAllTransactionRecordsRequest : getAllTransactionRecordsRequest
 	};
 
 });
