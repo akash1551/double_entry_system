@@ -3,7 +3,7 @@ angular.module('userApp.services', [])
 
 	// accountingApp
 	var getAccountListRequest = function(){
-		return $http.get('/show_account_names/').then(function(result){
+		return $http.get('/show_account_details/').then(function(result){
 			return result.data;
 		});
 	};
