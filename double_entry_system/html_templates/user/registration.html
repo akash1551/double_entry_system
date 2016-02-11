@@ -9,7 +9,20 @@
 	.msg-error {
 	    color:#F00;
 	    font-size:14px;
-	}++++++++++++++++
+	}
+
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
+
+	.hand {
+		cursor: hand;
+		cursor: pointer;
+	}
 
 </style>
 {% verbatim %}
@@ -71,7 +84,7 @@
 					</div>
 					<div class="row input_margin_top">
 						<div class="col-sm-6">
-							<input type="text" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" ng-model="userInfo.pincode"  maxlength="6">
+							<input type="number" name="pincode" class="form-control custom_input_registrationForm_user " placeholder="Pin" ng-model="userInfo.pincode"  maxlength="6">
 						</div>
 						<div class="col-sm-6">
 							<input type="text" name="country" class="form-control custom_input_registrationForm_user " placeholder="Country" ng-model="userInfo.country" >
@@ -81,10 +94,10 @@
 				<h5>Mobile No</h5>
 					<div class="row ">
 						<div class="col-sm-6">
-							<input type="text" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" ng-model="userInfo.mobileNo0"  maxlength="10">
+							<input type="number" name="mobileNo0" class="form-control custom_input_registrationForm_user " placeholder="Mobile Number" ng-model="userInfo.mobileNo0"  maxlength="10">
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" ng-model="userInfo.mobileNo1" maxlength="10">
+							<input type="number" class="form-control custom_input_registrationForm_user " placeholder="Alternate Mobile Number" ng-model="userInfo.mobileNo1" maxlength="10">
 						</div>
 					</div>
 
