@@ -328,13 +328,13 @@ def show_account_details(request):
         if all_credit_for_bank > all_debit_for_bank:
             bank_account_obj.current_balance = all_credit_for_bank - all_debit_for_bank
             value = bank_account_obj.current_balance
-            bankObj = {"amount":str(value)+"Cr","account_name":bank_account_obj.account_name}
+            bankObj = {"id":bank_account_obj.id,"amount":str(value)+"Cr","account_name":bank_account_obj.account_name}
         elif all_debit_for_bank > all_credit_for_bank:
             bank_account_obj.current_balance = all_debit_for_bank - all_credit_for_bank
             value = bank_account_obj.current_balance
-            bankObj = {"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
+            bankObj = {"id":bank_account_obj.id,"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
         else:
-            bankObj = {"amount":"Nil","account_name":bank_account_obj.account_name}
+            bankObj = {"id":bank_account_obj.id,"amount":"Nil","account_name":bank_account_obj.account_name}
         accountList.append(bankObj)
                     ####### For Cash Account Balance ########
         all_debit_for_cash = 0
@@ -351,13 +351,13 @@ def show_account_details(request):
         if all_credit_for_cash > all_debit_for_cash:
             cash_account_obj.current_balance = all_credit_for_cash - all_debit_for_cash
             value1 = cash_account_obj.current_balance
-            cashObj = {"amount":str(value1)+"Cr","account_name":cash_account_obj.account_name}
+            cashObj = {"id":cash_account_obj.id,"amount":str(value1)+"Cr","account_name":cash_account_obj.account_name}
         elif all_debit_for_cash > all_credit_for_cash:
             cash_account_obj.current_balance = all_debit_for_cash - all_credit_for_cash
             value1 = cash_account_obj.current_balance        
-            cashObj = {"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
+            cashObj = {"id":cash_account_obj.id,"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
         else:
-            cashObj = {"amount":"Nil","account_name":cash_account_obj.account_name}
+            cashObj = {"id":cash_account_obj.id,"amount":"Nil","account_name":cash_account_obj.account_name}
         accountList.append(cashObj)
                         ######### Show Account Names ###########
         
@@ -381,12 +381,12 @@ def show_account_details(request):
                     all_credit = all_credit + j.amount
             if all_debit > all_credit:
                 all_debit1 = all_debit - all_credit
-                obj = {"amount":str(all_debit1)+"Dr","account_name":i.account_name}
+                obj = {"id":i.id,"amount":str(all_debit1)+"Dr","account_name":i.account_name}
             elif all_credit > all_debit:
                 all_credit1 = all_credit - all_debit
-                obj = {"amount":str(all_credit1)+"Cr","account_name":i.account_name}
+                obj = {"id":i.id,"amount":str(all_credit1)+"Cr","account_name":i.account_name}
             else:
-                obj = {"amount":"Nil","account_name":i.account_name}
+                obj = {"id":i.id,"amount":"Nil","account_name":i.account_name}
 
             accountList.append(obj)
         return HttpResponse(json.dumps({"accountList":accountList,"status":True}), content_type="application/json")
@@ -491,7 +491,7 @@ def transaction_for_account(request):
                 ########## Show All Debit And Credit Transactions #########
                 ###########################################################
 
-def show_all_transactions_of_current_year(request):
+def show_all_transactions_of_one_year(request):
     if request.user.is_authenticated():
         print request.user
         json_obj = json.loads(request.body)
