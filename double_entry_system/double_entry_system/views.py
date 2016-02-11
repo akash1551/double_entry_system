@@ -544,9 +544,9 @@ def show_all_transactions(request):
             transactionList.append(obj)
             
         print transactionList
-        return HttpResponse(json.dumps({"transactionList":transactionList}), content_type="application/json")
+        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
     else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
             #####################################################################
             ####### Show Total Of Debit And Credit Amount Of All Accounts #######
@@ -666,7 +666,6 @@ def save_edit_account(request):
         account_obj.group = group_obj
         account_obj.accounttype = accounttype_obj
         account_obj.save()         
-
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         userdetail_obj.account.add(account_obj)
         userdetail_obj.save()
