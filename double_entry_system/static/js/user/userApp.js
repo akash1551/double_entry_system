@@ -46,6 +46,11 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 		url: '/account/:edit/:date',
 		templateUrl: '/account',
 		controller: 'accountController'
+	})
+	.state('activities', {
+		url: '/activities',
+		templateUrl: '/activities',
+		controller: 'activitiesController'
 	});
 
 });

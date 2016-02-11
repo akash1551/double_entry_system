@@ -70,7 +70,22 @@
 						</ul> -->
 					</li>
 					<li ui-sref-active="active">
+						<a ui-sref="account({edit:false})">
+							<span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x "></i></span>
+							Accounts
+						</a>
+					</li>
+					<li ui-sref-active="active">
+						<a ui-sref="account({edit:true})">
+							<span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope-o fa-stack-1x "></i></span>
+							Edit Accounts
+						</a>
+					</li>
+					<li ui-sref-active="active">
 						<a ui-sref="accountingApp"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Event Accounting</a>
+					</li>
+					<li ui-sref-active="active">
+						<a ui-sref="activities"><span class="fa-stack fa-lg pull-left"><i class="fa fa-signal fa-stack-1x "></i></span> Activities</a>
 					</li>
 					<li ui-sref-active="active">
 						<a><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Other Accounts</a>
@@ -81,7 +96,7 @@
 			<div id="page-content-wrapper">
 				<div class="container-fluid xyz">
 					<div class="row">
-						<div class="col-xs-8">
+						<div class="col-xs-10">
 							<div class="row" style="margin-bottom: 20px;">
 								<div class="col-xs-12">
 									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
@@ -92,7 +107,7 @@
 							<hr>
 							<div ui-view></div>
 						</div>
-						<div class="col-xs-4">
+						<!-- <div class="col-xs-4">
 							<ul id="sidebar" class="nav nav-pills nav-stacked" style="max-width: 200px;">
 								<li ui-sref-active="active">
 									<a ui-sref="accountingApp">
@@ -125,7 +140,7 @@
 									</a>
 								</li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -146,6 +161,7 @@
 		<script src="{% static 'js/user/controller/accountingAppCtrl.js' %}"></script>
 		<script src="{% static 'js/user/controller/newUserAccountCtrl.js' %}"></script>
 		<script src="{% static 'js/user/controller/myAccMaster/accountController.js' %}"></script>
+		<script src="{% static 'js/user/controller/activitiesCtrl.js' %}"></script>
 
 {% verbatim %}
 <div class="modal fade" tabindex="-1" role="dialog" id="addGroupModal">

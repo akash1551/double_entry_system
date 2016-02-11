@@ -20,11 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import(
-   register_new_user, 
+   register_new_user,
    user_login,
    logout,
    account_creation_page,
-   home, 
+   home,
    add_acc_validity_date,
    create_new_user_account,
    list_of_accounting_years,
@@ -55,6 +55,7 @@ from .views import(
    accountDetailBasedOnYear,
    accountMenu,
    account,
+   activities,
    )
 
 urlpatterns = [
@@ -100,4 +101,5 @@ urlpatterns = [
     url(r'^accountDetailBasedOnYear/$', accountDetailBasedOnYear),
     url(r'^accountMenu/$', accountMenu),
     url(r'^account/$', account),
+    url(r'^activities/$', activities),
 ]
