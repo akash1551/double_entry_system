@@ -528,8 +528,11 @@ def show_all_transactions_of_current_year(request):
 def show_all_transactions(request):
     if request.user.is_authenticated():
         print request.user
-        transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        print transaction_obj
+        try:
+            transaction_obj = Transaction.objects.filter(user__id=request.user.id)
+        except Transaction.DoesNotExist:
+            return HttpResponse(json.dumps({"validation":"No Record Found."}), content_type="application/json")
+         print transaction_obj
         transactionList = []
         for i in transaction_obj:
             date = i.transaction_date.strftime('%s')
