@@ -27,7 +27,6 @@ urlpatterns = [
     url(r'^logout/$', 'double_entry_system.views.logout'),
     url(r'^account_creation_page/$', 'double_entry_system.views.account_creation_page'),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^transactions/$', 'double_entry_system.views.transactions'),
     url(r'^$', 'double_entry_system.views.home'),
     url(r'^add_acc_validity_date/$', 'double_entry_system.views.add_acc_validity_date'),
     url(r'^create_new_user_account/$', 'double_entry_system.views.create_new_user_account'),
@@ -46,7 +45,6 @@ urlpatterns = [
     url(r'^add_group/$', 'double_entry_system.views.add_group'),
     url(r'^get_account_details/$', 'double_entry_system.views.get_account_details'),
     url(r'^save_edit_account/$', 'double_entry_system.views.save_edit_account'),
-    url(r'^show_account_data/$', 'double_entry_system.views.show_account_data'),
     url(r'^show_transactions_of_single_account/$', 'double_entry_system.views.show_transactions_of_single_account'),
 
 
