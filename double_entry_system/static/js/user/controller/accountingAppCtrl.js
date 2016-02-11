@@ -37,7 +37,7 @@ angular.module('userApp.controllers')
 			if(!result.status){
 				Notification.error({message: result.validation});
 			}else{
-				$scope.accountList = result.account_obj_list;
+				$scope.accountList = result.accountList;
 			}
 		});
 	};
