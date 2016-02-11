@@ -43,7 +43,7 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 	// 	controller: 'accountMenuController'
 	// })
 	.state('account', {
-		url: '/account/:edit',
+		url: '/account/:edit/:date',
 		templateUrl: '/account',
 		controller: 'accountController'
 	});

@@ -1,7 +1,7 @@
 angular.module('userApp.controllers')
 .controller('accountController', function($scope, $timeout, $stateParams, networkService, Notification, $state){
 	console.log('accountController is loaded');
-	console.log($stateParams.edit);
+	console.log($stateParams);
 
 	$scope.accountList = [];
 
@@ -23,7 +23,7 @@ angular.module('userApp.controllers')
 	};
 
 	var getTransactionRecord = function(info){
-		var dataPromis = networkService.getTransactionRecordRequest(info.id);
+		var dataPromis = networkService.getTransactionRecordRequest(info.id, $stateParams.date);
 		dataPromis.then(function(result){
 			console.log(result);
 		});
