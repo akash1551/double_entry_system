@@ -9,7 +9,7 @@
 {% verbatim %}
 <div class="row">
 	<div class="col-xs-12">
-		<p style="color: #000;" ng-if="year != null">({{ year }}-{{ year+1 }})</p>
+		<p style="color: #000;" ng-if="year != null">{{accountDetail.account_name}} ({{ year }}-{{ year+1 }})</p>
 		<p style="color: #000;" ng-if="year == null">{{accountDetail.account_name}} (All Records)</p>
 	</div>
 	<div class="col-xs-12">
