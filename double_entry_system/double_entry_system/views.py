@@ -704,6 +704,8 @@ def show_transactions_of_single_account(request):
             start_date = json_obj['start_date']
             start_date = int(start_date)
             account_id = json_obj['account_id']
+            account_obj_new = Account.objects.get(id=account_id)
+            obj_new = {"account name":account_obj_new.account_name}
             start_date = datetime.datetime.fromtimestamp(start_date/1000)
             print start_date
             accountingyear_obj = AccountingYear.objects.get(start_date=start_date,user__id=request.user.id)
@@ -726,6 +728,6 @@ def show_transactions_of_single_account(request):
                     transactionRecordList.append(obj1)
                 obj.update({"transaction_record_list":transactionRecordList})
                 transactionList.append(obj)
-        return HttpResponse(json.dumps({"transactionList":transactionList,"obj":obj_new,"status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"transactionList":transactionList,"account_details":obj_new,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
