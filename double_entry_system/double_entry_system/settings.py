@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'double_entry_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../Project_Database/property_expo'),
+        'NAME': os.path.join(BASE_DIR, '../Project_Database/mudra'),
         'DATABASE_OPTIONS':{'timeout': 05}
     }
 }
