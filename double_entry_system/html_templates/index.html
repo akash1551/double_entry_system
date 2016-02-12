@@ -29,10 +29,17 @@
 				cursor: pointer;
 				cursor: hand;
 			}
+
+			.userDetailBlock {
+				border: 1px solid #aaa;
+				border-radius: 5px;
+				padding: 10px;
+			}
 		</style>
 	</head>
 	<body class="" ng-app="userApp" ng-controller="userCtrl">
 
+{% verbatim %}
 		<div class="" style="min-width: 1000px;">
 
 		<nav class="navbar navbar-default no-margin">
@@ -97,9 +104,17 @@
 				<div class="container-fluid xyz">
 					<div class="row">
 						<div class="col-xs-10">
-							<div class="row" style="margin-bottom: 20px;">
-								<div class="col-xs-12">
-									<button class="btn btn-default hand" ui-sref="newUserAccount" >A+</button>
+							<div class="row">
+								<div class="col-xs-8">
+									<div class="userDetailBlock">
+										<!-- {{userDetails}} -->
+										<p>User Name: {{userDetails.username}}</p>
+										<p>Name: {{userDetails.firstName}}&nbsp;{{userDetails.lastName}}</p>
+										<p>Email: {{userDetails.email}}</p>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<button class="btn btn-default hand" ui-sref="newUserAccount">A+</button>
 									<button class="btn btn-default hand" data-toggle="modal" data-target="#addGroupModal">G+</button>
 									<button class="btn btn-default hand" ng-click="openYearModal();">Y+</button>
 								</div>
@@ -145,6 +160,7 @@
 				</div>
 			</div>
 		</div>
+{% endverbatim %}
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="{% static 'jquery.min.js' %}"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->

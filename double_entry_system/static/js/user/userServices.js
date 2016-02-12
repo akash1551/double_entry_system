@@ -35,6 +35,12 @@ angular.module('userApp.services', [])
 		});
 	};
 
+	var getUserInfoRequest = function(){
+		return $http.get('/show_user_details/').then(function(result){
+			return result.data;
+		});
+	};
+
 	// index end
 
 	// myAccMaster
@@ -123,7 +129,8 @@ angular.module('userApp.services', [])
 		saveEditDetailsRequest : saveEditDetailsRequest,
 		addNewYearRequest : addNewYearRequest,
 		getTransactionRecordRequest : getTransactionRecordRequest,
-		getAllTransactionRecordsRequest : getAllTransactionRecordsRequest
+		getAllTransactionRecordsRequest : getAllTransactionRecordsRequest,
+		getUserInfoRequest : getUserInfoRequest
 	};
 
 });

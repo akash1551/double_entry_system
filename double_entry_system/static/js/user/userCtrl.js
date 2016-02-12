@@ -12,15 +12,28 @@ angular.module('userApp.controllers', [])
 		$('#sidebar-wrapper').height(height+60);
 	};
 
+	$scope.userDetails = '';
 	$scope.years = [];
 	$scope.selectedYear = null;
 	$scope.nextYear = 'Select';
 	$scope.newGroup = '';
 
 	$scope.init = function(){
-
+		getUserInfo();
 	};
 	$timeout($scope.init);
+
+	var getUserInfo = function(){
+		var dataPromis = networkService.getUserInfoRequest();
+		dataPromis.then(function(result){
+			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				$scope.userDetails = result.User;
+			}
+		});
+	};
 
 	var createYearList = function(){
 		var max = new Date().getFullYear(),
