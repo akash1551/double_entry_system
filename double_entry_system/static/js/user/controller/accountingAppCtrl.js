@@ -3,15 +3,16 @@ angular.module('userApp.controllers')
 	console.log('accountingAppController is loaded');
 
 	var change = false;
+	$scope.transactionModeList = [];
+	$scope.accountList = [];
 
 	var clearData = function(){
+		$('#datePicker').focus();
 		$scope.date = null;
 		change = false;
 
-		$scope.accountList = [];
 		$scope.account = {};
 
-		$scope.transactionModeList = [];
 		$scope.transactionMode = {};
 
 		$scope.tranList = [];
@@ -26,7 +27,6 @@ angular.module('userApp.controllers')
 		clearData();
 		getAccountList();
 		getTransactionModeList();
-		$('#datePicker').focus();
 	};
 	$timeout($scope.init);
 
@@ -57,9 +57,11 @@ angular.module('userApp.controllers')
 	$scope.tranTypeFilter = function(val){
 		// if(tranTypeValidation(val)){
 			if(val == 'c' || val == 'C'){
+				$scope.debit = null;
 				$scope.inputTabs = false;
 				return 'C';
 			}else if(val == 'd' || val == 'D'){
+				$scope.credit = null;
 				$scope.inputTabs = true;
 				return 'D';
 			}else{
