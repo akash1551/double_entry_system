@@ -4,9 +4,13 @@ angular.module('userApp.controllers')
 	console.log($stateParams);
 
 	$scope.accountList = [];
+	$scope.year = null;
 
 	$scope.init = function(){
 		getAccountList();
+		if($stateParams.date != ''){
+			$scope.year = new Date(parseInt($stateParams.date)).getFullYear();
+		}
 	};
 	$timeout($scope.init);
 
