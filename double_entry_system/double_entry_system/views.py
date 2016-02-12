@@ -140,15 +140,10 @@ def register_new_user(request):
         return HttpResponse(json.dumps([{"validation": "This mobile number is already used..please try with another one.", "status": False}]), content_type = "application/json")
     else:
         contact_no1 = json_obj['mobileNo1']
-        contact_no1 = int(contact_no1)
         city = json_obj['city']
         state = json_obj['state']
         country = json_obj['country']
         pin_code = json_obj['pincode']
-        try:
-            pin_code = int(pin_code)
-        except ValueError:
-            return HttpResponse(json.dumps([{"validation": "Please Enter Valid PinCode.", "status": False}]), content_type = "application/json")
         accounttype_obj = AccountType(optionType=1)
         accounttype_obj.save()
         group_obj_for_bank_acc = Group(optionType=0)
@@ -168,7 +163,7 @@ def register_new_user(request):
             state=state,country=country,pin_code=pin_code,contact_no1=contact_no1,bank_account=bank_account_obj,cash_account=cash_account_obj)
         userdetail_obj.save()
         print "Registration Successful"
-        return HttpResponse(json.dumps({"validation":"Registration Successful","status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"validation":"Registration Successful.","redirecturl":"#/login","status":True}), content_type="application/json")
 
 def show_user_details(request):
     if request.user.is_authenticated():
