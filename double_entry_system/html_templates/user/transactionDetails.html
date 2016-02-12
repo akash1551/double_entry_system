@@ -1,0 +1,36 @@
+<style>
+	.recordBlock {
+		border: 1px solid #aaa;
+		border-radius: 5px;
+		padding: 10px;
+		margin-top: 10px;
+	}
+</style>
+{% verbatim %}
+<div class="row">
+	<div class="col-xs-12">
+		<h3 class="text-center" ng-if="transactionRecords.length == 0">There are no activities to show</h3>
+		<div class="" ng-repeat="record in transactionRecords" style="margin-top: 10px;" ng-if="transactionRecords.length != 0">
+			<div class="recordBlock">
+				<p class="clearfix">
+					<span>Transaction Type: {{record.transactiontype}}</span>
+					<span class="pull-right">Date: {{record.transaction_date | date: 'dd/MMM/yyyy'}}</span>
+				</p>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="list in record.transaction_record_list">
+						<div class="row">
+							<div class="col-xs-4">{{list.account_name}}</div>
+							<div class="col-xs-4">{{list.amount}}</div>
+							<div class="col-xs-4">
+								<span ng-if="list.is_debit">Debit</span>
+								<span ng-if="!list.is_debit">Credit</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<p>Description: {{record.description}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endverbatim %}

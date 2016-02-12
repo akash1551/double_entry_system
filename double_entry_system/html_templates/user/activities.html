@@ -3,13 +3,14 @@
 		border: 1px solid #aaa;
 		border-radius: 5px;
 		padding: 10px;
+		margin-top: 10px;
 	}
 </style>
 {% verbatim %}
 <div class="row">
 	<div class="col-xs-12">
 		<h3 class="text-center" ng-if="allRecords.length == 0">There are no activities to show</h3>
-		<div class="" ng-repeat="record in allRecords" style="margin-top: 10px;" ng-if="allRecords.length != 0">
+		<div class="" ng-repeat="record in allRecords" ng-if="allRecords.length != 0">
 			<div class="recordBlock">
 				<p class="clearfix">
 					<span>Transaction Type: {{record.transactiontype}}</span>
