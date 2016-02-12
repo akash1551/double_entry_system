@@ -53,7 +53,7 @@ loginApp.controller('loginController', function($scope, networkCall, Notificatio
 			if(!result.status){
 				Notification.error({message: result.validation});
 			}else{
-				Notification.success(result.validation);
+				// Notification.success(result.validation);
 				window.location.href = result.redirecturl;
 			}
 		});
@@ -86,6 +86,12 @@ loginApp.controller('signUpController', function($scope, networkCall){
 		var dataPromis = networkCall.signUpRequest($scope.userInfo);
 		dataPromis.then(function(result){
 			console.log(result);
+			if(!result.status){
+				Notification.error({message: result.validation});
+			}else{
+				Notification.success(result.validation);
+				window.location.href = result.redirecturl;
+			}
 		});
 	};
 });
