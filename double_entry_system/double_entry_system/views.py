@@ -530,7 +530,7 @@ def show_all_transactions_of_one_year(request):
         print transaction_obj
         transactionList = []
         for i in transaction_obj:
-            date = i.transaction_date.strftime('%s')
+            date = int(i.transaction_date.strftime('%s'))*1000
             transactiontype_obj = i.transactiontype.optionType
             obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
             transaction_record_obj = i.transaction_record.all()
@@ -735,7 +735,7 @@ def show_transactions_of_single_account(request):
             transactionList = []
             transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)
             for i in transaction_obj:
-                date = i.transaction_date.strftime('%s')
+                date = int(i.transaction_date.strftime('%s')) * 1000
                 transactiontype_obj = i.transactiontype.optionType
                 obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
                 transaction_record_obj = i.transaction_record.all()
@@ -760,7 +760,7 @@ def show_transactions_of_single_account(request):
                 return HttpResponse(json.dumps({'validation':"There are no transactions for this account yet.","status":False}), content_type="application/json")
             transactionList = []
             for i in transaction_obj:
-                date = i.transaction_date.strftime('%s')
+                date = int(i.transaction_date.strftime('%s')) * 1000
                 transactiontype_obj = i.transactiontype.optionType
                 obj = {"id":i.id,"transaction_date":date,"description":i.description,"transactiontype":dict(TransactionType.PAYMENTCHOICES)[transactiontype_obj]}
                 transaction_record_obj = i.transaction_record.all()
