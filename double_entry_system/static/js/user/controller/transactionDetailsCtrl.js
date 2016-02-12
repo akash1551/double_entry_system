@@ -21,6 +21,7 @@ angular.module('userApp.controllers')
 				Notification.error({message: result.validation});
 			}else{
 				$scope.transactionRecords = result.transactionList;
+				$scope.accountDetail = result.account_details;
 			}
 		});
 	};

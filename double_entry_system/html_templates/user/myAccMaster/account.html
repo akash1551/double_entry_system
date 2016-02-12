@@ -1,7 +1,7 @@
 {% verbatim %}
 	<div class="row">
 		<div class="col-xs-12">
-			<h3 style="color: #00BCD4">Account List <span style="color: #000;" ng-if="year != null">({{ year }}-{{ year+1 }})</span></h3>
+			<h3 style="color: #00BCD4">Accounts <span style="color: #000;" ng-if="year != null">({{ year }}-{{ year+1 }})</span></h3>
 			<ul class="list-group">
 				<li class="list-group-item clearfix hand" ng-repeat="account in accountList" ng-click="redirectTo(account);">
 					<span>{{account.account_name}}</span>
