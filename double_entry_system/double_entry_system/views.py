@@ -335,11 +335,11 @@ def show_account_details(request):
         if all_credit_for_bank > all_debit_for_bank:
             bank_account_obj.current_balance = all_credit_for_bank - all_debit_for_bank
             value = bank_account_obj.current_balance
-            bankObj = {"id":bank_account_obj.id,"amount":str(value)+"Cr","account_name":bank_account_obj.account_name}
+            bankObj = {"id":bank_account_obj.id,"amount":str(value)+" Cr","account_name":bank_account_obj.account_name}
         elif all_debit_for_bank > all_credit_for_bank:
             bank_account_obj.current_balance = all_debit_for_bank - all_credit_for_bank
             value = bank_account_obj.current_balance
-            bankObj = {"id":bank_account_obj.id,"amount":str(value)+"Dr","account_name":bank_account_obj.account_name}
+            bankObj = {"id":bank_account_obj.id,"amount":str(value)+" Dr","account_name":bank_account_obj.account_name}
         elif all_debit_for_bank == all_credit_for_bank:
             bankObj = {"id":bank_account_obj.id,"amount":"Nil","account_name":bank_account_obj.account_name}
         accountList.append(bankObj)
@@ -358,11 +358,11 @@ def show_account_details(request):
         if all_credit_for_cash > all_debit_for_cash:
             cash_account_obj.current_balance = all_credit_for_cash - all_debit_for_cash
             value1 = cash_account_obj.current_balance
-            cashObj = {"id":cash_account_obj.id,"amount":str(value1)+"Cr","account_name":cash_account_obj.account_name}
+            cashObj = {"id":cash_account_obj.id,"amount":str(value1)+" Cr","account_name":cash_account_obj.account_name}
         elif all_debit_for_cash > all_credit_for_cash:
             cash_account_obj.current_balance = all_debit_for_cash - all_credit_for_cash
             value1 = cash_account_obj.current_balance
-            cashObj = {"id":cash_account_obj.id,"amount":str(value1)+"Dr","account_name":cash_account_obj.account_name}
+            cashObj = {"id":cash_account_obj.id,"amount":str(value1)+" Dr","account_name":cash_account_obj.account_name}
         elif all_debit_for_cash == all_credit_for_cash:
             cashObj = {"id":cash_account_obj.id,"amount":"Nil","account_name":cash_account_obj.account_name}
         accountList.append(cashObj)
@@ -388,10 +388,10 @@ def show_account_details(request):
                     all_credit = all_credit + j.amount
             if all_debit > all_credit:
                 all_debit1 = all_debit - all_credit
-                obj = {"id":i.id,"amount":str(all_debit1)+"Dr","account_name":i.account_name}
+                obj = {"id":i.id,"amount":str(all_debit1)+" Dr","account_name":i.account_name}
             elif all_credit > all_debit:
                 all_credit1 = all_credit - all_debit
-                obj = {"id":i.id,"amount":str(all_credit1)+"Cr","account_name":i.account_name}
+                obj = {"id":i.id,"amount":str(all_credit1)+" Cr","account_name":i.account_name}
             else:
                 obj = {"id":i.id,"amount":"Nil","account_name":i.account_name}
 
@@ -429,18 +429,6 @@ def show_account_names(request):
         return HttpResponse(json.dumps({"account_obj_list":account_obj_list,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
-
-def search_account_names(request):
-    if request.user.is_authenticated:
-        account_name_obj = Account.objects.filter(id=request.user.id,created_at__gte=datetime.date(2015, 12, 5),created_at__lte=datetime.date.today())
-        account_name_list = []
-        for i in account_name_obj:
-            date = i.created_at.strftime('%s')
-            obj = {"account_name":i.account_name,"created_at":date}
-            account_name_list.append(obj)
-        print account_name_list
-        return HttpResponse(json.dumps({"account_name_list":account_name_list}), content_type="application/json")
-
 
             ##################################################################
             ################# Credit And Debit Transactions ##################
@@ -581,45 +569,6 @@ def show_all_transactions(request):
             ####### Show Total Of Debit And Credit Amount Of All Accounts #######
             #####################################################################
 
-def show_all_debit_and_credit_amount(request):
-    if request.user.is_authenticated():
-        json_obj = json.loads(request.body)
-        account_id = json_obj['account_id']
-        all_debit = 0
-        all_credit = 0
-        transactionList = []
-        transaction_record_obj = TransactionRecord.objects.filter(account__id=account_id)
-        for i in transaction_record_obj:
-            if i.is_debit == True:
-                print i.amount
-                all_debit = all_debit + i.amount
-            if i.is_debit == False:
-                all_credit = all_credit + i.amount
-        return HttpResponse(json.dumps({"all_debit":all_debit,"all_credit":all_credit,"status":True}), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
-
-def show_all_credit_amount(request):
-    if request.user.is_authenticated():
-        all_credit = 0
-        json_obj = json.loads(request.body)
-        start_date = json_obj['start_date']
-        end_date = json_obj['end_date']
-        print start_date
-        start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date))
-        print end_date
-        end_date = time.strftime('%Y-%m-%d',time.gmtime(end_date))
-        transactionList = []
-        userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
-        account_obj = userdetail_obj.account.filter(created_at__gte=start_date,created_at__lte=end_date)
-        for i in account_obj:
-            transaction_obj = i.transaction.all()
-            for j in transaction_obj:
-                all_credit = all_credit + j.credit_amount
-        return HttpResponse(json.dumps({"all_credit":all_credit}), content_type="application/json")
-    else:
-        return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
-
 def show_current_balance(request):
     if request.user.is_authenticated():
         json_obj = json.loads(request.body)
@@ -728,11 +677,14 @@ def get_account_details(request):
 
 def show_transactions_of_single_account(request):
     if request.user.is_authenticated():
+        print request.body
         print request.user
         json_obj = json.loads(request.body)
         if json_obj['start_date'] == None:
             account_id = json_obj['account_id']
             transactionList = []
+            account_obj_new = Account.objects.get(id=account_id)
+            obj_new = {"account name":account_obj_new.account_name}
             transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)
             for i in transaction_obj:
                 date = int(i.transaction_date.strftime('%s')) * 1000
@@ -750,6 +702,7 @@ def show_transactions_of_single_account(request):
                 transactionList.append(obj)
         else:
             start_date = json_obj['start_date']
+            start_date = int(start_date)
             account_id = json_obj['account_id']
             start_date = datetime.datetime.fromtimestamp(start_date/1000)
             print start_date
@@ -773,6 +726,6 @@ def show_transactions_of_single_account(request):
                     transactionRecordList.append(obj1)
                 obj.update({"transaction_record_list":transactionRecordList})
                 transactionList.append(obj)
-        return HttpResponse(json.dumps({"transactionList":transactionList,"status":True}), content_type="application/json")
+        return HttpResponse(json.dumps({"transactionList":transactionList,"obj":obj_new,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
