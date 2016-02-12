@@ -62,7 +62,7 @@ loginApp.controller('loginController', function($scope, networkCall, Notificatio
 
 });
 
-loginApp.controller('signUpController', function($scope, networkCall){
+loginApp.controller('signUpController', function($scope, networkCall, Notification){
 	console.log('signUpController is loaded');
 
 		$scope.userInfo = {

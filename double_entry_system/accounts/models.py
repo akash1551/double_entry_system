@@ -11,8 +11,8 @@ from django.utils.encoding import python_2_unicode_compatible
 
 class UserDetail(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=100,null=False)
+	last_name = models.CharField(max_length=100,null=False)
 	email = models.TextField()
 	user = models.ForeignKey(User,null=True)
 	alias = models.CharField(max_length=100)
