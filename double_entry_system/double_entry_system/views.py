@@ -457,12 +457,27 @@ def transaction_for_account(request):
         transactiontype_obj.save()
         user_obj = User.objects.get(id=request.user.id)
         print type(transactiontype)
-        transaction_date = time.strftime('%Y-%m-%d',time.gmtime(transaction_date/1000))
+        transaction_date = datetime.datetime.fromtimestamp(transaction_date/1000)
         description = data.get("description")
         try:
             accountingyear_obj = AccountingYear.objects.get(start_date__lte=transaction_date,end_date__gte=transaction_date,user__id=request.user.id)
         except AccountingYear.DoesNotExist:
-            return HttpResponse(json.dumps({'validation':"Please create New Financial Year for this Transaction.","status":False}), content_type="application/json")
+            if transaction_date <= datetime.datetime(transaction_date.year, 03, 31, 23, 59, 59):
+                #year = int(transaction_date.year)
+                start_date = datetime.datetime(transaction_date.year-1, 04, 01, 00, 00, 00)
+                print start_date
+                end_date = datetime.datetime(transaction_date.year, 03, 31, 23, 59, 59)
+                user_obj = User.objects.get(id=request.user.id)
+                accountingyear_obj = AccountingYear(start_date=start_date,end_date=end_date,duration=1,user=user_obj)
+                accountingyear_obj.save()
+            else:
+                year = int(transaction_date.year)
+                start_date = datetime.datetime(transaction_date.year, 04, 01, 00, 00, 00)
+                print start_date
+                end_date = datetime.datetime(transaction_date.year+1, 03, 31, 23, 59, 59)
+                user_obj = User.objects.get(id=request.user.id)
+                accountingyear_obj = AccountingYear(start_date=start_date,end_date=end_date,duration=1,user=user_obj)
+                accountingyear_obj.save()
         transaction_obj = Transaction(transaction_date=transaction_date,description=description,transactiontype=transactiontype_obj,user=user_obj)
         transaction_obj.save()
         accountingyear_obj.transaction.add(transaction_obj)
