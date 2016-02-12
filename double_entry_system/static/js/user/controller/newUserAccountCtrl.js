@@ -78,26 +78,35 @@ angular.module('userApp.controllers')
 	$scope.createNewUser = function(){
 		$scope.userInfo.start_date = new Date($scope.startDate).getTime();
 		$scope.userInfo.end_date = new Date($scope.endDate).getTime();
-		if(!$scope.editMode){
-			var dataPromis = networkService.createNewUserRequest($scope.userInfo);
-			dataPromis.then(function(result){
-				console.log(result);
-				if(!result.status){
-					Notification.error({message: result.validation});
-				}else{
-					Notification.success(result.validation);
-				}
-			});
+
+		if($scope.userInfo.mobileNo0 != '' && validateMono($scope.userInfo.mobileNo0) &&
+			$scope.userInfo.mobileNo1 != '' && validateMono($scope.userInfo.mobileNo1) &&
+			$scope.userInfo.email != '' && validateEmail($scope.userInfo.email) &&
+			$scope.userInfo.pincode != '' && validatePin($scope.userInfo.pincode)){
+
+			if(!$scope.editMode){
+				var dataPromis = networkService.createNewUserRequest($scope.userInfo);
+				dataPromis.then(function(result){
+					console.log(result);
+					if(!result.status){
+						Notification.error({message: result.validation});
+					}else{
+						Notification.success(result.validation);
+					}
+				});
+			}else{
+				var dataPromis = networkService.saveEditDetailsRequest($scope.userInfo, $stateParams.id);
+				dataPromis.then(function(result){
+					console.log(result);
+					if(!result.status){
+						Notification.error({message: result.validation});
+					}else{
+						Notification.success(result.validation);
+					}
+				});
+			}
 		}else{
-			var dataPromis = networkService.saveEditDetailsRequest($scope.userInfo, $stateParams.id);
-			dataPromis.then(function(result){
-				console.log(result);
-				if(!result.status){
-					Notification.error({message: result.validation});
-				}else{
-					Notification.success(result.validation);
-				}
-			});
+			Notification.error({message: 'Please enter validate information'});
 		}
 	};
 
