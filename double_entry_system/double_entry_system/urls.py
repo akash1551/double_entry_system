@@ -58,6 +58,7 @@ from .views import(
    activities,
    show_all_transactions_of_one_year,
    show_user_details,
+   transactionDetails,
    )
 
 urlpatterns = [
@@ -106,4 +107,5 @@ urlpatterns = [
     url(r'^accountMenu/$', accountMenu),
     url(r'^account/$', account),
     url(r'^activities/$', activities),
+    url(r'^transactionDetails/$', transactionDetails),
 ]
