@@ -53,7 +53,7 @@ angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.route
 		controller: 'activitiesController'
 	})
 	.state('transactionDetails', {
-		url: '/transactionDetails',
+		url: '/transactionDetails/:id/:date',
 		templateUrl: '/transactionDetails',
 		controller: 'transactionDetailsController'
 	});
