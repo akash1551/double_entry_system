@@ -3,9 +3,13 @@ angular.module('userApp.controllers')
 	console.log('transactionDetailsController is loaded');
 
 	$scope.transactionRecords = [];
+	$scope.year = null;
 
 	$scope.init = function(){
 		getTransactionRecord();
+		if($stateParams.date != ''){
+			$scope.year = new Date(parseInt($stateParams.date)).getFullYear();
+		}
 	};
 	$timeout($scope.init);
 

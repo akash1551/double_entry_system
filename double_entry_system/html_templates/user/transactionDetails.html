@@ -9,6 +9,9 @@
 {% verbatim %}
 <div class="row">
 	<div class="col-xs-12">
+		<p style="color: #000;" ng-if="year != null">({{ year }}-{{ year+1 }})</p>
+	</div>
+	<div class="col-xs-12">
 		<h3 class="text-center" ng-if="transactionRecords.length == 0">There are no activities to show</h3>
 		<div class="" ng-repeat="record in transactionRecords" style="margin-top: 10px;" ng-if="transactionRecords.length != 0">
 			<div class="recordBlock">
