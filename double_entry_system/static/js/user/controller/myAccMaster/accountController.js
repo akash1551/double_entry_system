@@ -26,18 +26,15 @@ angular.module('userApp.controllers')
 		});
 	};
 
-	var getTransactionRecord = function(info){
-		var dataPromis = networkService.getTransactionRecordRequest(info.id, parseInt($stateParams.date));
-		dataPromis.then(function(result){
-			console.log(result);
-		});
-	};
-
 	$scope.redirectTo = function(info){
 		if($stateParams.edit == 'true'){
 			$state.go('newUserAccount', {'id': info.id});
 		}else{
-			getTransactionRecord(info);
+			// if($stateParams.date != ''){
+				$state.go('transactionDetails', {'id': info.id, 'date': $stateParams.date});
+			// }else{
+			// 	$state.go('transactionDetails', {'id': info.id, 'date': $stateParams.date});
+			// }
 		}
 	};
 });
