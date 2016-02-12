@@ -172,7 +172,7 @@ def show_user_details(request):
     if request.user.is_authenticated():
         user_obj = UserDetail.objects.get(user__id=request.user.id)
         obj = {"username":user_obj.user.username,"firstName":user_obj.first_name,"lastName":user_obj.last_name,
-        "user_obj":user_obj.alias,"addressLine1":user_obj.address_line1}
+        "user_obj":user_obj.alias,"addressLine1":user_obj.address_line1,"email":user_obj.email}
         return HttpResponse(json.dumps({"User":obj,"status":True}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
