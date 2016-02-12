@@ -9,8 +9,8 @@
 {% verbatim %}
 <div class="row">
 	<div class="col-xs-12">
-		<p style="color: #000;" ng-if="year != null">{{accountDetail.account_name}} ({{ year }}-{{ year+1 }})</p>
-		<p style="color: #000;" ng-if="year == null">{{accountDetail.account_name}} (All Records)</p>
+		<h3 style="color: #00BCD4" ng-if="year != null">{{accountDetail.account_name}}<span style="color: #000;"> ({{ year }}-{{ year+1 }})</span></h3>
+		<h3 style="color: #00BCD4" ng-if="year == null">{{accountDetail.account_name}}<span style="color: #000;"> (All Records)</span></h3>
 	</div>
 	<div class="col-xs-12">
 		<h3 class="text-center" ng-if="transactionRecords.length == 0">There are no activities to show</h3>
