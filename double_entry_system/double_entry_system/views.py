@@ -24,10 +24,10 @@ from django.db import transaction
 
 
 def home(request):
-    return render_to_response('loginIndex.html')
+    return render_to_response('html_templates/loginIndex.html')
 
 def userHome(request):
-    return render_to_response('index.html')
+    return render_to_response('html_templates/index.html')
 
 def user_login(request):
     print request.body
@@ -51,11 +51,11 @@ def user_login(request):
     else:
         return HttpResponse(json.dumps({"validation":"Invalid Login Credentials","status":False}), content_type="application/json")
 
-def loggedin(request):
-    return render_to_response('loggedin.html',{'full_name': request.user.username})
+#def loggedin(request):
+ #   return render_to_response('loggedin.html',{'full_name': request.user.username})
 
-def invalid_login(request):
-    return render_to_response('invalid_login.html')
+#def invalid_login(request):
+ #return render_to_response('invalid_login.html')
 
 def registration(request):
     return render_to_response('html_templates/user/registration.html')
@@ -177,8 +177,8 @@ def show_user_details(request):
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
-def account_creation_page(request):
-    return render_to_response('create_account.html')
+#def account_creation_page(request):
+ #   return render_to_response('create_account.html')
 
 def validate_mobile(value):
     rule = re.compile(r'^(\+91[\-\s]?)?[0]?[1789]\d{9}$')
