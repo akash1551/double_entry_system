@@ -17,7 +17,7 @@
 		<div class="" ng-repeat="record in transactionRecords" style="margin-top: 10px;" ng-if="transactionRecords.length != 0">
 			<div class="recordBlock">
 				<p class="clearfix">
-					<span>Transaction Type: {{record.transactiontype}}</span>
+					<span style="color: red;">Transaction Type:</span><span style="font-weight: bold;"> {{record.transactiontype}}</span>
 					<span class="pull-right">Date: {{record.transaction_date | date: 'dd/MMM/yyyy'}}</span>
 				</p>
 				<ul class="list-group">
