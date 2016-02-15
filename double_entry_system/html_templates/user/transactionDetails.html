@@ -14,11 +14,11 @@
 	</div>
 	<div class="col-xs-12">
 		<h3 class="text-center" ng-if="transactionRecords.length == 0">There are no activities to show</h3>
-		<div class="" ng-repeat="record in transactionRecords" style="margin-top: 10px;" ng-if="transactionRecords.length != 0">
+		<div class="" ng-repeat="record in transactionRecords" style="margin-top: 20px;" ng-if="transactionRecords.length != 0">
 			<div class="recordBlock">
 				<p class="clearfix">
 					<span style="color: red;">Transaction Type:</span><span style="font-weight: bold;"> {{record.transactiontype}}</span>
-					<span class="pull-right">Date: {{record.transaction_date | date: 'dd/MMM/yyyy'}}</span>
+					<span class="pull-right"><span style="color: red;">Date: </span>{{record.transaction_date | date: 'dd/MMM/yyyy'}}</span>
 				</p>
 				<ul class="list-group">
 					<li class="list-group-item" ng-repeat="list in record.transaction_record_list">
@@ -32,7 +32,7 @@
 						</div>
 					</li>
 				</ul>
-				<p>Description: {{record.description}}</p>
+				<p><span style="color: red;">Description:</span> {{record.description}}</p>
 			</div>
 		</div>
 	</div>
