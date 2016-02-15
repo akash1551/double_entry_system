@@ -51,6 +51,22 @@ angular.module('userApp.controllers')
 	};
 	$timeout($scope.init);
 
+	function validateMono(number){
+		var mob = /^[1-9]{1}[0-9]{9}$/;
+		return mob.test(number);
+	}
+
+	function validateEmail(email) {
+		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		return re.test(email);
+	}
+
+	function validatePin(pin){
+		var pat1=/^\d{6}$/;
+		return pat1.test(pin);
+	}
+
+
 	var getGroupList = function(){
 		var dataPromis = networkService.getGroupListRequest();
 		dataPromis.then(function(result){

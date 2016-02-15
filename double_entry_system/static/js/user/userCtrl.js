@@ -8,7 +8,6 @@ angular.module('userApp.controllers', [])
 
 	var getBodyHeight = function(){
 		var height = $('#page-content-wrapper').height();
-		console.log(height);
 		$('#sidebar-wrapper').height(height+60);
 	};
 
