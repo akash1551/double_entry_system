@@ -176,8 +176,8 @@ def show_user_details(request):
     else:
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue.","status":False}), content_type="application/json")
 
-#def account_creation_page(request):
- #   return render_to_response('create_account.html')
+def account_creation_page(request):
+    return render_to_response('create_account.html')
 
 def validate_mobile(value):
     rule = re.compile(r'^(\+91[\-\s]?)?[0]?[1789]\d{9}$')
