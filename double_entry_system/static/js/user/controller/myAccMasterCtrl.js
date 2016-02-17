@@ -4,6 +4,17 @@ angular.module('userApp.controllers')
 
 	$scope.yearList = [];
 
+	$scope.totalItems = 64;
+	$scope.currentPage = 1;
+	$scope.maxSize = 5;
+	$scope.bigTotalItems = 175;
+	$scope.bigCurrentPage = 1;
+
+	$scope.pageChanged = function() {
+		// $log.log('Page changed to: ' + $scope.currentPage);
+		console.log('pagination');
+	};
+
 	$scope.init = function(){
 		getYearList();
 	};
