@@ -12,7 +12,9 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></uib-pagination>
+
+			<uib-pagination boundary-links="true" total-items="bigTotalItems" ng-model="bigCurrentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()" ng-model="bigCurrentPage" max-size="maxSize" boundary-link-numbers="true"></uib-pagination>
+
 		</div>
 	</div>
 {% endverbatim %}
