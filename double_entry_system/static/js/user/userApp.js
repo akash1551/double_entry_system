@@ -1,4 +1,4 @@
-angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.router', 'ui-notification'])
+angular.module('userApp', [ 'userApp.controllers', 'userApp.services', 'ui.router', 'ui-notification', 'ui.bootstrap'])
 .config(function($stateProvider, $urlRouterProvider, NotificationProvider){
 
 	NotificationProvider.setOptions({
