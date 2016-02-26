@@ -6,7 +6,6 @@ from datetime import date
 from datetime import datetime
 from django.utils.encoding import python_2_unicode_compatible
 
-
 # Create your models here.
 
 class UserDetail(models.Model):
