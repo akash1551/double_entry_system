@@ -2,8 +2,8 @@ angular.module('userApp.services', [])
 .factory('networkService', function($http){
 
 	// accountingApp
-	var getAccountListRequest = function(){
-		return $http.get('/show_account_details/').then(function(result){
+	var getAccountListRequest = function(pageno, entriesperpage){
+		return $http.post('/show_account_details/', {pageNo: pageno, entriesPerPage: entriesperpage}).then(function(result){
 			return result.data;
 		});
 	};
@@ -105,8 +105,8 @@ angular.module('userApp.services', [])
 
 	// activities
 
-	var getAllTransactionRecordsRequest = function(){
-		return $http.get('/show_all_transactions/').then(function(result){
+	var getAllTransactionRecordsRequest = function(pageno, entriesperpage){
+		return $http.post('/show_all_transactions/', {pageNo: pageno, entriesPerPage: entriesperpage}).then(function(result){
 			return result.data;
 		});
 	};

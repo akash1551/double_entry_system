@@ -10,4 +10,13 @@
 			</ul>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-12 text-center">
+
+			<uib-pagination boundary-links="true" total-items="bigTotalItems" ng-model="bigCurrentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" items-per-page="entriesPerPage"></uib-pagination>
+
+			<!-- <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="entriesPerPage" ng-change="pageChanged()"></pagination> -->
+
+		</div>
+	</div>
 {% endverbatim %}

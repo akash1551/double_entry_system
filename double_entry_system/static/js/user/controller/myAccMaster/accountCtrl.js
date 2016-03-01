@@ -6,6 +6,17 @@ angular.module('userApp.controllers')
 	$scope.accountList = [];
 	$scope.year = null;
 
+	$scope.maxSize = 5;
+	$scope.bigTotalItems = 175;
+	$scope.bigCurrentPage = 1;
+	$scope.entriesPerPage = 5;
+
+	$scope.pageChanged = function() {
+		console.log('pagination');
+		getAccountList();
+	};
+
+
 	$scope.init = function(){
 		getAccountList();
 		if($stateParams.date != ''){
@@ -15,7 +26,7 @@ angular.module('userApp.controllers')
 	$timeout($scope.init);
 
 	var getAccountList = function(){
-		var dataPromis = networkService.getAccountListRequest();
+		var dataPromis = networkService.getAccountListRequest($scope.bigCurrentPage, $scope.entriesPerPage);
 		dataPromis.then(function(result){
 			console.log(result);
 			if(!result.status){
