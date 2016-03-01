@@ -23,4 +23,10 @@ angular.module('userApp.controllers')
 			}
 		});
 	};
+
+	$scope.pageChanged = function() {
+		console.log('pagination');
+		getAllTransactionRecords();
+	};
+
 });

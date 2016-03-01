@@ -12,7 +12,6 @@ angular.module('userApp.controllers')
 	$scope.entriesPerPage = 5;
 
 	$scope.pageChanged = function() {
-		// $log.log('Page changed to: ' + $scope.currentPage);
 		console.log('pagination');
 		getAccountList();
 	};
