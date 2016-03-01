@@ -130,7 +130,3 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR,"Media")
 MEDIA_URL = "/Media/"
-try:
-    from local_settings import *
-except ImportError:
-    pass
