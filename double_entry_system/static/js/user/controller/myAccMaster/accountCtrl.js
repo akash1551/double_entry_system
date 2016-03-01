@@ -14,6 +14,7 @@ angular.module('userApp.controllers')
 	$scope.pageChanged = function() {
 		// $log.log('Page changed to: ' + $scope.currentPage);
 		console.log('pagination');
+		getAccountList();
 	};
 
 
