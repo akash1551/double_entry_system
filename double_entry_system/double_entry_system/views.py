@@ -23,6 +23,7 @@ from django.db import transaction
 from django.core.validators import EmailValidator
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def validateEmail(email):
     try:
@@ -118,7 +119,7 @@ def register_new_user(request):
         print "Passwords Are not Matching"
         return HttpResponse(json.dumps({"validation":"Passwords are not Matched","status":False}), content_type="application/json")
     email = validateEmail(json_obj['email'])
-    if email != True:    
+    if email != True:
         print "Email is already Exist."
         return HttpResponse(json.dumps({"validation":"Email is already exist.Try with another Email.","status":False}), content_type="application/json")
     else:
@@ -291,20 +292,30 @@ def add_acc_validity_date(request):
         return HttpResponse(json.dumps({"validation":"You are not logged in yet.Please login to continue."}), content_type="application/json")
 
             ################################################################
-            #################### Show Account Details ######################
+            ########++++++++++++ Show Account Details +++++++++++++#########
             ################################################################
 
 def show_account_details(request):
     if request.user.is_authenticated():
+        print request.body
+        data_dictonary = json.loads(request.body)
+        pageNo = data_dictonary['pageNo']
+        startYear = data_dictonary['startYear']
+        entriesPerPage = data_dictonary['entriesPerPage']
+        entriesPerPage = entriesPerPage - 2
+        excludePageEntries = (pageNo - 1) * entriesPerPage
+        nextPageEntries = excludePageEntries + entriesPerPage
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         accountList = []
+        start_date = datetime.datetime(startYear, 04, 01, 00, 00, 00)
 
                         ######## For Bank Account Balance #########
 
         all_debit_for_bank = 0
         all_credit_for_bank = 0
         bank_account_obj = userdetail_obj.bank_account
+        #accountingYearObj = AccountingYear.objects.get(start_date=start_date)
         transaction_obj = Transaction.objects.filter(user__id=request.user.id)
         for a in transaction_obj:
             transaction_record_obj = a.transaction_record.filter(account=bank_account_obj)
@@ -356,7 +367,8 @@ def show_account_details(request):
         bank_account_obj = userdetail_obj.bank_account.id
         cash_account_obj = userdetail_obj.cash_account.id
         transaction_obj = Transaction.objects.filter(user__id=request.user.id)
-        account_obj = userdetail_obj.account.all()
+        account_obj = userdetail_obj.account.all()[excludePageEntries:nextPageEntries]
+        paginator = Paginator(account_obj, 2)
         for i in account_obj:
             all_debit = 0
             all_credit = 0
@@ -500,6 +512,7 @@ def show_all_transactions_of_one_year(request):
 
 def show_all_transactions(request):
     if request.user.is_authenticated():
+        data_dictonary = json.loads(request.body)
         pageNo = data_dictonary['pageNo']
         entriesPerPage = data_dictonary['entriesPerPage']
         excludePageEntries = (pageNo - 1) * entriesPerPage
@@ -635,6 +648,7 @@ def show_transactions_of_single_account(request):
         json_obj = json.loads(request.body)
         if json_obj['start_date'] == None:
             account_id = json_obj['account_id']
+            account_id = int(account_id)
             transactionList = []
             account_obj_new = Account.objects.get(id=account_id)
             obj_new = {"account_name":account_obj_new.account_name}
