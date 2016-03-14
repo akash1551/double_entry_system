@@ -165,6 +165,8 @@ def register_new_user(request):
 
 def show_user_details(request):
     if request.user.is_authenticated():
+        print request.user.id
+        print "------------------------------------"
         user_obj = UserDetail.objects.get(user__id=request.user.id)
         obj = {"username":user_obj.user.username,"firstName":user_obj.first_name,"lastName":user_obj.last_name,
         "user_obj":user_obj.alias,"addressLine1":user_obj.address_line1,"email":user_obj.email}
@@ -300,15 +302,16 @@ def show_account_details(request):
         print request.body
         data_dictonary = json.loads(request.body)
         pageNo = data_dictonary['pageNo']
-        startYear = data_dictonary['startYear']
         entriesPerPage = data_dictonary['entriesPerPage']
+        print pageNo
+        print entriesPerPage
         entriesPerPage = entriesPerPage - 2
         excludePageEntries = (pageNo - 1) * entriesPerPage
         nextPageEntries = excludePageEntries + entriesPerPage
         cash_balance = 0
         userdetail_obj = UserDetail.objects.get(user__id=request.user.id)
         accountList = []
-        start_date = datetime.datetime(startYear, 04, 01, 00, 00, 00)
+        #start_date = datetime.datetime(startYear, 04, 01, 00, 00, 00)
 
                         ######## For Bank Account Balance #########
 
@@ -486,13 +489,25 @@ def show_all_transactions_of_one_year(request):
     if request.user.is_authenticated():
         json_obj = json.loads(request.body)
         start_date = json_obj['start_date']
+        pageNo = json_obj['pageNo']
+        entriesPerPage = json_obj['entriesPerPage']
+        print pageNo
+        print entriesPerPage
+        entriesPerPage = entriesPerPage - 2
+        excludePageEntries = (pageNo - 1) * entriesPerPage
+        nextPageEntries = excludePageEntries + entriesPerPage
         start_date = time.strftime('%Y-%m-%d',time.gmtime(start_date/1000))
+        #start_date = datetime.datetime(startYear, 04, 01, 00, 00, 00)
+
         try:
             accountingyear_obj = AccountingYear.objects.get(start_date=start_date,user__id=request.user.id)
         except AccountingYear.DoesNotExist:
             return HttpResponse(json.dumps({"validation":"You did not create current financial year."}), content_type="application/json")
+        try:
+            transaction_obj = accountingyear_obj.transaction.filter(user__id=request.user.id)[excludePageEntries:nextPageEntries]
+        except ObjectDoesNotExist:
+            return HttpResponse(json.dumps({"validation":"Data Not Found","status":True}), content_type="application/json")
 
-        transaction_obj = accountingyear_obj.transaction.filter(user__id=request.user.id)
         transactionList = []
         for i in transaction_obj:
             date = int(i.transaction_date.strftime('%s'))*1000
@@ -588,11 +603,10 @@ def save_edit_account(request):
         contact_no1 = accountInfo.get("mobileNo1")
         opening_balance = accountInfo.get("openingBalance")
         accounttype = accountInfo.get("accounttype")
-        accounttype = accounttype.get("id")
+        accountTypeOptionId = accounttype.get("id")
         user_obj = User.objects.get(id=request.user.id)
 
-        accounttype_obj = AccountType(optionType=accounttype)
-        accounttype_obj.save()
+        accounttype_obj = AccountType.objects.get(optionType = accountTypeOptionId)
 
         group_obj = Group(optionType=grouptype)
         group_obj.save()
@@ -629,8 +643,10 @@ def get_account_details(request):
         account_obj = Account.objects.get(id=account_id)
         group_obj = account_obj.group
         accounttype_obj = account_obj.accounttype
+        print type(accounttype_obj)
         accountList = []
-        accounttype_obj_new = {"id":accounttype_obj.optionType,"choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":False}
+        accounttype_obj_new = {"id":accounttype_obj.optionType,
+        "choice_name":dict(AccountType.ACCOUNTCHOICES)[accounttype_obj.optionType],"is_selected":False}
         group_obj = {"id":group_obj.optionType,"is_selected":False,
         "choice_name":dict(Group.ACCOUNTCHOICES)[group_obj.optionType]}
         accountInfo = {"account_name":account_obj.account_name,"alias":account_obj.alias,"firstName":account_obj.first_name,
@@ -646,13 +662,18 @@ def get_account_details(request):
 def show_transactions_of_single_account(request):
     if request.user.is_authenticated():
         json_obj = json.loads(request.body)
+        pageNo = data_dictonary['pageNo']
+        entriesPerPage = data_dictonary['entriesPerPage']
+        excludePageEntries = (pageNo - 1) * entriesPerPage
+        nextPageEntries = excludePageEntries + entriesPerPage
+
         if json_obj['start_date'] == None:
             account_id = json_obj['account_id']
             account_id = int(account_id)
             transactionList = []
             account_obj_new = Account.objects.get(id=account_id)
             obj_new = {"account_name":account_obj_new.account_name}
-            transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)
+            transaction_obj = Transaction.objects.filter(transaction_record__account__id=account_id)[excludePageEntries:nextPageEntries]
             for i in transaction_obj:
                 date = int(i.transaction_date.strftime('%s')) * 1000
                 transactiontype_obj = i.transactiontype.optionType
